@@ -1,0 +1,11 @@
+*
+!.gitignore
+
+!Crash
+!Crash/**
+!CustomResolutions
+!CustomResolutions/**
+!ForTheEmperor
+!ForTheEmperor/**
+!PrivateMissionStatus
+!PrivateMissionStatus/**
