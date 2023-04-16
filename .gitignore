@@ -1,10 +1,13 @@
 *
 !.gitignore
+!README.md
 
 !Crash
 !Crash/**
 !CustomResolutions
 !CustomResolutions/**
+!DelayedMessages
+!DelayedMessages/**
 !ForTheEmperor
 !ForTheEmperor/**
 !PrivateMissionStatus
