@@ -1,6 +1,8 @@
 *
 !.gitignore
-!README.md
+!.luacheckrc
+!/README.md
+
 
 !Crash
 !Crash/**
@@ -12,3 +14,7 @@
 !ForTheEmperor/**
 !PrivateMissionStatus
 !PrivateMissionStatus/**
+
+*/*.*
+!/*/README.md
+!/*/*.mod
