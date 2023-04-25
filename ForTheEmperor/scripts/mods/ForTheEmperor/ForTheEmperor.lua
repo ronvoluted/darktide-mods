@@ -4,11 +4,17 @@ local wheel_position = mod:get("wheel_position")
 local LEFT_POSITION = 7
 local RIGHT_POSITION = 3
 
+mod:hook(LocalizationManager, "localize", function(func, self, key, no_cache, context)
+	self._string_cache.loc_for_the_emperor = mod:localize("mod_title")
+
+	return func(self, key, no_cache, context)
+end)
+
 mod:hook("HudElementSmartTagging", "_populate_wheel", function(func, self, options)
 	if not options[LEFT_POSITION] and not options[RIGHT_POSITION] then
 		options[wheel_position == "left" and LEFT_POSITION or RIGHT_POSITION] = {
 			icon = "content/ui/materials/icons/system/escape/achievements",
-			display_name = "loc_body_tattoo_04",
+			display_name = "loc_for_the_emperor",
 			voice_event_data = {
 				voice_tag_concept = VOQueryConstants.concepts.on_demand_com_wheel,
 				voice_tag_id = VOQueryConstants.trigger_ids.com_wheel_vo_for_the_emperor,
