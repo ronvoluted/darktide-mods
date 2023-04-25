@@ -1,5 +1,11 @@
 # Warhammer 40,000: Darktide mods and tools by Seventeen
 
+<p align="center">
+	<a href="https://ko-fi.com/ronvoluted">
+		<img alt="Support me on ko-fi.com" src="https://ko-fi.com/img/githubbutton_sm.svg">
+	</a>
+</p>
+
 ## Mods
 - [Crash](/Crash)
 - [For the Emperor!](/ForTheEmperor)
