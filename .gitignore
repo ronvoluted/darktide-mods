@@ -14,6 +14,8 @@
 !ForTheEmperor/**
 !PrivateMissionStatus
 !PrivateMissionStatus/**
+!PreventPlayerFade
+!PreventPlayerFade/**
 
 */*.*
 !/*/README.md
