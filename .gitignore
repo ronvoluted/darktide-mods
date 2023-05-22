@@ -16,6 +16,8 @@
 !PrivateMissionStatus/**
 !PreventPlayerFade
 !PreventPlayerFade/**
+!ToggleHUD
+!ToggleHUD/**
 
 */*.*
 !/*/README.md
