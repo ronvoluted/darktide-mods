@@ -1,5 +1,7 @@
 local mod = get_mod("CustomResolutions")
 
+--[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
+
 local custom_options = mod:get("options")
 local append_position = mod:get("append_position")
 local backed_up = mod:persistent_table("backed_up")

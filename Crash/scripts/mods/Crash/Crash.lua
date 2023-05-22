@@ -1,5 +1,7 @@
 local mod = get_mod("Crash")
 
+--[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
+
 local delay = nil
 local start_time = nil
 local crash_time = nil

@@ -1,4 +1,7 @@
 local mod = get_mod("ForTheEmperor")
+
+--[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
+
 local VOQueryConstants = require("scripts/settings/dialogue/vo_query_constants")
 local wheel_position = mod:get("wheel_position")
 local LEFT_POSITION = 7
