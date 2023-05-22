@@ -7,14 +7,16 @@
 </p>
 
 ## Mods
-- [Crash](/Crash)
-- [For the Emperor!](/ForTheEmperor)
-- [Custom Resolutions](/CustomResolutions)
-- [Private Mission Status](/PrivateMissionStatus)
+- [Crash](https://www.nexusmods.com/warhammer40kdarktide/mods/118)
+- [For the Emperor!](https://www.nexusmods.com/warhammer40kdarktide/mods/135)
+- [Custom Resolutions](https://www.nexusmods.com/warhammer40kdarktide/mods/130)
+- [Prevent Player Fade](https://www.nexusmods.com/warhammer40kdarktide/mods/159)
+- [Private Mission Status](https://www.nexusmods.com/warhammer40kdarktide/mods/134)
+- [Toggle HUD](https://www.nexusmods.com/warhammer40kdarktide/mods/165)
 
 ## Tools and utilities
-- [Launcher Skip](https://github.com/ronvoluted/darktide-launcher-skip)
-- [Rebooter](https://github.com/ronvoluted/darktide-rebooter)
+- [Launcher Skip](https://www.nexusmods.com/warhammer40kdarktide/mods/131) ([repository](https://github.com/ronvoluted/darktide-launcher-skip))
+- [Rebooter](https://www.nexusmods.com/warhammer40kdarktide/mods/128) ([repository](https://github.com/ronvoluted/darktide-rebooter))
 - [dds-to-img](https://github.com/ronvoluted/dds-to-img)
 
 **[Published on Nexus Mods](https://nexusmods.com/users/305701?tab=user+files)**
