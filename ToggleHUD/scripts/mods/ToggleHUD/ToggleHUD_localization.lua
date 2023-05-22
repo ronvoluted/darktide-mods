@@ -3,7 +3,7 @@ return {
 		["en"] = "Toggle HUD",
 	},
 	mod_description = {
-		["en"] = "Allows turning the game UI on and off.\n\nAuthor: Seventeen",
+		["en"] = "Allows turning the game UI on and off\n\nAuthor: Seventeen",
 	},
 	keybind_toggle = {
 		["en"] = "Toggle HUD",
