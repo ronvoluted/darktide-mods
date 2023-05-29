@@ -3,7 +3,8 @@
 !.luacheckrc
 !/README.md
 
-
+!AutoBackup
+!AutoBackup/**
 !Crash
 !Crash/**
 !CustomResolutions
