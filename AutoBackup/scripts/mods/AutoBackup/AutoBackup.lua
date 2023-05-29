@@ -55,9 +55,6 @@ mod.show_reset_warning = function()
 			{
 				text = "loc_auto_backup_reset_warning_okay",
 				close_on_pressed = true,
-				callback = function()
-					print(string.format('start "%s"', appdata_dir))
-				end,
 			},
 			{
 				text = "loc_auto_backup_reset_warning_exit",
