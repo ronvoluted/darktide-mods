@@ -5,7 +5,7 @@ return {
 	},
 	mod_description = {
 		["en"] = "Shout \"For the Emperor!\", \"For Atoma!\" or words of camaraderie from the comms wheel\n\nAuthor: Seventeen",
-		["zh-cn"] = "通过标签轮盘喊出“为了帝皇！”、“为了亚托玛！”或其他友谊之词\n\n制作者: Seventeen",
+		["zh-cn"] = "通过标签轮盘喊出“为了帝皇！”、“为了亚托玛！”或其他友谊之词\n\n作者：Seventeen",
 	},
 	wheel_position = {
 		["en"] = "Communication wheel position",

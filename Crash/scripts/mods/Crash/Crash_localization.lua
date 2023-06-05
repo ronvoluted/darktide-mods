@@ -5,7 +5,7 @@ return {
 	},
 	mod_description = {
 		["en"] = "Provides several commands to send your game into the immaterium :)\n\nAuthor: Seventeen",
-		["zh-cn"] = "提供一些命令把你的游戏送入亚空间 :)\n\n制作者: Seventeen",
+		["zh-cn"] = "提供一些命令把你的游戏送入亚空间 :)\n\n作者：Seventeen",
 	},
 	command_crash_desc = {
 		["en"] = "Crash the game immediately, or specify seconds to schedule",

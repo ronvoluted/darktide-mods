@@ -5,7 +5,7 @@ return {
 	},
 	mod_description = {
 		["en"] = "Add custom resolutions to the list of video options\n\nAuthor: Seventeen",
-		["zh-cn"] = "在视频选项内添加自定义分辨率\n\n制作者: Seventeen",
+		["zh-cn"] = "在视频选项内添加自定义分辨率\n\n作者：Seventeen",
 	},
 	append_position = {
 		["en"] = "Placement of new options",
