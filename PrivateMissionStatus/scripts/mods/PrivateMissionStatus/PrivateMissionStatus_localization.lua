@@ -5,7 +5,7 @@ return {
 	},
 	mod_description = {
 		["en"] = "Indicate in the tactical overlay whether the current mission is public or private\n\nAuthor: Seventeen",
-		["zh-cn"] = "在战术覆盖内显示当前任务是公共还是私人\n\n制作者: Seventeen",
+		["zh-cn"] = "在战术覆盖内显示当前任务是公共还是私人\n\n作者：Seventeen",
 	},
 	public = {
 		["en"] = "PUBLIC",
