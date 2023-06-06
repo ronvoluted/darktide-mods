@@ -7,12 +7,14 @@
 </p>
 
 ## Mods
+- [Auto Backup]([https://www.nexusmods.com/warhammer40kdarktide/mods/118](https://www.nexusmods.com/warhammer40kdarktide/mods/170))
 - [Crash](https://www.nexusmods.com/warhammer40kdarktide/mods/118)
 - [For the Emperor!](https://www.nexusmods.com/warhammer40kdarktide/mods/135)
 - [Custom Resolutions](https://www.nexusmods.com/warhammer40kdarktide/mods/130)
 - [Prevent Player Fade](https://www.nexusmods.com/warhammer40kdarktide/mods/159)
 - [Private Mission Status](https://www.nexusmods.com/warhammer40kdarktide/mods/134)
 - [Toggle HUD](https://www.nexusmods.com/warhammer40kdarktide/mods/165)
+- [Will of The Emperor](https://www.nexusmods.com/warhammer40kdarktide/mods/179)
 
 ## Tools and utilities
 - [Launcher Skip](https://www.nexusmods.com/warhammer40kdarktide/mods/131) ([repository](https://github.com/ronvoluted/darktide-launcher-skip))
