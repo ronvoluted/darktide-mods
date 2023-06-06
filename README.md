@@ -7,7 +7,7 @@
 </p>
 
 ## Mods
-- [Auto Backup]([https://www.nexusmods.com/warhammer40kdarktide/mods/118](https://www.nexusmods.com/warhammer40kdarktide/mods/170))
+- [Auto Backup](https://www.nexusmods.com/warhammer40kdarktide/mods/170)
 - [Crash](https://www.nexusmods.com/warhammer40kdarktide/mods/118)
 - [For the Emperor!](https://www.nexusmods.com/warhammer40kdarktide/mods/135)
 - [Custom Resolutions](https://www.nexusmods.com/warhammer40kdarktide/mods/130)
