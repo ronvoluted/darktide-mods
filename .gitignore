@@ -19,6 +19,8 @@
 !PreventPlayerFade/**
 !ToggleHUD
 !ToggleHUD/**
+!WillOfTheEmperor
+!WillOfTheEmperor/**
 
 */*.*
 !/*/README.md
