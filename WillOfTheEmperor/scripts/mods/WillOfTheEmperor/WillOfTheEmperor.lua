@@ -6,6 +6,7 @@ local SoloPlay = get_mod("SoloPlay")
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/bestowments")
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/constants")
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/time_scale")
+local WillOfTheEmperor_data = mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/WillOfTheEmperor_data")
 
 mod.apply_constants()
 
@@ -94,6 +95,12 @@ mod.on_game_state_changed = function(status, state_name)
 	local game_mode = Managers.state.game_mode:game_mode_name()
 
 	if status == "enter" and state_name == "GameplayStateRun" then
+		for _, widget in pairs(WillOfTheEmperor_data.options.widgets) do
+			if mod._settings[widget.setting_id] == nil then
+				mod._settings[widget.setting_id] = mod:get(widget.setting_id)
+			end
+		end
+		
 		if game_mode == "coop_complete_objective" then
 			mod.set_invisibility(false)
 		end
