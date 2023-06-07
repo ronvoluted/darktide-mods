@@ -19,10 +19,10 @@ mod.is_client_map = function()
 	end
 
 	Managers.state.game_mode:game_mode_name()
-	return (game_mode == "shooting_range" or game_mode == "prologue_hub" or SoloPlay.is_soloplay()),
+	return (game_mode == "shooting_range" or game_mode == "prologue_hub" or SoloPlay and SoloPlay.is_soloplay()),
 		game_mode == "shooting_range",
 		game_mode == "prologue_hub",
-		SoloPlay.is_soloplay()
+		SoloPlay and SoloPlay.is_soloplay()
 end
 
 mod.update = function(dt)
