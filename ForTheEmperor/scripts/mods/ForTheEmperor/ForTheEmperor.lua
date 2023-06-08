@@ -7,13 +7,13 @@ local wheel_position = mod:get("wheel_position")
 local LEFT_POSITION = 7
 local RIGHT_POSITION = 3
 
-mod:hook(LocalizationManager, "localize", function(func, self, key, no_cache, context)
+mod:hook(LocalizationManager, "localize", function(fun, self, key, no_cache, context)
 	self._string_cache.loc_for_the_emperor = mod:localize("mod_title")
 
-	return func(self, key, no_cache, context)
+	return fun(self, key, no_cache, context)
 end)
 
-mod:hook("HudElementSmartTagging", "_populate_wheel", function(func, self, options)
+mod:hook("HudElementSmartTagging", "_populate_wheel", function(fun, self, options)
 	if not options[LEFT_POSITION] and not options[RIGHT_POSITION] then
 		options[wheel_position == "left" and LEFT_POSITION or RIGHT_POSITION] = {
 			icon = "content/ui/materials/icons/system/escape/achievements",
@@ -27,7 +27,7 @@ mod:hook("HudElementSmartTagging", "_populate_wheel", function(func, self, optio
 		mod.wheel_options = options
 	end
 
-	func(self, options)
+	fun(self, options)
 end)
 
 mod:hook_safe("HudElementSmartTagging", "update", function(self)

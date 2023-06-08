@@ -98,11 +98,11 @@ mod.on_unload = function(exit_game)
 	end
 end
 
-mod:hook("LocalizationManager", "localize", function(func, self, ...)
+mod:hook("LocalizationManager", "localize", function(fun, self, ...)
 	self._string_cache.loc_auto_backup_reset_warning_title = mod:localize("reset_warning_title")
 	self._string_cache.loc_auto_backup_reset_warning_description = mod:localize("reset_warning_descripton")
 	self._string_cache.loc_auto_backup_reset_warning_okay = mod:localize("reset_warning_okay")
 	self._string_cache.loc_auto_backup_reset_warning_exit = mod:localize("reset_warning_exit")
 
-	return func(self, ...)
+	return fun(self, ...)
 end)
