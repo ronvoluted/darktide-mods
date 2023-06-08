@@ -1,7 +1,13 @@
 local mod = get_mod("WillOfTheEmperor")
-local SoloPlay = get_mod("SoloPlay")
 
 --[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
+
+local BESTOWMENT_KEYBINDS = {
+	"god_emperor_mode",
+	"fervency_mode",
+	"disable_enemy_spawns",
+	"invisibility",
+}
 
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/bestowments")
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/constants")
@@ -19,11 +25,25 @@ mod.is_client_map = function()
 		return false
 	end
 
-	Managers.state.game_mode:game_mode_name()
-	return (game_mode == "shooting_range" or game_mode == "prologue_hub" or SoloPlay and SoloPlay.is_soloplay()),
-		game_mode == "shooting_range",
-		game_mode == "prologue_hub",
-		SoloPlay and SoloPlay.is_soloplay()
+	local is_shooting_range = game_mode == "shooting_range"
+	local is_prologue_hub = game_mode == "prologue_hub"
+	local is_solo_play = Managers.multiplayer_session:host_type() == "singleplay"
+	local is_client = is_shooting_range or is_prologue_hub or is_solo_play
+
+	return is_client, is_shooting_range, is_prologue_hub, is_solo_play
+end
+
+for _, setting_id in pairs(BESTOWMENT_KEYBINDS) do
+	mod["toggle_" .. setting_id] = function()
+		local new_setting = not mod:get(setting_id)
+
+		mod:set(setting_id, new_setting)
+		mod._settings[setting_id] = new_setting
+
+		if mod:get("show_toggles") then
+			mod:notify(string.format("%s %s", mod:localize(setting_id), new_setting and "on" or "off"))
+		end
+	end
 end
 
 mod.update = function(dt)
@@ -100,7 +120,7 @@ mod.on_game_state_changed = function(status, state_name)
 				mod._settings[widget.setting_id] = mod:get(widget.setting_id)
 			end
 		end
-		
+
 		if game_mode == "coop_complete_objective" then
 			mod.set_invisibility(false)
 		end
