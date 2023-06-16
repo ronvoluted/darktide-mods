@@ -13,6 +13,8 @@
 !DelayedMessages/**
 !ForTheEmperor
 !ForTheEmperor/**
+!Jukebox
+!Jukebox/**
 !PrivateMissionStatus
 !PrivateMissionStatus/**
 !PreventPlayerFade
