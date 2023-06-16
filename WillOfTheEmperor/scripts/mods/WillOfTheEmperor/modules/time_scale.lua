@@ -26,7 +26,7 @@ mod.reset_time = function()
 end
 
 mod:command("time", "Set time speed", function(scale)
-	if type(scale) == number then
+	if type(tonumber(scale)) == "number" then
 		set_time_scale(scale)
 	end
 end)
