@@ -10,6 +10,7 @@
 - [Auto Backup](https://www.nexusmods.com/warhammer40kdarktide/mods/170)
 - [Crash](https://www.nexusmods.com/warhammer40kdarktide/mods/118)
 - [For the Emperor!](https://www.nexusmods.com/warhammer40kdarktide/mods/135)
+- [Jukebox](https://www.nexusmods.com/warhammer40kdarktide/mods/184)
 - [Custom Resolutions](https://www.nexusmods.com/warhammer40kdarktide/mods/130)
 - [Prevent Player Fade](https://www.nexusmods.com/warhammer40kdarktide/mods/159)
 - [Private Mission Status](https://www.nexusmods.com/warhammer40kdarktide/mods/134)
