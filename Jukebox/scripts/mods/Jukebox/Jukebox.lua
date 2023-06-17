@@ -348,11 +348,11 @@ mod.update = function(dt)
 		end
 
 		if Keyboard.released(177) then -- "previous track"
-			mod._progress_track(false)
+			mod.previous()
 		end
 
 		if Keyboard.released(176) then -- "next track"
-			mod._progress_track()
+			mod.next()
 		end
 	end
 
