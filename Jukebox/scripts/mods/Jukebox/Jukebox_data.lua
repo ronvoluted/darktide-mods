@@ -93,7 +93,7 @@ return {
 				default_value = {},
 				keybind_trigger = "pressed",
 				keybind_type = "function_call",
-				function_name = "_previous_track",
+				function_name = "previous",
 			},
 			{
 				setting_id = "jukebox_next",
@@ -103,7 +103,7 @@ return {
 				default_value = {},
 				keybind_trigger = "pressed",
 				keybind_type = "function_call",
-				function_name = "_next_track",
+				function_name = "next",
 			},
 		},
 	},
