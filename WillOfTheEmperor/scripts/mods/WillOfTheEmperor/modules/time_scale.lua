@@ -1,10 +1,18 @@
 local mod = get_mod("WillOfTheEmperor")
 
 local set_time_scale = function(scale)
+	if not Managers.time then
+		return
+	end
+
 	Managers.time:set_local_scale("gameplay", scale or 1)
 end
 
 mod.toggle_pause_time = function()
+	if not Managers.time then
+		return
+	end
+
 	if Managers.time:local_scale("gameplay") == 0 then
 		set_time_scale(mod.former_time_scale)
 	else
@@ -14,6 +22,9 @@ mod.toggle_pause_time = function()
 end
 
 mod.toggle_slow_mo = function()
+	if not Managers.time then
+		return
+	end
 	if Managers.time:local_scale("gameplay") == 0.25 then
 		set_time_scale(1)
 	else
