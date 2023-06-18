@@ -24,8 +24,8 @@ return {
 		["zh-cn"] = "选项",
 	},
 	current_track = {
-		["en"] = "No track queued",
-		["zh-cn"] = "没有预定曲目",
+		["en"] = "Current track",
+		["zh-cn"] = "当前曲目",
 	},
 	no_track_queued = {
 		["en"] = "No track queued",
