@@ -9,7 +9,7 @@ local ViewElementInputLegend = require("scripts/ui/view_elements/view_element_in
 local ViewElementInputLegendSettings =
 	require("scripts/ui/view_elements/view_element_input_legend/view_element_input_legend_settings")
 require("scripts/ui/views/vendor_view_base/vendor_view_base")
-local default_view_input_settings = mod:dofile("scripts/settings/input/default_view_input_settings")
+local default_view_input_settings = dofile("scripts/settings/input/default_view_input_settings")
 
 local KeybindUtils = mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/keybind_utils")
 
