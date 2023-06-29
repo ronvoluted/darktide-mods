@@ -1,7 +1,5 @@
 local mod = get_mod("CustomViewBoilerplate")
 
---[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
-
 local ScriptWorld = require("scripts/foundation/utilities/script_world")
 local ViewElementInputLegend = require("scripts/ui/view_elements/view_element_input_legend/view_element_input_legend")
 
