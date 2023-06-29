@@ -9,6 +9,8 @@
 !Crash/**
 !CustomResolutions
 !CustomResolutions/**
+!CustomViewBoilerplate
+!CustomViewBoilerplate/**
 !DelayedMessages
 !DelayedMessages/**
 !ForTheEmperor
