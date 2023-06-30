@@ -84,11 +84,11 @@ return {
 		["zh-cn"] = "无限子弹、弹匣、能量、燃料。帝皇在赐予。",
 	},
 	infinite_ammunition = {
-		["en"] = "Infinite ammunition",
+		["en"] = "Infinite ammunition and grenades",
 		["zh-cn"] = "无限弹药",
 	},
 	infinite_ammunition_desc = {
-		["en"] = "Unlimited rounds/magazines/energy/fuel. The Emperor provides.",
+		["en"] = "Unlimited rounds/magazines/energy/fuel/grenades/boxes. The Emperor provides.",
 		["zh-cn"] = "无限子弹、弹匣、能量、燃料。帝皇在赐予。",
 	},
 	no_reloading = {

@@ -133,13 +133,16 @@ end
 
 mod.infinite_ammunition = function()
 	local player_unit = Managers.player:local_player_safe(1).player_unit
-
-	local player_unit_data_extension = ScriptUnit.has_extension(player_unit, "unit_data_system")
-
-	local ammo = player_unit_data_extension._components.slot_secondary[1]
+	local unit_data_extension = ScriptUnit.has_extension(player_unit, "unit_data_system")
+	local ammo = unit_data_extension._components.slot_secondary[1]
+	local grenades = unit_data_extension._components.grenade_ability[1]
 
 	if ammo.current_ammunition_reserve < ammo.max_ammunition_reserve then
 		ammo.current_ammunition_reserve = ammo.max_ammunition_reserve
+	end
+
+	if grenades.num_charges == 0 then
+		grenades.num_charges = 1
 	end
 end
 
