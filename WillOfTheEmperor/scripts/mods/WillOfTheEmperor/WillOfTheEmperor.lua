@@ -79,6 +79,11 @@ mod.update = function(dt)
 		mod.no_reloading()
 	end
 
+
+	if mod._settings.infinite_warp then
+		mod.infinite_warp()
+	end
+
 	if update_delta < 1 then
 		update_delta = update_delta + dt
 		return

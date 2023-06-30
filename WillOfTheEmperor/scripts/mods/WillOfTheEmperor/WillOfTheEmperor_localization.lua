@@ -75,6 +75,14 @@ return {
 		["en"] = "Keep holding crouch to slide, even after animations end. The Emperor persists.",
 		["zh-cn"] = "按住蹲伏键滑铲，即使动作结束也可以继续。帝皇在坚持。",
 	},
+	infinite_warp = {
+		["en"] = "Resist perils of the warp",
+		["zh-cn"] = "无限弹药",
+	},
+	infinite_warp_desc = {
+		["en"] = "Infinite warp usage without exploding. Embolden your soul upon the Astronomican.",
+		["zh-cn"] = "无限子弹、弹匣、能量、燃料。帝皇在赐予。",
+	},
 	infinite_ammunition = {
 		["en"] = "Infinite ammunition",
 		["zh-cn"] = "无限弹药",

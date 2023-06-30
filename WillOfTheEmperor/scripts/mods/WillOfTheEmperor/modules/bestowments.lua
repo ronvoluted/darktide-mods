@@ -122,6 +122,15 @@ mod.cooldowns_quickened = function()
 	return player_abilities.base_combat_attack.cooldown == RAPID_COOLDOWN_TIME
 end
 
+mod.infinite_warp = function()
+	local player_unit = Managers.player:local_player_safe(1).player_unit
+	local unit_data_extension = ScriptUnit.has_extension(player_unit, "unit_data_system")
+	local warp = unit_data_extension._components.warp_charge[1]
+	if warp.current_percentage >= 1 then
+		warp.current_percentage = 0.99999
+	end
+end
+
 mod.infinite_ammunition = function()
 	local player_unit = Managers.player:local_player_safe(1).player_unit
 
