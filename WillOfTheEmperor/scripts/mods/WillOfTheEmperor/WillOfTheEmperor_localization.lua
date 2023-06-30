@@ -267,6 +267,12 @@ return {
 		["en"] = "Set time speed to normal. The Immortal Emperor will restore the Imperium of Man.",
 		["zh-cn"] = "恢复正常时间速度。不朽的帝皇将恢复人类的帝国。",
 	},
+	explode_enemies = {
+		["en"] = "Explode your enemies",
+	},
+	explode_enemies_desc = {
+		["en"] = "Your enemies. Exploded. The Emperor's fury vanquishes all.",
+	},
 	show_toggles = {
 		["en"] = "Show changed setting on toggle press",
 		["zh-cn"] = "按下开关键时显示更改的设置",

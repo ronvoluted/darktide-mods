@@ -12,6 +12,7 @@ local BESTOWMENT_KEYBINDS = {
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/bestowments")
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/constants")
 mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/time_scale")
+mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/explosion")
 local WillOfTheEmperor_data = mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/WillOfTheEmperor_data")
 
 mod.apply_constants()
@@ -79,6 +80,7 @@ mod.update = function(dt)
 		mod.no_reloading()
 	end
 
+	mod.explosion_update()
 
 	if mod._settings.infinite_warp then
 		mod.infinite_warp()

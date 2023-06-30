@@ -8,13 +8,14 @@ local BESTOWMENT_TOGGLES = {
 	"disable_enemy_spawns",
 	"invisibility",
 	"rapid_ability_cooldowns",
+	"infinite_warp",
 	"infinite_slide",
 	"infinite_ledge_hold",
 	"infinite_ammunition",
 	"no_reloading",
 }
 
-local BESTOWMENT_TRUE_DEFAULTS = {
+local BESTOWMENT_TRUE_BY_DEFAULT = {
 	"infinite_ledge_hold",
 }
 
@@ -38,7 +39,7 @@ for _, setting_id in ipairs(BESTOWMENT_TOGGLES) do
 	table.insert(data.options.widgets, {
 		setting_id = setting_id,
 		type = "checkbox",
-		default_value = table.contains(BESTOWMENT_TRUE_DEFAULTS, setting_id) or false,
+		default_value = table.contains(BESTOWMENT_TRUE_BY_DEFAULT, setting_id) or false,
 		title = setting_id,
 		tooltip = setting_id .. "_desc",
 	})
@@ -147,6 +148,16 @@ table.append(data.options.widgets, {
 		keybind_trigger = "pressed",
 		keybind_type = "function_call",
 		function_name = "reset_time",
+		default_value = {},
+	},
+	{
+		setting_id = "keybind_explode_enemies",
+		type = "keybind",
+		title = "explode_enemies",
+		tooltip = "explode_enemies_desc",
+		keybind_trigger = "pressed",
+		keybind_type = "function_call",
+		function_name = "explode_enemies",
 		default_value = {},
 	},
 })

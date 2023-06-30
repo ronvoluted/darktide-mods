@@ -106,8 +106,9 @@ mod.has_invisibility = function()
 	return #mod.buff_indices > 0
 end
 
-mod.rapid_ability_cooldowns = function(quick)
-	if quick then
+mod.rapid_ability_cooldowns = function(set_rapid)
+
+	if set_rapid then
 		for _, ability in pairs(COMBAT_ABILITY_NAMES) do
 			player_abilities[ability].cooldown = RAPID_COOLDOWN_TIME
 		end
