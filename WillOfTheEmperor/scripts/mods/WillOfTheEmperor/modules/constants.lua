@@ -41,6 +41,34 @@ mod.apply_constants = function()
 	-- end
 end
 
+mod.toggle_gravity = function()
+	if mod.last_gravity then
+		mod:set("gravity", mod.last_gravity)
+		mod._settings.gravity = mod.last_gravity
+		constants.gravity = mod.last_gravity
+
+		mod.last_gravity = nil
+	else
+		if mod:get("gravity") ~= original_constants.gravity then
+			mod.last_gravity = mod:get("gravity")
+		end
+
+		mod:set("gravity", original_constants.gravity)
+		mod._settings.gravity = original_constants.gravity
+		constants.gravity = original_constants.gravity
+	end
+
+	if mod:get("show_toggles") then
+		mod:notify(
+			string.format(
+				"%s %s",
+				mod:get("gravity") ~= original_constants.gravity and "Modified" or "Normal",
+				mod:localize("gravity")
+			)
+		)
+	end
+end
+
 mod:hook_require("scripts/settings/player_character/player_character_constants", function(_constants)
 	original_constants = table.clone(_constants)
 	table.set_readonly(original_constants)

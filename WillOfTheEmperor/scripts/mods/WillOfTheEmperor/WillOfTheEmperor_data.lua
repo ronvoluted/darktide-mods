@@ -98,7 +98,7 @@ table.append(data.options.widgets, {
 		setting_id = "gravity",
 		type = "numeric",
 		default_value = 11.82,
-		range = { 0, 100 },
+		range = { 0, 50 },
 		decimals_number = 1,
 		title = "gravity",
 		tooltip = "gravity_desc",
@@ -164,6 +164,17 @@ for _, setting_id in ipairs(BESTOWMENT_TOGGLES) do
 		})
 	end
 end
+
+table.insert(data.options.widgets, {
+	setting_id = "keybind_toggle_gravity",
+	type = "keybind",
+	title = "toggle_gravity",
+	tooltip = "toggle_gravity_desc",
+	keybind_trigger = "pressed",
+	keybind_type = "function_call",
+	function_name = "toggle_gravity",
+	default_value = {},
+})
 
 table.insert(data.options.widgets, {
 	setting_id = "show_toggles",

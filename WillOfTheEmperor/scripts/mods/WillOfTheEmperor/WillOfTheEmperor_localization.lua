@@ -201,13 +201,15 @@ return {
 		["en"] = "Gravity",
 		["zh-cn"] = "重力",
 	},
-	toggle_gravity = {
-		["en"] = "Gravity",
-		["zh-cn"] = "重力",
-	},
 	gravity_desc = {
 		["en"] = "Modify the forces of gravity. The Emperor's truth is irrefutable.",
 		["zh-cn"] = "修改重力。帝皇的真理无可辩驳。",
+	},
+	toggle_gravity = {
+		["en"] = "Toggle custom gravity",
+	},
+	toggle_gravity_desc = {
+		["en"] = "Toggle between normal gravity and modified gravity setting",
 	},
 	reset_sliders_on_reload = {
 		["en"] = "Reset sliders on reload",
