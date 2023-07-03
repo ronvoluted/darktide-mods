@@ -27,11 +27,12 @@ mod.is_client_map = function()
 	end
 
 	local is_shooting_range = game_mode == "shooting_range"
+	local is_prologue = game_mode == "prologue"
 	local is_prologue_hub = game_mode == "prologue_hub"
 	local is_solo_play = Managers.multiplayer_session:host_type() == "singleplay"
 	local is_client = is_shooting_range or is_prologue_hub or is_solo_play
 
-	return is_client, is_shooting_range, is_prologue_hub, is_solo_play
+	return is_client, is_shooting_range, is_prologue, is_prologue_hub, is_solo_play
 end
 
 for _, setting_id in pairs(BESTOWMENT_KEYBINDS) do
@@ -48,7 +49,7 @@ for _, setting_id in pairs(BESTOWMENT_KEYBINDS) do
 end
 
 mod.update = function(dt)
-	local is_client_map, is_shooting_range = mod.is_client_map()
+	local is_client_map, is_shooting_range, is_prologue = mod.is_client_map()
 
 	if not is_client_map or Managers.ui:get_current_sub_state_name() ~= "GameplayStateRun" then
 		return
@@ -68,7 +69,7 @@ mod.update = function(dt)
 		mod.disable_enemy_spawns()
 
 		Managers.state.pacing._disabled = true
-	elseif not is_shooting_range then
+	elseif not (is_shooting_range or is_prologue) then
 		Managers.state.pacing._disabled = false
 	end
 
@@ -80,8 +81,9 @@ mod.update = function(dt)
 		mod.no_reloading()
 	end
 
-	mod.explosion_update()
-
+	if not is_prologue then
+		mod.explosion_update()
+	end
 	if mod._settings.infinite_warp then
 		mod.infinite_warp()
 	end
