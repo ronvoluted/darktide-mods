@@ -5,10 +5,14 @@ local mod = get_mod("AutoBackup")
 local _io = Mods.lua.io
 local _os = Mods.lua.os
 
-local appdata_dir = os.getenv("AppData") .. "\\Fatshark\\Darktide\\"
-local config_path = appdata_dir .. "user_settings.config"
-local backup_path = appdata_dir .. "user_settings_backup.config"
-local backup_weekly_path = appdata_dir .. "user_settings_backup_weekly.config"
+local PLATFORMS = {
+	gamepass = {
+		appdata_directory = os.getenv("AppData") .. "\\Fatshark\\MicrosoftStore\\Darktide\\",
+	},
+	steam = {
+		appdata_directory = os.getenv("AppData") .. "\\Fatshark\\Darktide\\",
+	},
+}
 
 local WEEK_SECONDS = 604800
 
@@ -18,9 +22,9 @@ mod.file_modified_datetime = function(file_path)
 	handle:close()
 
 	local datetime_pattern = "(%d+/%d+/%d+%s+%d+:%d+)" -- 29/05/2023  13:57
-	local datetime_elements_pattern = "(%d+)/(%d+)/(%d+)%s+(%d+):(%d+)"
+	local datetime_elements_pattern = "(%d+)/(%d+)/(%d+)%s+(%d+):(%d+)" -- 29 05 2023 13 57
 	local datetime_string = dir_output:match(datetime_pattern)
-	local ampm_pattern = string.format("%s%%s+(%%a%%a)", datetime_string)
+	local ampm_pattern = string.format("%s%%s+(%%a%%a)", datetime_string) -- PM | AM | nil
 
 	local day, month, year, hour, min = dir_output:match(datetime_elements_pattern)
 	local ampm = dir_output:match(ampm_pattern)
@@ -46,11 +50,11 @@ mod.file_exists = function(file_path)
 	end
 end
 
-mod.backup = function(backup_path)
+mod.backup = function(config_path, backup_path)
 	_os.execute(string.format('copy /b "%s" "%s" > nul', config_path, backup_path))
 end
 
-mod.show_reset_warning = function()
+local show_reset_warning = function(appdata_directory)
 	local context = {
 		title_text = "loc_auto_backup_reset_warning_title",
 		description_text = "loc_auto_backup_reset_warning_description",
@@ -63,7 +67,7 @@ mod.show_reset_warning = function()
 				text = "loc_auto_backup_reset_warning_exit",
 				close_on_pressed = true,
 				callback = function()
-					_os.execute(string.format('explorer "%s"', appdata_dir))
+					_os.execute(string.format('explorer "%s"', appdata_directory))
 					Application.quit()
 				end,
 			},
@@ -73,31 +77,50 @@ mod.show_reset_warning = function()
 	Managers.event:trigger("event_show_ui_popup", context)
 end
 
-local likely_to_have_been_reset = mod.file_exists(backup_path)
-	and mod.file_exists(backup_weekly_path)
-	and not mod:get("has_run_before")
+local run = function(platform_name)
+	local platform = PLATFORMS[platform_name]
+	platform.config_path = platform.appdata_directory .. "user_settings.config"
+	platform.backup_path = platform.appdata_directory .. "user_settings_backup.config"
+	platform.backup_weekly_path = platform.appdata_directory .. "user_settings_backup_weekly.config"
 
-if likely_to_have_been_reset then
-	if not mod:get("warning_shown") then
-		mod.show_reset_warning()
+	if mod.file_exists(platform.config_path) then
+		platform.possible_reset = mod.file_exists(platform.backup_path)
+			and mod.file_exists(platform.backup_weekly_path)
+			and not mod:get("has_run_before")
 
-		mod:set("warning_shown", true)
+		if platform.possible_reset then
+			if not mod:get("warning_shown") then
+				show_reset_warning(platform.appdata_directory)
+
+				mod:set("warning_shown", true)
+			end
+		else
+			mod.backup(platform.config_path, platform.backup_path)
+
+			if not mod.file_exists(platform.backup_weekly_path) then
+				mod.backup(platform.config_path, platform.backup_weekly_path)
+			elseif os.time() > mod.file_modified_datetime(platform.backup_weekly_path) + WEEK_SECONDS then
+				mod.backup(platform.config_path, platform.backup_weekly_path)
+			end
+
+			mod:set("has_run_before", true)
+		end
 	end
+end
+
+if Steam then
+	run("steam")
 else
-	mod.backup(backup_path)
-
-	if not mod.file_exists(backup_weekly_path) then
-		mod.backup(backup_weekly_path)
-	elseif os.time() > mod.file_modified_datetime(backup_weekly_path) + WEEK_SECONDS then
-		mod.backup(backup_weekly_path)
-	end
-
-	mod:set("has_run_before", true)
+	run("gamepass")
 end
 
 mod.on_unload = function(exit_game)
-	if exit_game and not likely_to_have_been_reset then
-		mod.backup(backup_path)
+	if exit_game then
+		local platform = PLATFORMS[Steam and "steam" or "gamepass"]
+
+		if not platform.possible_reset then
+			mod.backup(platform.config_path, platform.backup_path)
+		end
 	end
 end
 
