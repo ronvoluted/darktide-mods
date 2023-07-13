@@ -17,14 +17,17 @@ mod.file_modified_datetime = function(file_path)
 	local dir_output = handle:read("*a")
 	handle:close()
 
-	local match_pattern = "(%d+)/(%d+)/(%d+)%s+(%d+):(%d+)%s+(%a%a)" -- 29/05/2023  12:57 PM
-	local day, month, year, hour, min, ampm = dir_output:match(match_pattern)
+	local datetime_pattern = "(%d+/%d+/%d+%s+%d+:%d+)" -- 29/05/2023  13:57
+	local datetime_elements_pattern = "(%d+)/(%d+)/(%d+)%s+(%d+):(%d+)"
+	local datetime_string = dir_output:match(datetime_pattern)
+	local ampm_pattern = string.format("%s%%s+(%%a%%a)", datetime_string)
 
-	month = month:gsub("^0+", "")
+	local day, month, year, hour, min = dir_output:match(datetime_elements_pattern)
+	local ampm = dir_output:match(ampm_pattern)
 
 	return os.time({
 		year = tonumber(year),
-		month = tonumber(month),
+		month = tonumber((month:gsub("^0+", ""))),
 		day = tonumber(day),
 		hour = tonumber(ampm == "PM" and tonumber(hour) + 12 or hour),
 		min = tonumber(min),
