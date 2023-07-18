@@ -1,10 +1,20 @@
 local mod = get_mod("ForTheEmperor")
 
+local memoised_vo_settings = mod:persistent_table("memoised_vo_settings", {})
+
 mod.help_markers = {}
+
 
 mod.vo_call_for_help = function(player_needing_help)
 	local vo_settings_path = "dialogues/generated/gameplay_vo_" .. player_needing_help._profile.selected_voice
-	local vo_settings = mod:dofile(vo_settings_path)
+
+	local vo_settings = memoised_vo_settings[vo_settings_path]
+
+	if not vo_settings then
+		vo_settings = require(vo_settings_path)
+		memoised_vo_settings[vo_settings_path] = vo_settings
+	end
+
 	local vo_sound_events = vo_settings.calling_for_help.sound_events
 	local vo_sound_from_pool = vo_sound_events[math.random(#vo_sound_events)]
 	local vo_file_path = "wwise/externals/" .. vo_sound_from_pool
