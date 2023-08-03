@@ -3,6 +3,8 @@
 !.luacheckrc
 !/README.md
 
+!Audio
+!Audio/**
 !AutoBackup
 !AutoBackup/**
 !Crash
@@ -27,5 +29,9 @@
 !WillOfTheEmperor/**
 
 */*.*
+_Files
+_Files/**
+Audio/media
+Audio/media/**
 !/*/README.md
 !/*/*.mod
