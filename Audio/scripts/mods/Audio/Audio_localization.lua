@@ -3,6 +3,6 @@ return {
 		["en"] = "Audio Plugin",
 	},
 	mod_description = {
-		["en"] = "Plugin for playing audio files.\n\nAuthor: Seventeen ducks in a trenchcoat",
+		["en"] = "Library for playing custom sound files and managing WWise events.\n\nAuthor: Seventeen ducks in a trenchcoat",
 	},
 }

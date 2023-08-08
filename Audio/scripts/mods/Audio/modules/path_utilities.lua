@@ -42,8 +42,6 @@ mod.mod_path = function(sub_path, surround_quotes)
 	return surround_quotes and string.format('"%s"', path) or path
 end
 
-print("\n")
-
 --[[
     Resolve a filepath to an absolute path. If filepath is relative, infers the
 		originating mod which called it and resolves to its folder.
