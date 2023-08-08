@@ -77,19 +77,19 @@ return {
 	},
 	infinite_warp = {
 		["en"] = "Resist perils of the warp",
-		["zh-cn"] = "无限弹药",
+		["zh-cn"] = "危机值抗性",
 	},
 	infinite_warp_desc = {
 		["en"] = "Infinite warp usage without exploding. Embolden your soul upon the Astronomican.",
-		["zh-cn"] = "无限子弹、弹匣、能量、燃料。帝皇在赐予。",
+		["zh-cn"] = "可以无限使用亚空间攻击而不会自爆。在天行者的带领下磨砺灵魂。",
 	},
 	infinite_ammunition = {
 		["en"] = "Infinite ammunition and grenades",
-		["zh-cn"] = "无限弹药",
+		["zh-cn"] = "无限弹药和手雷",
 	},
 	infinite_ammunition_desc = {
 		["en"] = "Unlimited rounds/magazines/energy/fuel/grenades/boxes. The Emperor provides.",
-		["zh-cn"] = "无限子弹、弹匣、能量、燃料。帝皇在赐予。",
+		["zh-cn"] = "无限子弹、弹匣、能量、燃料、手雷、爆箱。帝皇在赐予。",
 	},
 	no_reloading = {
 		["en"] = "No reloading",
@@ -215,9 +215,11 @@ return {
 	},
 	toggle_gravity = {
 		["en"] = "Toggle custom gravity",
+		["zh-cn"] = "开关自定义重力",
 	},
 	toggle_gravity_desc = {
 		["en"] = "Toggle between normal gravity and modified gravity setting",
+		["zh-cn"] = "在标准重力和自定义重力设置之间切换",
 	},
 	reset_sliders_on_reload = {
 		["en"] = "Reset sliders on reload",
@@ -269,9 +271,11 @@ return {
 	},
 	explode_enemies = {
 		["en"] = "Explode your enemies",
+		["zh-cn"] = "使敌人爆炸",
 	},
 	explode_enemies_desc = {
 		["en"] = "Your enemies. Exploded. The Emperor's fury vanquishes all.",
+		["zh-cn"] = "汝之敌皆震爆。帝皇之怒威服四方。",
 	},
 	show_toggles = {
 		["en"] = "Show changed setting on toggle press",
