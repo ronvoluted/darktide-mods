@@ -93,11 +93,7 @@ local setup_keybind_functions = function()
 					local hit_position = raycast_data.static_hit_position
 
 					if hit_position then
-						HudElementSmartTagging_instance:_trigger_smart_tag(
-							tag_type,
-							nil,
-							Vector3Box.unbox(hit_position)
-						)
+						HudElementSmartTagging_instance:_trigger_smart_tag(tag_type, nil, hit_position:unbox())
 					end
 				end
 
