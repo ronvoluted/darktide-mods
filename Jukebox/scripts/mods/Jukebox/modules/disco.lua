@@ -37,9 +37,9 @@ mod.spawn_disco_ball = function()
 		local spawn_position
 
 		if game_mode == "hub" then
-			spawn_position = Vector3Box.unbox(HUB_POSITION)
+			spawn_position = HUB_POSITION:unbox()
 		elseif game_mode == "shooting_range" then
-			spawn_position = Vector3Box.unbox(PSYKHANIUM_POSITION)
+			spawn_position = PSYKHANIUM_POSITION:unbox()
 		else
 			return
 		end

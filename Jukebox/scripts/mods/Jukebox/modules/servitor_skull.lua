@@ -45,12 +45,9 @@ mod.spawn_servitor = function()
 
 	if game_mode == "hub" then
 		mod.servitor_unit =
-			servitor.handler:spawn_servitor(Vector3Box.unbox(HUB_POSITION), QuaternionBox.unbox(HUB_ROTATION))
+			servitor.handler:spawn_servitor(HUB_POSITION:unbox(), HUB_ROTATION:unbox())
 	elseif game_mode == "shooting_range" then
-		mod.servitor_unit = servitor.handler:spawn_servitor(
-			Vector3Box.unbox(PSYKHANIUM_POSITION),
-			QuaternionBox.unbox(PSYKHANIUM_ROTATION)
-		)
+		mod.servitor_unit = servitor.handler:spawn_servitor(PSYKHANIUM_POSITION:unbox(), PSYKHANIUM_ROTATION:unbox())
 	else
 		return
 	end
