@@ -1,5 +1,7 @@
 local mod = get_mod("WillOfTheEmperor")
 
+mod:io_dofile("WillOfTheEmperor/scripts/mods/WillOfTheEmperor/modules/minion_ragdoll_patch")
+
 local DamageProfileTemplates = require("scripts/settings/damage/damage_profile_templates")
 local DamageSettings = require("scripts/settings/damage/damage_settings")
 local Explosion = require("scripts/utilities/attack/explosion")
