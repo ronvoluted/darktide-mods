@@ -81,7 +81,7 @@ return {
 	},
 	infinite_warp_desc = {
 		["en"] = "Infinite warp usage without exploding. Embolden your soul upon the Astronomican.",
-		["zh-cn"] = "可以无限使用亚空间攻击而不会自爆。在天行者的带领下磨砺灵魂。",
+		["zh-cn"] = "可以无限使用亚空间攻击而不会自爆。在星炬的指引下磨砺灵魂。",
 	},
 	infinite_ammunition = {
 		["en"] = "Infinite ammunition and grenades",
