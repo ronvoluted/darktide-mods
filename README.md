@@ -7,6 +7,7 @@
 </p>
 
 ## Mods
+- [Audio Plugin](https://www.nexusmods.com/warhammer40kdarktide/mods/196)
 - [Auto Backup](https://www.nexusmods.com/warhammer40kdarktide/mods/170)
 - [Crash](https://www.nexusmods.com/warhammer40kdarktide/mods/118)
 - [For the Emperor!](https://www.nexusmods.com/warhammer40kdarktide/mods/135)
@@ -18,8 +19,9 @@
 - [Will of The Emperor](https://www.nexusmods.com/warhammer40kdarktide/mods/179)
 
 ## Tools and utilities
+- [dds-to-img](https://github.com/ronvoluted/dds-to-img)
+- [Darktide Local Server (backend server)](https://github.com/ronvoluted/darktide-local-server)
 - [Launcher Skip](https://www.nexusmods.com/warhammer40kdarktide/mods/131) ([repository](https://github.com/ronvoluted/darktide-launcher-skip))
 - [Rebooter](https://www.nexusmods.com/warhammer40kdarktide/mods/128) ([repository](https://github.com/ronvoluted/darktide-rebooter))
-- [dds-to-img](https://github.com/ronvoluted/dds-to-img)
 
 **[Published on Nexus Mods](https://nexusmods.com/users/305701?tab=user+files)**

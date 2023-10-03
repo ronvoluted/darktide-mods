@@ -1,9 +1,9 @@
-local mod = get_mod("Audio")
+local Audio = get_mod("Audio")
 
 local root_path = {
 	description = "return Darktide folder",
 	fun = function(suite_setup_value, test_setup_value)
-		return mod.get_root_path()
+		return Audio.get_darktide_path()
 	end,
 	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE",
 }
@@ -11,7 +11,7 @@ local root_path = {
 local mods_path = {
 	description = "return mods folder",
 	fun = function()
-		return mod.get_mods_path()
+		return Audio.get_root_mods_path()
 	end,
 	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods",
 }
@@ -19,31 +19,31 @@ local mods_path = {
 local mod_path = {
 	description = "return current mod's root folder",
 	fun = function()
-		return mod.mod_path("ribbit/diary.md")
+		return Audio.get_mod_path(Audio)
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\ribbit\\diary.md",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio",
 }
 
 local mod_path_relative = {
 	description = "return a path relative current mod's root folder",
 	fun = function()
-		return mod.mod_path("ribbit/diary.md")
+		return Audio.get_mod_path(Audio, "ribbit/diary.md")
 	end,
 	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\ribbit\\diary.md",
 }
 
 local absolute_filename = {
-	description = "resolve filename to absolute path inside media folder",
+	description = "resolve filename to absolute path inside audio folder",
 	fun = function()
-		return mod.absolute_path("melody.wav")
+		return Audio.absolute_path("melody.wav")
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\media\\melody.wav",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\audio\\melody.wav",
 }
 
 local absolute_relative = {
-	description = "resolve relative path to absolute path inside mods folder",
+	description = "resolve relative path to absolute path inside outer mod folder",
 	fun = function()
-		return mod.absolute_path("potato/chips/chicken.jpg")
+		return Audio.absolute_path("Audio\\potato\\chips\\chicken.jpg")
 	end,
 	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\potato\\chips\\chicken.jpg",
 }
@@ -51,12 +51,12 @@ local absolute_relative = {
 local absolute_unchanged = {
 	description = "return absolute path unchanged",
 	fun = function()
-		return mod.absolute_path("C:\\Windows\\explorer.exe")
+		return Audio.absolute_path("C:\\Windows\\explorer.exe")
 	end,
 	expected = "C:\\Windows\\explorer.exe",
 }
 
-mod._tests.suites["paths"] = {
+Audio._tests.suites["path_utilities"] = {
 	description = "Path utilities",
 	tests = {
 		root_path,
