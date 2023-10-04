@@ -23,7 +23,7 @@ stds["DMF"] = {
 
 stds["DT"] = {
     read_globals = {
-        string = { fields = { "split" }},
+        string = { fields = { "split", "starts_with" }},
         table = { fields = {
             "merge", "table_to_array", "mirror_table", "tostring", "is_empty", "array_to_table", "reverse", "shuffle",
             "merge_recursive", "unpack_map", "remove_unordered_items", "append", "mirror_array_inplace", "size", "dump",
@@ -38,6 +38,6 @@ stds["DT"] = {
             "sign", "degrees_to_radians", "sirp", "ease_pulse", "cartesian_to_polar", "ease_out_quad",
             "easeOutCubic", "radian_lerp", "auto_lerp", "rand_utf8_string", "point_is_inside_oobb",
         }},
-        "Crashify","Keyboard","Mouse","Application","Color","Quarternion","Vector3","Vector2","RESOLUTION_LOOKUP"
+        "Crashify","Keyboard","Mouse","Application","Color","Quaternion","Vector3","Vector2","RESOLUTION_LOOKUP","Managers","Unit","ScriptUnit","get_mod"
     },
 }

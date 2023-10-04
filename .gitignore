@@ -13,6 +13,8 @@
 !CustomResolutions/**
 !CustomViewBoilerplate
 !CustomViewBoilerplate/**
+!DarktideLocalServer
+!DarktideLocalServer/**
 !DelayedMessages
 !DelayedMessages/**
 !ForTheEmperor
