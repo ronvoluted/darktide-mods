@@ -7,27 +7,41 @@ local original_player_abilities = mod:persistent_table("original_player_abilitie
 local player_abilities
 
 local COMBAT_ABILITY_NAMES = {
-	"base_combat_attack",
-	"base_invisibility",
-	"base_shout",
 	"ogryn_charge",
 	"ogryn_charge_bleed",
-	"ogryn_charge_damage",
 	"ogryn_charge_cooldown_reduction",
+	"ogryn_charge_damage",
 	"ogryn_charge_increased_distance",
+	"ogryn_grenade_box",
+	"ogryn_grenade_box_cluster",
+	"ogryn_grenade_frag",
+	"ogryn_grenade_friend_rock",
+	"ogryn_ranged_stance",
+	"ogryn_taunt_shout",
+	"psyker_chain_lightning",
 	"psyker_discharge_shout",
+	"psyker_force_field",
+	"psyker_force_field_dome",
+	"psyker_force_field_increased_charges",
+	"psyker_overcharge_stance",
 	"psyker_psychic_fortress",
 	"psyker_psychic_fortress_duration_increased",
 	"psyker_smite",
-	"veteran_combat_ability",
-	"veteran_combat_ability_big_game_hunter",
-	"veteran_combat_ability_headhunter",
-	"veteran_combat_ability_rending",
-	"veteran_combat_ability_weapon_handling_improved",
-	"zealot_dash",
-	"zealot_maniac_targeted_dash",
-	"zealot_maniac_targeted_dash_improved",
+	"psyker_throwing_knives",
+	"veteran_combat_ability_shout",
+	"veteran_combat_ability_stance",
+	"veteran_combat_ability_stealth",
+	"veteran_frag_grenade",
+	"veteran_krak_grenade",
+	"veteran_smoke_grenade",
+	"zealot_fire_grenade",
+	"zealot_invisibility",
+	"zealot_invisibility_improved",
+	"zealot_relic",
+	"zealot_shock_grenade",
 	"zealot_targeted_dash",
+	"zealot_targeted_dash_improved",
+	"zealot_throwing_knives",
 }
 
 local RAPID_COOLDOWN_TIME = 1
@@ -107,7 +121,6 @@ mod.has_invisibility = function()
 end
 
 mod.rapid_ability_cooldowns = function(set_rapid)
-
 	if set_rapid then
 		for _, ability in pairs(COMBAT_ABILITY_NAMES) do
 			player_abilities[ability].cooldown = RAPID_COOLDOWN_TIME
@@ -120,7 +133,7 @@ mod.rapid_ability_cooldowns = function(set_rapid)
 end
 
 mod.cooldowns_quickened = function()
-	return player_abilities.base_combat_attack.cooldown == RAPID_COOLDOWN_TIME
+	return player_abilities.ogryn_charge.cooldown == RAPID_COOLDOWN_TIME
 end
 
 mod.infinite_warp = function()
@@ -198,6 +211,14 @@ end)
 mod:hook_require("scripts/settings/ability/player_abilities/player_abilities", function(_player_abilities)
 	original_player_abilities = table.clone(_player_abilities)
 	table.set_readonly(original_player_abilities)
+
+	local plab = {}
+
+	for ablity_name in pairs(_player_abilities) do
+		plab[#plab + 1] = ablity_name
+	end
+
+	mod:dtf(plab, "latest_player_abilities", 99)
 
 	player_abilities = _player_abilities
 end)
