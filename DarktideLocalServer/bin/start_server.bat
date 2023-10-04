@@ -1,3 +1,3 @@
 @echo off
 cd ..
-start "" "%cd%\mods\DarktideLocalServer\scripts\mods\DarktideLocalServer\bin\DarktideLocalServer.exe"
+start "" "%cd%\mods\DarktideLocalServer\bin\DarktideLocalServer.exe"
