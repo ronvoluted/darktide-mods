@@ -4,7 +4,6 @@ local memoised_vo_settings = mod:persistent_table("memoised_vo_settings", {})
 
 mod.help_markers = {}
 
-
 mod.vo_call_for_help = function(player_needing_help)
 	local vo_settings_path = "dialogues/generated/gameplay_vo_" .. player_needing_help._profile.selected_voice
 
