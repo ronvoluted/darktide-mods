@@ -40,7 +40,6 @@ end
 >
 > ![Windows Firewall Allow DarktideLocalServer](https://github.com/ronvoluted/darktide-mods/blob/main/DarktideLocalServer/WindowsFirewall.png?raw=true)
 
-
 ### Images
 
 ```lua
