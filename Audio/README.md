@@ -331,7 +331,7 @@ Audio.is_sound_silenced(wwise_event_name)
 
 ## Limitations
 - Audio file spatial positioning is locked-in at moment of play— moving the player afterwards will not update its volume/panning (no Doppler effects/approaching sounds)
-- Queuing up a lot of 
+- Starting more than ~10 audio files within a second can cause performance issues. You can [`loop`](#playing-audio-files) them multiple times with no issue however.
 
 ## Roadmap
 - Fix slow beta implementation of `stop_file`
