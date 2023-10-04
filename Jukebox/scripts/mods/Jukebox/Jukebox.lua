@@ -448,7 +448,7 @@ end
 
 mod._open_jukebox = function()
 	if not Managers.ui:view_instance("jukebox_view") then
-		Managers.ui:open_view("jukebox_view")
+		Managers.ui:open_view("jukebox_view", nil, nil, nil, nil, {})
 	end
 end
 
@@ -458,7 +458,7 @@ mod.toggle_jukebox = function()
 		and not Managers.ui:chat_using_input()
 		and not Managers.ui:view_instance("jukebox_view")
 	then
-		Managers.ui:open_view("jukebox_view")
+		Managers.ui:open_view("jukebox_view", nil, nil, nil, nil, {})
 	elseif Managers.ui:view_instance("jukebox_view") then
 		Managers.ui:close_view("jukebox_view")
 	end

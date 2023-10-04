@@ -13,7 +13,7 @@ mod:register_view({
 		state_bound = true,
 		display_name = "loc_jukebox_high_gothic_name",
 		path = "Jukebox/scripts/mods/Jukebox/modules/jukebox_view",
-		package = "packages/ui/hud/player_weapon/player_weapon",
+		package = "packages/ui/views/end_player_view/end_player_view",
 		class = "JukeboxView",
 		disable_game_world = false,
 		load_always = true,
