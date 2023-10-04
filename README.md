@@ -10,6 +10,7 @@
 - [Audio Plugin](https://www.nexusmods.com/warhammer40kdarktide/mods/196)
 - [Auto Backup](https://www.nexusmods.com/warhammer40kdarktide/mods/170)
 - [Crash](https://www.nexusmods.com/warhammer40kdarktide/mods/118)
+- [Darktide Local Server (client mod)](https://www.nexusmods.com/warhammer40kdarktide/mods/211)
 - [For the Emperor!](https://www.nexusmods.com/warhammer40kdarktide/mods/135)
 - [Jukebox](https://www.nexusmods.com/warhammer40kdarktide/mods/184)
 - [Custom Resolutions](https://www.nexusmods.com/warhammer40kdarktide/mods/130)
