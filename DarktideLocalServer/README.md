@@ -38,7 +38,7 @@ end
 > **Note**
 > The first time a player runs the game with the mod installed, they may be prompted to allow access for the server. "Public networks" does not need to and should not be set.
 >
-> ![Windows Firewall Allow DarktideLocalServer](WindowsFirewall.png)
+> ![Windows Firewall Allow DarktideLocalServer](https://github.com/ronvoluted/darktide-mods/blob/main/DarktideLocalServer/WindowsFirewall.png?raw=true)
 
 
 ### Images
