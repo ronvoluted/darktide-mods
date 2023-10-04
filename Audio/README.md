@@ -21,9 +21,7 @@ This library mod was created to make it possible and easy to do things like repl
 ## Quick start
 
 > **Important**
-> [Darktide Local Server](https://www.nexusmods.com/warhammer40kdarktide/mods/211) is a dependency and must be installed.
-
-While not strictly necessary, it is advised to put `AudioPlugin` toward the top of your "mod_load_order.txt", just below `DarktideLocalServer`.
+> [Darktide Local Server](https://www.nexusmods.com/warhammer40kdarktide/mods/211) is a dependency and must be installed. Put AudioPlugin directly after DarktideLocalServer in your mod_load_order.txt.
 
 ### Initialise library
 
