@@ -144,7 +144,7 @@ local jukebox_toggle = {
 }
 
 local jukebox_subheading = OptionsViewContentBlueprints.group_header
-jukebox_subheading.size[2] = 45
+jukebox_subheading.size = { 1000, 45 }
 jukebox_subheading.pass_template[1].style.font_size = 30
 jukebox_subheading.pass_template[1].style.offset = { 28, 5, 0 }
 
