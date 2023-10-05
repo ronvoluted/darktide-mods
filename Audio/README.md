@@ -106,6 +106,7 @@ Besides `audio_type`, all the keys of `playback_settings` correspond to [options
   - **[silenceremove](https://ffmpeg.org/ffmpeg-filters.html#silenceremove)** `string`: Remove silence from the audio
   - **[speechnorm](https://ffmpeg.org/ffmpeg-filters.html#speechnorm)** `string`: Normalise audio fo speech
   - **[stereotools](https://ffmpeg.org/ffmpeg-filters.html#stereotools)** `string`: Manage stereo signals
+  - **[volume](https://ffmpeg.org/ffplay.html#toc-Main-options)** `number``: Further adjust volume. Range of 1 - 100.
 - **unit_or_position** `userdata (Vector3|Unit)`:
   - If `Vector3`: location that audio will play from
   - If `Unit`: use that unit's position
@@ -146,6 +147,7 @@ local play_file_id, command = Audio.play_file("ImperialAdvance.ogg", {
     silenceremove = "start_periods=1:stop_periods=1", -- Trim silence
     speechnorm = "e=50:r=0.0001:l=1", -- Normalise speech with moderate and slow amplification
     stereotools = "mode=ms>lr", -- Use mono as stereo
+    volume = 85, -- Adjust volume to 85%
   },
   vox_radio_unit, -- play from an Imperial propaganda boombox's position
   0.05, -- Set rate of volume dropoff as you get further away to 0.05

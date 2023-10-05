@@ -160,11 +160,15 @@ Audio.play_file = function(
 		override_rotation
 	)
 
+	local adjusted_volume = math.round(volume * volume_adjustment(playback_settings.audio_type))
+	local volume_multiplier = playback_settings.volume and (playback_settings.volume / 100) or 1
+	local final_volume = math.round(adjusted_volume * volume_multiplier)
+
 	local command = string.format(
 		'%s -i "%s" -volume %s -af "pan=stereo|c0=%s*c0|c1=%s*c1 %s %s %s %s %s %s %s %s" %s %s %s -fast -nodisp -autoexit -loglevel quiet -hide_banner',
 		FFPLAY_PATH,
 		Audio.absolute_path(path),
-		math.round(volume * volume_adjustment(playback_settings.audio_type)),
+		final_volume,
 		left_volume,
 		right_volume,
 		playback_settings.adelay and (", adelay=" .. playback_settings.adelay) or "",
