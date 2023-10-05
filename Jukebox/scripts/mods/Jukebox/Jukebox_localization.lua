@@ -4,8 +4,8 @@ return {
 		["zh-cn"] = "点唱机",
 	},
 	mod_description = {
-		["en"] = "Blast Jesper Kyd tracks from the Jukestus Boxi aboard the Mourningstar. Dance. Disco. Deify. \n\nAuthor: Seventeen\n\n",
-		["zh-cn"] = "在哀星号上通过点唱颅骨播放 Jesper Kyd 的曲目。唱、跳、Disco、赞美帝皇。\n\n作者：Seventeen\n\n",
+		["en"] = "Blast Jesper Kyd tracks from the Jukestus Boxi aboard the Mourningstar. Dance. Disco. Deify. \n\nAuthor: Seventeen ducks in a trenchcoat\n\n",
+		["zh-cn"] = "在哀星号上通过点唱颅骨播放 Jesper Kyd 的曲目。唱、跳、Disco、赞美帝皇。\n\n作者：Seventeen ducks in a trenchcoat\n\n",
 	},
 	high_gothic_name = {
 		["en"] = "Jukestus Boxi",
