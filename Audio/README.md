@@ -189,7 +189,7 @@ Audio.is_file_playing(play_file_id)
 - Forward slashes "/" or escaped backward slashes "\\\\" can be used.
 - Absolute paths will be used as-is
 - Paths beginning with your mod name will be relative to ".../Warhammer 40,000 DARKTIDE/mods/"
-- Otherwise, paths will be relative to ".../Warhammer 40,000 DARKTIDE/mods/YourModName/audio"
+- Otherwise, paths will be relative to ".../Warhammer 40,000 DARKTIDE/mods/YourModName/audio/"
 
 These are all equivalent:
 ```lua
@@ -219,8 +219,18 @@ Audio.hook_sound(pattern, callback)
   - optional_a
   - optional_b
 
+#### Empty example with all parameters/return values
+
+```lua
+Audio.hook_sound("xxx", function(sound_type, sound_name, delta, position_or_unit_id, optional_a, optional_b)
+  --
+  return false
+end)
+```
+
+
 > **Note**
-> If `Audio.play_file()` will be rapidly called within a hook, it's good practice to [debounce](#hook-grenade-bounce-events-to-play-custom-audio) the plays usinng `delta` and a minium thereshold of 0.1 seconds 
+> If `Audio.play_file()` will be rapidly called within a hook, it's good practice to [debounce](#hook-grenade-bounce-events-to-play-custom-audio) the plays using `delta` and a minium thereshold of 0.1 seconds 
 
 ### Wwise sound events
 
