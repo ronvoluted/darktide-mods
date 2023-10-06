@@ -247,7 +247,7 @@ Audio.is_file_playing = function(play_file_id)
 	return
 end
 
-Audio.on_all_mods_loaded = function()
+Audio.mods_loaded_functions["play_file"] = function()
 	LocalServer = get_mod("DarktideLocalServer")
 
 	if not LocalServer then

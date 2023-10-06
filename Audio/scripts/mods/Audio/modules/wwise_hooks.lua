@@ -114,97 +114,103 @@ local run_hooks = function(sound_type, sound_name, position_or_unit_or_id, optio
 	end
 end
 
-Audio:hook(
-	WwiseWorld,
-	"trigger_resource_event",
-	function(fun, wwise_world, wwise_event_name, position_or_unit_or_id, optional_a, optional_b)
-		local is_ui_sound = wwise_event_name:find("events/ui/") ~= nil
-		local is_common_sound = false
+Audio.mods_loaded_functions["wwise_hooks"] = function()
+	Audio:hook(
+		CLASS.WwiseWorld,
+		"trigger_resource_event",
+		function(fun, wwise_world, wwise_event_name, position_or_unit_or_id, optional_a, optional_b)
+			local is_ui_sound = wwise_event_name:find("events/ui/") ~= nil
+			local is_common_sound = false
 
-		local common_sounds = { "husk", "foley", "footstep", "locomotion", "material", "upper_body", "vce" }
+			local common_sounds = { "husk", "foley", "footstep", "locomotion", "material", "upper_body", "vce" }
 
-		for _, sound in ipairs(common_sounds) do
-			if wwise_event_name:find(sound) ~= nil then
-				is_common_sound = true
-				break
+			for _, sound in ipairs(common_sounds) do
+				if wwise_event_name:find(sound) ~= nil then
+					is_common_sound = true
+					break
+				end
+			end
+
+			local var_type = Audio.userdata_type(position_or_unit_or_id) or type(position_or_unit_or_id)
+			local sound_type = sound_type_map[var_type] or var_type
+
+			local hook_result = run_hooks(sound_type, wwise_event_name, position_or_unit_or_id, optional_a, optional_b)
+			if hook_result == false then
+				return
+			end
+
+			if
+				log_wwise
+				and not (is_ui_sound and not log_wwise_ui)
+				and not (is_common_sound and not log_wwise_common)
+			then
+				if log_wwise_verbose then
+					Audio:dump({
+						sound_type = sound_type,
+						wwise_event_name = wwise_event_name,
+						position_or_unit_or_id = position_or_unit_or_id,
+						optional_a = optional_a,
+						optional_b = optional_b,
+					})
+				else
+					print(wwise_event_name, sound_type)
+				end
+			end
+
+			if Audio.is_sound_silenced(wwise_event_name) then
+				return
+			end
+
+			if sound_type == SOUND_TYPE["2d_sound"] then
+				return fun(wwise_world, wwise_event_name)
+			elseif sound_type == SOUND_TYPE["3d_sound"] then
+				return fun(wwise_world, wwise_event_name, position_or_unit_or_id)
+			elseif sound_type == SOUND_TYPE["start_stop_event"] then
+				return fun(wwise_world, wwise_event_name, position_or_unit_or_id, optional_a, optional_b)
+			elseif sound_type == SOUND_TYPE["source_sound"] then
+				return fun(wwise_world, wwise_event_name, position_or_unit_or_id)
+			elseif sound_type == SOUND_TYPE["unit_sound"] then
+				-- local breed_data = Unit.get_data(position_or_unit_or_id, "breed")
+
+				return fun(wwise_world, wwise_event_name, position_or_unit_or_id, optional_a)
 			end
 		end
+	)
 
-		local var_type = Audio.userdata_type(position_or_unit_or_id) or type(position_or_unit_or_id)
-		local sound_type = sound_type_map[var_type] or var_type
+	Audio:hook(
+		DialogueSystemWwise,
+		"trigger_vorbis_external_event",
+		function(fun, self, sound_event, sound_source, file_path, wwise_source_id)
+			local sound_type = SOUND_TYPE.external_sound
+			local sound_name = file_path:gsub("wwise/externals/", "")
 
-		local hook_result = run_hooks(sound_type, wwise_event_name, position_or_unit_or_id, optional_a, optional_b)
-		if hook_result == false then
-			return
-		end
-
-		if log_wwise and not (is_ui_sound and not log_wwise_ui) and not (is_common_sound and not log_wwise_common) then
-			if log_wwise_verbose then
-				Audio:dump({
-					sound_type = sound_type,
-					wwise_event_name = wwise_event_name,
-					position_or_unit_or_id = position_or_unit_or_id,
-					optional_a = optional_a,
-					optional_b = optional_b,
-				})
-			else
-				print(wwise_event_name, sound_type)
+			local hook_result = run_hooks(sound_type, sound_name, wwise_source_id, sound_event, sound_source)
+			if hook_result == false then
+				return
 			end
-		end
 
-		if Audio.is_sound_silenced(wwise_event_name) then
-			return
-		end
-
-		if sound_type == SOUND_TYPE["2d_sound"] then
-			return fun(wwise_world, wwise_event_name)
-		elseif sound_type == SOUND_TYPE["3d_sound"] then
-			return fun(wwise_world, wwise_event_name, position_or_unit_or_id)
-		elseif sound_type == SOUND_TYPE["start_stop_event"] then
-			return fun(wwise_world, wwise_event_name, position_or_unit_or_id, optional_a, optional_b)
-		elseif sound_type == SOUND_TYPE["source_sound"] then
-			return fun(wwise_world, wwise_event_name, position_or_unit_or_id)
-		elseif sound_type == SOUND_TYPE["unit_sound"] then
-			-- local breed_data = Unit.get_data(position_or_unit_or_id, "breed")
-
-			return fun(wwise_world, wwise_event_name, position_or_unit_or_id, optional_a)
-		end
-	end
-)
-
-Audio:hook(
-	DialogueSystemWwise,
-	"trigger_vorbis_external_event",
-	function(fun, self, sound_event, sound_source, file_path, wwise_source_id)
-		local sound_type = SOUND_TYPE.external_sound
-		local sound_name = file_path:gsub("wwise/externals/", "")
-
-		local hook_result = run_hooks(sound_type, sound_name, wwise_source_id, sound_event, sound_source)
-		if hook_result == false then
-			return
-		end
-
-		if log_wwise then
-			if log_wwise_verbose then
-				Audio:dump({
-					sound_type = sound_type,
-					sound_event = sound_event,
-					sound_source = sound_source,
-					file_path = file_path,
-					wwise_source_id = wwise_source_id,
-				})
-			else
-				print(file_path, SOUND_TYPE.external_sound)
+			if log_wwise then
+				if log_wwise_verbose then
+					Audio:dump({
+						sound_type = sound_type,
+						sound_event = sound_event,
+						sound_source = sound_source,
+						file_path = file_path,
+						wwise_source_id = wwise_source_id,
+					})
+				else
+					print(file_path, SOUND_TYPE.external_sound)
+				end
 			end
-		end
 
-		if Audio.is_sound_silenced(file_path) then
-			return
-		end
+			if Audio.is_sound_silenced(file_path) then
+				return
+			end
 
-		return fun(self, sound_event, sound_source, file_path, wwise_source_id)
-	end
-)
+			return fun(self, sound_event, sound_source, file_path, wwise_source_id)
+		end
+	)
+end
 
 Audio.settings_changed_functions["wwise_hooks"] = function(setting_name)
 	if setting_name == "log_wwise" then
