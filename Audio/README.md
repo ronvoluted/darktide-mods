@@ -21,7 +21,7 @@ This was created to make it possible and easy to do things like replace explosio
 ## Quick start
 
 > **Important**
-> [Darktide Local Server](https://www.nexusmods.com/warhammer40kdarktide/mods/211) is a dependency and must be installed. Put AudioPlugin directly after DarktideLocalServer in your mod_load_order.txt.
+> [Darktide Local Server](https://www.nexusmods.com/warhammer40kdarktide/mods/211) is a dependency and must be installed. Put Audio directly after DarktideLocalServer in your mod_load_order.txt.
 
 ### Hook grenade bounce events to play custom audio
 
