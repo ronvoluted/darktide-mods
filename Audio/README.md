@@ -349,9 +349,9 @@ Audio.is_sound_silenced(wwise_event_name)
 ## Roadmap
 - Fix slow beta implementation of `stop_file`
 - Finish implementing `is_file_playing` to check whether a file is still playing
-- Finish implementing logging utilities to crowdsource building list of known Wwise events
+- Finish implementing log-saving utilities to crowdsource building list of known Wwise events
 - Add option to toggle logging silenced sounds or not
-- Build more unit tests coverage
+- Build more unit test coverage
 
 ## Licences
 
