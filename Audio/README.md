@@ -41,17 +41,17 @@ mod.on_all_mods_loaded = function()
 end
 ```
 
-This code:
-- declares `Audio`
-- waits for all mods to be loaded and:
+Explanation:
+- declare `Audio`
+- wait for all mods to be loaded which:
   - initialises `Audio` with the library
   - creates the hook
   - makes this resilient to mod load orders where Audio is not loaded first
-- hooks any event with "play_grenade_surface_impact" in its event name
+- hook any event with "play_grenade_surface_impact" in its event name
 - debounce using `delta` so that no more than 10 sounds a second can be triggered
-- plays a local "squelch.mp3" file
-- specifies the audio type as "sfx" so that Options -> Audio -> Volume -> Sound Effects Volume slider will affect it
-- returns `false` so that the original hooked event, "play_grenade_surface_impact" will be silenced and not play
+- play a local "squelch.mp3" file
+- specify the audio type as "sfx" so that Options -> Audio -> Volume -> Sound Effects Volume slider will affect it
+- return `false` so that the original hooked event, "play_grenade_surface_impact", will be silenced and not play
 
 ## Guide
 
