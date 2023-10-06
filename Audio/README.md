@@ -10,7 +10,7 @@
 - Use WWise utilities to hook/replace/silence/log game sounds
 - Developed with unit tests for added reliability when used in other mods
 
-This library mod was created to make it possible and easy to do things like replace explosion sounds with quacks, run a function whenever certain sounds play, replace Morrow's lines with Zola's or even your own recorded lines, silence a specific grunt or all lasgun sounds, play sound effects and dialogue voicelines on cue, debug Wwise and do all sorts of modifications.
+This was created to make it possible and easy to do things like replace explosion sounds with quacks, run a function whenever certain sounds play, replace Morrow's lines with Zola's or even your own recorded lines, silence all lasgun sounds or just one specific footstep SFX, log sounds to console when they occur, play Wwise sound events and dialogue voicelines on cue, use your own music, debug Wwise and open up a world of potential mods.
 
 <p align="center">
 	<a href="https://ko-fi.com/ronvoluted">
