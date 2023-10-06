@@ -23,29 +23,30 @@ This library mod was created to make it possible and easy to do things like repl
 > **Important**
 > [Darktide Local Server](https://www.nexusmods.com/warhammer40kdarktide/mods/211) is a dependency and must be installed. Put AudioPlugin directly after DarktideLocalServer in your mod_load_order.txt.
 
-### Initialise library
+### Hook grenade bounce events to play custom audio
 
 ```lua
 local Audio
 
 mod.on_all_mods_loaded = function()
-	Audio = get_mod("Audio")
+  Audio = get_mod("Audio")
+
+  Audio.hook_sound("play_grenade_surface_impact", function(sound_type, sound_name, delta)
+    if delta == nil or delta > 0.1 then
+      Audio.play_file("squelch.mp3", { audio_type = "sfx" })
+    end
+
+    return false
+  end)
 end
 ```
 
-### Hook grenade bounce events to play custom audio
-
-```lua
-Audio.hook_sound("play_grenade_surface_impact", function(sound_type, sound_name, delta)
-  if delta == nil or delta > 0.1 then
-    Audio.play_file("squelch.mp3", { audio_type = "sfx" })
-  end
-
-	return false
-end)
-```
-
 This code:
+- declares `Audio`
+- waits for all mods to be loaded and:
+  - initialises `Audio` with the library
+  - creates the hook
+  - makes this resilient to mod load orders where Audio is not loaded first
 - hooks any event with "play_grenade_surface_impact" in its event name
 - debounce using `delta` so that no more than 10 sounds a second can be triggered
 - plays a local "squelch.mp3" file
