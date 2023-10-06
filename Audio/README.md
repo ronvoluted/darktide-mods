@@ -6,8 +6,8 @@
 
 - **Play custom audio files (with spatial positioning!)**
 - Apply a range of audio filters/playback properties to custom audio
-- Ergonomically trigger WWise sounds/events
-- Use WWise utilities to hook/replace/silence/log game sounds
+- Ergonomically trigger Wwise sounds/events
+- Use Wwise utilities to hook/replace/silence/log game sounds
 - Developed with unit tests for added reliability when used in other mods
 
 This was created to make it possible and easy to do things like replace explosion sounds with quacks, run a function whenever certain sounds play, replace Morrow's lines with Zola's or even your own recorded lines, silence all lasgun sounds or just one specific footstep SFX, log sounds to console when they occur, play Wwise sound events and dialogue voicelines on cue, use your own music, debug Wwise and open up a world of potential mods.
@@ -55,7 +55,7 @@ Explanation:
 
 ## Guide
 
-### Playing WWise sounds
+### Playing Wwise sounds
 
 ```lua
 Audio.play(wwise_event_name_or_loc, unit_or_position_or_id, node_or_rotation_or_boolean)
@@ -238,7 +238,7 @@ These are SFX with a resource path of `"wwise/events/xxx/xxx"`.
 
 #### Arguments passed to `Audio.hook_sound()` callback `function()`:
 
-- **sound_type** `string (2d_sound|3d_sound|start_stop_event|external_sound|source_sound|unit_sound)`: The type of WWise event triggered, determined by `position_or_unit_or_id` variable type
+- **sound_type** `string (2d_sound|3d_sound|start_stop_event|external_sound|source_sound|unit_sound)`: The type of Wwise event triggered, determined by `position_or_unit_or_id` variable type
 - **sound_name** `string`: The `wwise_event_name` e.g. "wwise/events/player/play_footstep_boots_medium"
 - **delta** `number|nil`: Time in seconds since the function has last run or `nil` if never run
 - **position_or_unit_or_id** `userdata(Vector3|unit)|number`: Argument used by Wwise in various ways
@@ -269,7 +269,7 @@ This code:
 - receives the original position of the bullet hits to the callback function
 - debounces so that the explosions can only play once every 0.1 seconds
 - passes the original position to `play()` so that the explosions sound closer/furthe and more left/right accordingly
-### WWise external dialogue events
+### Wwise external dialogue events
 
 These are dialogue lines with a resource path of `"wwise/externals/loc_xxx"`. Both `Audio.hook_sound()` and `Audio.play()` will automatically handle the `"wwise/externals/"` portion so you can just use the `"loc_xxx"` sound name for those functions. If you use non Audio Plugin functions, remember to use the full path.
 
@@ -307,7 +307,7 @@ Audio.hook_sound(
 
 Using `"loc_zealot_female_c__com_wheel_vo_thank_you_06"` as an example of a hooked match, this code:
 
-1. Hook WWise events matching the pattern `"com_wheel_vo_need_health"`
+1. Hook Wwise events matching the pattern `"com_wheel_vo_need_health"`
 2. Replace `"need_health"` with `"thank_you"` so that the new sound name is `"loc_zealot_female_c__com_wheel_vo_thank_you_06"`
 3. Not all events have the same number of alternatives. If `"loc_zealot_female_c__com_wheel_vo_thank_you_XX"` only went up to `05`, attempting to trigger `06` could cause a crash. We use `"loc_zealot_female_c__com_wheel_vo_thank_you_01"` here just in case but if you know the existing `loc_xxx_XX` options ahead of time you could clamp/randomise this suffix.
 4. Play the new sound name at the original source using its `wwise_source_id` given by `position_or_unit_or_id`
@@ -349,7 +349,7 @@ Audio.is_sound_silenced(wwise_event_name)
 ## Roadmap
 - Fix slow beta implementation of `stop_file`
 - Finish implementing `is_file_playing` to check whether a file is still playing
-- Finish implementing logging utilities to crowdsource building list of known WWise events
+- Finish implementing logging utilities to crowdsource building list of known Wwise events
 - Add option to toggle logging silenced sounds or not
 - Build more unit tests coverage
 
