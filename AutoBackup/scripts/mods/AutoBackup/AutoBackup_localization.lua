@@ -6,8 +6,8 @@ return {
 		["zh-cn"] = "自动备份",
 	},
 	mod_description = {
-		["en"] = "Automatically creates a backup of your settings on launch, exit and weekly\n\nAuthor: Seventeen",
-		["zh-cn"] = "启动退出游戏时以及每周自动创建设置备份\n\n作者：Seventeen",
+		["en"] = "Automatically creates a backup of your settings on launch, exit and weekly\n\nAuthor: Seventeen ducks in a trenchcoat",
+		["zh-cn"] = "启动退出游戏时以及每周自动创建设置备份\n\n作者：Seventeen ducks in a trenchcoat",
 	},
 	reset_warning_title = {
 		["en"] = "Restore settings",
