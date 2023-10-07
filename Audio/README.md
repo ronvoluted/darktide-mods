@@ -211,7 +211,7 @@ Audio.hook_sound(pattern, callback)
 ```
 
 - **pattern\*** `string`: Lua match pattern for the event/s to hook, allowing wildcard logic instead of only strictly matching full strings
-- **callback\*** `function`: Callback function that will run when an event is hooked. If this function returns a value of `false`, the hooked event will be silenced. The following arguments are passed, however their meaning will differ between Wwise sound events and Wwise external dialogue events:
+- **callback\*** `function`: Callback function that will run when an event is hooked. Optionally, if this function returns a value of `false` (not just `nil`) the hooked event will be silenced. The following arguments are passed, however their meaning will differ between Wwise sound events and Wwise external dialogue events:
   - sound_type
   - sound_name
   - delta
