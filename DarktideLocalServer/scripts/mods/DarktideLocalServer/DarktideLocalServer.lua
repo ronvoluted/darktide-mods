@@ -1,4 +1,4 @@
-local mod = get_mod("DarktideLocalServer")
+local LocalServer = get_mod("DarktideLocalServer")
 
 --[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
 
@@ -7,7 +7,7 @@ local binaries_path = binaries_path_handle:read()
 binaries_path_handle:close()
 local bin_path = table.concat({
 	binaries_path:gsub("binaries", "mods"),
-	mod:get_name(),
+	LocalServer:get_name(),
 	"bin",
 }, "\\")
 
@@ -22,16 +22,16 @@ local port = config and config.port or 41012
 local image_endpoint = string.format("localhost:%s/image", port)
 local run_endpoint = string.format("localhost:%s/run", port)
 
-mod.get_port = function()
+LocalServer.get_port = function()
 	return port
 end
 
-mod.get_image = function(path)
+LocalServer.get_image = function(path)
 	local encoded_path = Http.url_encode(path)
 	local image_url = string.format("%s?path=%s", image_endpoint, encoded_path)
 
 	local image = Managers.url_loader:load_texture(image_url):catch(function(error)
-		mod:dump({
+		LocalServer:dump({
 			url = image_url,
 			path = encoded_path,
 			status = error.status,
@@ -45,7 +45,7 @@ mod.get_image = function(path)
 	return image
 end
 
-mod.run_command = function(command)
+LocalServer.run_command = function(command)
 	local request = Managers.backend:url_request(run_endpoint, {
 		method = "POST",
 		body = { command = command },
@@ -53,7 +53,3 @@ mod.run_command = function(command)
 
 	return request
 end
-
--- mod.on_all_mods_loaded = function()
--- 	Mods.lua.io.popen(string.format('"%s\\start_server"', bin_path)):close()
--- end
