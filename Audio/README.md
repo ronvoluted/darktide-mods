@@ -107,7 +107,7 @@ Besides `audio_type`, all the keys of `playback_settings` correspond to [options
   - **[silenceremove](https://ffmpeg.org/ffmpeg-filters.html#silenceremove)** `string`: Remove silence from the audio
   - **[speechnorm](https://ffmpeg.org/ffmpeg-filters.html#speechnorm)** `string`: Normalise audio fo speech
   - **[stereotools](https://ffmpeg.org/ffmpeg-filters.html#stereotools)** `string`: Manage stereo signals
-  - **[volume](https://ffmpeg.org/ffplay.html#toc-Main-options)** `number``: Further adjust volume. Range of 1 - 100.
+  - **[volume](https://ffmpeg.org/ffplay.html#toc-Main-options)** `number`: Further adjust volume. Range of 1 - 100.
 - **unit_or_position** `userdata (Vector3|Unit)`:
   - If `Vector3`: location that audio will play from
   - If `Unit`: use that unit's position
