@@ -6,7 +6,7 @@
 
 - **Play custom audio files (with spatial positioning!)**
 - Apply a range of audio filters/playback properties to custom audio
-- Ergonomically trigger Wwise sounds/events
+- Ergonomically trigger Wwise events/dialogue
 - Use Wwise utilities to hook/replace/silence/log game sounds
 - Developed with unit tests for added reliability when used in other mods
 
@@ -49,7 +49,7 @@ Explanation:
   - makes this resilient to mod load orders where Audio is not loaded first
 - hook any event with "play_grenade_surface_impact" in its event name
 - debounce using `delta` so that no more than 10 sounds a second can be triggered
-- play a local "squelch.mp3" file
+- play a local file from ".../Warhammer 40,000 DARKTIDE/mods/YourMod/audio/squelch.mp3"
 - specify the audio type as "sfx" so that Options -> Audio -> Volume -> Sound Effects Volume slider will affect it
 - return `false` so that the original hooked event, "play_grenade_surface_impact", will be silenced and not play
 
@@ -89,7 +89,7 @@ Audio.play_file(path, playback_settings, unit_or_position, decay, min_distance, 
 
 Place audio files in an `"audio"` folder directly at the root of your mod folder. Custom audio uses ffplay under the hood and is best suited to short audio playback (see [Limitations](#)).
 
-`path` is the only required argument and the file can be almost any audio type (mp3, wav, flac, ogg, opus, etc. Midi not supported.)
+`path` is the only required argument and the file can be almost any audio type (mp3, wav, flac, ogg, opus, etc. Midi not supported.) but Opus is recommended.
 
 Besides `audio_type`, all the keys of `playback_settings` correspond to [options](https://ffmpeg.org/ffplay.html) and [filter](https://ffmpeg.org/ffmpeg-filters.html#Audio-Filters) flags from ffplay. The list below contains links directly to each option/filter's documentation which explains the syntax required.
 
@@ -230,7 +230,7 @@ end)
 
 
 > **Note**
-> If `Audio.play_file()` will be rapidly called within a hook, it's good practice to [debounce](#hook-grenade-bounce-events-to-play-custom-audio) the plays using `delta` and a minium thereshold of 0.1 seconds 
+> If `Audio.play_file()` will be rapidly called within a hook, it's good practice to [debounce](#hook-grenade-bounce-events-to-play-custom-audio) the plays using `delta` and a minimum thereshold of 0.1 seconds 
 
 ### Wwise sound events
 
@@ -268,7 +268,7 @@ This code:
 - receives the time in seconds since this hook was last run (`nil` if first time running) to the callback function
 - receives the original position of the bullet hits to the callback function
 - debounces so that the explosions can only play once every 0.1 seconds
-- passes the original position to `play()` so that the explosions sound closer/furthe and more left/right accordingly
+- passes the original position to `play()` so that the explosions sound closer/further and more left/right accordingly
 ### Wwise external dialogue events
 
 These are dialogue lines with a resource path of `"wwise/externals/loc_xxx"`. Both `Audio.hook_sound()` and `Audio.play()` will automatically handle the `"wwise/externals/"` portion so you can just use the `"loc_xxx"` sound name for those functions. If you use non Audio Plugin functions, remember to use the full path.
@@ -351,7 +351,7 @@ Audio.is_sound_silenced(wwise_event_name)
 - Finish implementing `is_file_playing` to check whether a file is still playing
 - Finish implementing log-saving utilities to crowdsource building list of known Wwise events
 - Add option to toggle logging silenced sounds or not
-- Build more unit test coverage
+- Build more unit tests
 
 ## Licences
 

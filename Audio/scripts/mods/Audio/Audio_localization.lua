@@ -4,7 +4,7 @@ return {
 		["zh-cn"] = "音频插件",
 	},
 	mod_description = {
-		["en"] = "Library for playing custom sound files with spatial audio and hooking/playing WWise events.\n\nAuthor: Seventeen ducks in a trenchcoat",
+		["en"] = "Library for playing custom sound files with spatial audio and hooking/playing Wwise events.\n\nAuthor: Seventeen ducks in a trenchcoat",
 		["zh-cn"] = "用于播放自定义音频文件并管理 WWise 事件的公共库。\n\n作者：Seventeen ducks in a trenchcoat",
 	},
 	log_errors = {
@@ -14,19 +14,19 @@ return {
 		["en"] = "Print failed `play_file` info to the developer console",
 	},
 	log_wwise = {
-		["en"] = "Log WWise events and sounds",
+		["en"] = "Log Wwise events and sounds",
 	},
 	log_wwise_tooltip = {
-		["en"] = "Print triggered WWise sound names and their type to the developer console",
+		["en"] = "Print triggered Wwise sound names and their type to the developer console",
 	},
 	log_wwise_common = {
-		["en"] = "Include common sounds in WWise logging",
+		["en"] = "Include common sounds in Wwise logging",
 	},
 	log_wwise_common_tooltip = {
 		["en"] = "Sounds matching the pattern \"husk\", \"foley\", \"footstep\", \"locomotion\", \"material\", \"upper_body\" or \"vce\"",
 	},
 	log_wwise_ui = {
-		["en"] = "Include UI sounds in WWise logging",
+		["en"] = "Include UI sounds in Wwise logging",
 	},
 	log_wwise_ui_tooltip = {
 		["en"] = "Sounds matching the pattern \"events/ui\"",

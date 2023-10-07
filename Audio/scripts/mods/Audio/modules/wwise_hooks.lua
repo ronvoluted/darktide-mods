@@ -230,7 +230,7 @@ Audio.settings_changed_functions["wwise_hooks"] = function(setting_name)
 	end
 end
 
--- Audio:command("check_event_names", "Print recently collected WWise event names", function(range)
+-- Audio:command("check_event_names", "Print recently collected Wwise event names", function(range)
 -- 	range = tonumber(range) or 5
 
 -- 	for i = math.max(1, #event_names - range), #event_names do
