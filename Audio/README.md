@@ -239,7 +239,7 @@ Audio.play_file("MyMod/arbitrary_folder/quack.mp3")
 ```
 
 > **Warning**
-> Currently "YourMod.mp3" will resolve to ".../Warhammer 40,000 DARKTIDE/mods/YourMod.mp3". This is a bug and will be fixed.
+> Currently "YourModName.mp3" will resolve to ".../Warhammer 40,000 DARKTIDE/mods/YourModName.mp3". This is a bug and will be fixed.
 
 ### Hooking Wwise sounds
 
