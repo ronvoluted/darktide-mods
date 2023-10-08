@@ -22,6 +22,7 @@ local port = config and config.port or 41012
 local image_endpoint = string.format("localhost:%s/image", port)
 local run_endpoint = string.format("localhost:%s/run", port)
 local process_is_running_endpoint = string.format("localhost:%s/process_running", port)
+local stop_process_endpoint = string.format("localhost:%s/stop_process", port)
 
 LocalServer.get_port = function()
 	return port
@@ -57,4 +58,8 @@ end
 
 LocalServer.process_is_running = function(pid)
 	return Managers.backend:url_request(string.format("%s?pid=%s", process_is_running_endpoint, pid))
+end
+
+LocalServer.stop_process = function(pid)
+	Managers.backend:url_request(string.format("%s?pid=%s", stop_process_endpoint, pid))
 end
