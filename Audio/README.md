@@ -210,7 +210,7 @@ local play_file_id = Audio.play_file("fire_sfx_08.opus", {
 local play_file_id = Audio.play_file("bob_voiceline_for_the_emperor.opus", {
   audio_type = "music",
   track_status = function() -- Callback functions will also allow `is_file_playing` to work
-    Audio.play("jane_voiceline_for_the_emperor_reply")
+    Audio.play("jane_voiceline_for_the_emperor_reply.opus")
   end,
 })
 ```
