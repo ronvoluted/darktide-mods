@@ -22,6 +22,7 @@ This was created to make it possible and easy to do things like replace explosio
 
 > **Important**
 > [Darktide Local Server](https://www.nexusmods.com/warhammer40kdarktide/mods/211) is a dependency and must be installed. Put Audio directly after DarktideLocalServer in your mod_load_order.txt.
+> Developer Mode and Show Developer Console currently must also be On to avoid window issues.
 
 ### Hook grenade bounce events to play custom audio
 
@@ -91,11 +92,12 @@ Place audio files in an `"audio"` folder directly at the root of your mod folder
 
 `path` is the only required argument and the file can be almost any audio type (mp3, wav, flac, ogg, opus, etc. Midi not supported.) but Opus is recommended.
 
-Besides `audio_type`, all the keys of `playback_settings` correspond to [options](https://ffmpeg.org/ffplay.html) and [filter](https://ffmpeg.org/ffmpeg-filters.html#Audio-Filters) flags from ffplay. The list below contains links directly to each option/filter's documentation which explains the syntax required.
+Besides `audio_type` and `track_status`, all the keys of `playback_settings` correspond to [options](https://ffmpeg.org/ffplay.html) and [filter](https://ffmpeg.org/ffmpeg-filters.html#Audio-Filters) flags from ffplay. The list below contains links directly to each option/filter's documentation which explains the syntax required.
 
 - **path\*** `string`: Filename of the audio to play
 - **playback_settings** `table`: 
   - **audio_type** `string (dialogue|music|sfx)`: Specify volume category to allow adjusting via game options
+  - **track_status** `boolean|function`: If any truthy value, will enable the use of `is_file_playing()` which will be updated every 1s. If `track_status` is a function, it will also be run as a callback after the file stops playing. The callback currently receives no parameters (suggestions welcome for useful data to pass back).
   - **[duration](https://ffmpeg.org/ffplay.html#toc-Main-options)** `string`: Play duration of the file
   - **[loop](https://ffmpeg.org/ffplay.html#toc-Main-options)** `number`: Number of times the file will loop. Defaults to `1`. Set to `0` to loop indefinitely.
   - **[pos](https://ffmpeg.org/ffplay.html#toc-Main-options)** `string`: Seek position
@@ -134,10 +136,22 @@ Audio.play_file("chime.mp3")
 Audio.play_file("howling.wav", Vector3.zero())
 ```
 
+#### Allowing game options to adjust volume and running a callback once the file finishes playing
+```lua
+local play_file_id = Audio.play_file("ImmortalImperium.opus", {
+  audio_type = "music",
+  track_status = function()
+    Jukebox.queue_next_track()
+  end,
+})
+```
+
 #### Play a custom audio file using every parameter
 
 ```lua
 local play_file_id, command = Audio.play_file("ImperialAdvance.ogg", {
+    audio_type = "music", -- Use game's music volume options to adjust volume
+    track_status = function() print("For the Emperor!") end -- Run a callback function when the file stops
     duration = 10, -- Trim audio to 10 seconds
     loop = 3, -- Repeat for 3 iterations total
     adelay = "500|500", -- Delay playing for half a second (left|right channel)
@@ -168,21 +182,40 @@ print(play_file_id, command)
 
 ### Stopping custom audio files
 
-Note that this is currently quite slow and causes a lockup of ~30ms.
-
 ```lua
 Audio.stop_file(play_file_id)
 ```
 
-- **play_file_id** `number`: The `play_file_id` returned from `play_file()`. If omitted, the function will stop **all** instances of ffplay_dt.exe
+- **play_file_id** `number`: The `play_file_id` returned from `play_file()`. If omitted, the function will stop **all** playing files.
 
 ### Checking whether an audio file is playing
-
-**On roadmap to implement. Returns `nil` for now.**
 
 ```lua
 Audio.is_file_playing(play_file_id)
 ```
+
+**return** `boolean`: Whether the file's status is playing.
+
+> **Important**
+> To make use of this, `track_status` must be set in the `playback_settings` parameter of `Audio.play_file()`. For example:
+
+```lua
+local play_file_id = Audio.play_file("fire_sfx_08.opus", {
+  audio_type = "sfx",
+  track_status = true, -- This enables the use of `is_file_playing`
+})
+```
+
+```lua
+local play_file_id = Audio.play_file("bob_voiceline_for_the_emperor.opus", {
+  audio_type = "music",
+  track_status = function() -- Callback functions will also allow `is_file_playing` to work
+    Audio.play("jane_voiceline_for_the_emperor_reply")
+  end,
+})
+```
+
+Under the hood, the ffplay instance attached to the file is checked using a server request once every second.
 
 ### Path handling with `play_file()`
 
@@ -345,14 +378,17 @@ Audio.is_sound_silenced(wwise_event_name)
 ## Limitations
 - Audio file spatial positioning is locked-in at moment of play— moving the player afterwards will not update its volume/panning (no Doppler effects/approaching sounds)
 - Starting more than ~10 audio files within a second can cause performance issues. You can [`loop`](#playing-audio-files) them multiple times with no issue however.
+- The developer console must be on, otherwise the game will minimise when running server commands. Methods to avoid this are beeing looked into.
 
 ## Roadmap
-- Fix slow beta implementation of `stop_file`
-- Finish implementing `is_file_playing` to check whether a file is still playing
-- Finish implementing log-saving utilities to crowdsource building list of known Wwise events
-- Add option to toggle logging silenced sounds or not
-- Add `play_random_file()` version of `play_file()`
-- Build more unit tests
+- [x] Fix slow beta implementation of `stop_file`~~
+- [x] Finish implementing `is_file_playing` to check whether a file is still playing
+- [ ] Implement smarter path handling for filenames starting with the mod name
+- [ ] Add option to toggle logging silenced sounds or not
+- [ ] Add `play_random_file()` version of `play_file()`
+- [ ] Finish implementing log-saving utilities to crowdsource building list of known Wwise events
+- [ ] Add table of contents to docs
+- [ ] Build more unit tests
 
 ## Licences
 
