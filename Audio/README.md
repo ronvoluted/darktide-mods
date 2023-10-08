@@ -237,6 +237,9 @@ Audio.play_file("C:/Program Files (x86)/Steam/steamapps/common/Warhammer 40,000 
 Audio.play_file("MyMod/arbitrary_folder/quack.mp3")
 ```
 
+> **Warning**
+> Currently "YourMod.mp3" will resolve to ".../Warhammer 40,000 DARKTIDE/mods/YourMod.mp3". This is a bug and will be fixed.
+
 ### Hooking Wwise sounds
 
 ```lua
