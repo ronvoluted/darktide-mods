@@ -65,22 +65,22 @@ Audio.play(wwise_event_name_or_loc, unit_or_position_or_id, node_or_rotation_or_
 Use this to play existing sound effects and voicelines from the game. Note that sounds may not always be triggerable, particularly if they're for equipment not currently equipped. If provided, `unit_or_position_or_id` should be either a unit or Vector3 for use with SFX events and a wwise_source_id number for use with `loc_` voicelines.
 #### Level up sound
 ```lua
-mod.play("wwise/events/ui/play_ui_eor_character_lvl_up")
+Audio.play("wwise/events/ui/play_ui_eor_character_lvl_up")
 ```
 
 #### Ogryn saying "Why you all look so gloomy? Smile!"
 ```lua
-mod.play("loc_ogryn_a__combat_pause_one_liner_07")
+Audio.play("loc_ogryn_a__combat_pause_one_liner_07")
 ```
 
 #### Sound effect at a specific position
 ```lua
-mod.play("wwise/events/cinematics/play_fatshark_splash", Vector3(10, 20, 30))
+Audio.play("wwise/events/cinematics/play_fatshark_splash", Vector3(10, 20, 30))
 ```
 
 #### Sound effect attached to a specific unit (will move with it)
 ```lua
-mod.play("wwise/events/cinematics/play_fatshark_splash", beast_of_nurgle_unit)
+Audio.play("wwise/events/cinematics/play_fatshark_splash", beast_of_nurgle_unit)
 ```
 ### Playing audio files
 
