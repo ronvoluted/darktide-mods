@@ -4,6 +4,7 @@ local Audio = get_mod("Audio")
 
 Audio.settings_changed_functions = {}
 Audio.mods_loaded_functions = {}
+Audio.update_functions = {}
 
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/path_utilities")
@@ -20,6 +21,12 @@ end
 Audio.on_all_mods_loaded = function()
 	for _, fun in pairs(Audio.mods_loaded_functions) do
 		fun()
+	end
+end
+
+Audio.update = function(dt)
+	for _, fun in pairs(Audio.update_functions) do
+		fun(dt)
 	end
 end
 

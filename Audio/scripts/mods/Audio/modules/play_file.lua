@@ -1,13 +1,14 @@
 local Audio = get_mod("Audio")
-local io = Mods.lua.io
 local LocalServer
 
 local FFPLAY_FILENAME = "ffplay_dt.exe"
 local FFPLAY_PATH = Audio.get_mod_path(Audio, "bin\\" .. FFPLAY_FILENAME, true)
 local AUDIO_TYPE = table.enum("dialogue", "music", "sfx")
-local PLAY_STATUS = table.enum("error", "fulfilled", "pending", "stopped", "success")
+local PLAY_STATUS = table.enum("error", "fulfilled", "pending", "playing", "stopped", "success")
+local TRACK_STATUS_INTERVAL = 1
 
 local played_files = {}
+local track_status_delta = 0
 
 local log_errors = Audio:get("log_errors")
 
@@ -176,15 +177,18 @@ Audio.play_file = function(
 
 	played_files[play_file_id] = {
 		status = PLAY_STATUS.pending,
+		track_status = playback_settings.track_status or nil,
 	}
 
 	LocalServer.run_command(command)
-		:next(function(result)
-			local response = cjson.decode(result.body)
+		:next(function(response)
+			local result = cjson.decode(response.body)
 
-			played_files[play_file_id].status = response.success == true and PLAY_STATUS.success
+			played_files[play_file_id].status = result.success == true
+					and (playback_settings.track_status and PLAY_STATUS.playing or PLAY_STATUS.success)
 				or PLAY_STATUS.fulfilled
-			played_files[play_file_id].pid = response.pid
+
+			played_files[play_file_id].pid = result.pid
 		end)
 		:catch(function(error)
 			played_files[play_file_id].status = PLAY_STATUS.error
@@ -211,9 +215,21 @@ Audio.play_file = function(
 end
 
 Audio.stop_file = function(play_file_id)
+	if not play_file_id then
+		for _, played_file in pairs(played_files) do
+			if played_file.pid then
+				LocalServer.stop_process(played_file.pid)
+				played_file.status = PLAY_STATUS.stopped
+			end
+		end
+
+		return
+	end
+
 	local pid = play_file_id and played_files[play_file_id] and played_files[play_file_id].pid
 
 	LocalServer.stop_process(pid)
+	played_files[play_file_id].status = PLAY_STATUS.stopped
 end
 
 Audio.file_status = function(play_file_id)
@@ -225,14 +241,13 @@ Audio.file_pid = function(play_file_id)
 end
 
 Audio.is_file_playing = function(play_file_id)
-	-- local pid = play_file_id and played_files[play_file_id] and played_files[play_file_id].pid
+	local pid = play_file_id and played_files[play_file_id] and played_files[play_file_id].pid
 
-	-- if not pid then
-	-- 	return nil
-	-- end
+	if not pid then
+		return false
+	end
 
-	-- return LocalServer.is_pid_running(pid)
-	return
+	return played_files[play_file_id].status == PLAY_STATUS.playing
 end
 
 Audio.mods_loaded_functions["play_file"] = function()
@@ -253,4 +268,35 @@ Audio.settings_changed_functions["play_file"] = function(setting_name)
 	if setting_name == "log_errors" then
 		log_errors = Audio:get("log_errors")
 	end
+end
+
+Audio.update_functions["play_file"] = function(dt)
+	if track_status_delta < TRACK_STATUS_INTERVAL then
+		track_status_delta = track_status_delta + dt
+
+		return
+	end
+
+	for play_file_id, played_file in pairs(played_files) do
+		local track_status = played_file.track_status
+		local pid = played_file.pid
+
+		-- If we aren't tracking or a file has already stopped, there is no need to query the process
+		-- If the played_file has a PID, it means the promise in play_file() was successful and an
+		-- ffplay_dt instance launched
+		if track_status and pid and played_file.status ~= PLAY_STATUS.stopped then
+			local request = LocalServer.process_is_running(pid)
+			request:next(function(response)
+				if response.body.process_is_running == false then
+					played_files[play_file_id].status = PLAY_STATUS.stopped
+
+					if type(track_status) == "function" then
+						track_status()
+					end
+				end
+			end)
+		end
+	end
+
+	track_status_delta = 0
 end
