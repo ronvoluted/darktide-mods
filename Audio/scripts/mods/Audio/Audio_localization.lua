@@ -13,6 +13,12 @@ return {
 	log_errors_tooltip = {
 		["en"] = "Print failed `play_file` info to the developer console",
 	},
+	log_server_commands = {
+		["en"] = "Populate crash logs with server commands",
+	},
+	log_server_commands_tooltip = {
+		["en"] = "This can quickly max out the crash console_logs with hundreds of server commands, making them useless. Only enable if you are debugging.",
+	},
 	log_wwise = {
 		["en"] = "Log Wwise events and sounds",
 	},

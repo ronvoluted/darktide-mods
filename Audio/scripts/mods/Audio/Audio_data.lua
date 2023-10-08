@@ -36,6 +36,12 @@ return {
 				tooltip = "log_errors_tooltip",
 				default_value = false,
 			},
+			{
+				setting_id = "log_server_commands",
+				type = "checkbox",
+				tooltip = "log_server_commands_tooltip",
+				default_value = false,
+			},
 		},
 	},
 }

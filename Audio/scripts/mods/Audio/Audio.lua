@@ -2,6 +2,8 @@ local Audio = get_mod("Audio")
 
 --[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
 
+local log_server_commands = Audio:get("log_server_commands")
+
 Audio.settings_changed_functions = {}
 Audio.mods_loaded_functions = {}
 Audio.update_functions = {}
@@ -33,3 +35,9 @@ end
 Audio.on_unload = function()
 	Audio.stop_file()
 end
+
+Audio:hook_safe(Log, "_info", function(fun, category, message, ...)
+	if log_server_commands or not message:find("localhost") then
+		fun(category, message, ...)
+	end
+end)
