@@ -193,11 +193,14 @@ Audio.stop_file(play_file_id)
 ```lua
 Audio.is_file_playing(play_file_id)
 ```
+- **play_file_id*** `number`: The `play_file_id` returned from `play_file()`.
 
 **return** `boolean`: Whether the file's status is playing.
 
 > **Important**
-> To make use of this, `track_status` must be set in the `playback_settings` parameter of `Audio.play_file()`. For example:
+> To make use of this, `track_status` must be set in the `playback_settings` parameter of `Audio.play_file()`. Under the hood, the ffplay instance attached to the file is tracked using a server request once every second.
+
+#### Setting `track_status`
 
 ```lua
 local play_file_id = Audio.play_file("fire_sfx_08.opus", {
@@ -214,8 +217,6 @@ local play_file_id = Audio.play_file("bob_voiceline_for_the_emperor.opus", {
   end,
 })
 ```
-
-Under the hood, the ffplay instance attached to the file is checked using a server request once every second.
 
 ### Path handling with `play_file()`
 
