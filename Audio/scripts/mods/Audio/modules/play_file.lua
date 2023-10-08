@@ -101,18 +101,6 @@ local calculate_distance_filter = function(
 	return volume, left_volume, right_volume
 end
 
-local coroutine_kill = function()
-	return coroutine.create(function(process_identifier)
-		local identifier_type = type(process_identifier)
-		local identifier = identifier_type == "string" and "/IM" or identifier_type == "number" and "/PID"
-		while true do
-			io.popen(string.format("taskkill /F %s %s", identifier, process_identifier)):close()
-
-			coroutine.yield()
-		end
-	end)
-end
-
 local volume_adjustment = function(audio_type)
 	local master_volume = Application.user_setting("sound_settings", "option_master_slider") / 100
 
@@ -225,7 +213,7 @@ end
 Audio.stop_file = function(play_file_id)
 	local pid = play_file_id and played_files[play_file_id] and played_files[play_file_id].pid
 
-	coroutine.resume(coroutine_kill(), pid or FFPLAY_FILENAME)
+	LocalServer.stop_process(pid)
 end
 
 Audio.file_status = function(play_file_id)
