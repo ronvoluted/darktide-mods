@@ -103,26 +103,26 @@ local calculate_distance_filter = function(
 end
 
 local volume_adjustment = function(audio_type)
-	local master_volume = Application.user_setting("sound_settings", "option_master_slider") / 100
+	local master_volume = (Application.user_setting("sound_settings", "option_master_slider") or 100) / 100
 
 	if not audio_type then
 		return master_volume
 	end
 
 	if audio_type == AUDIO_TYPE.dialogue then
-		local vo_trim = (Application.user_setting("sound_settings", "options_vo_trim") / 10) + 1
+		local vo_trim = ((Application.user_setting("sound_settings", "options_vo_trim") or 0) / 10) + 1
 
 		return master_volume * vo_trim
 	end
 
 	if audio_type == AUDIO_TYPE.music then
-		local music_volume = Application.user_setting("sound_settings", "options_music_slider") / 100
+		local music_volume = (Application.user_setting("sound_settings", "options_music_slider") or 100) / 100
 
 		return master_volume * music_volume
 	end
 
 	if audio_type == AUDIO_TYPE.sfx then
-		local sfx_volume = Application.user_setting("sound_settings", "options_sfx_slider") / 100
+		local sfx_volume = (Application.user_setting("sound_settings", "options_sfx_slider") or 100) / 100
 
 		return master_volume * sfx_volume
 	end
