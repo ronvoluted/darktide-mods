@@ -52,12 +52,10 @@ end)
 -- Treat Ascension Riser as a glorified elevator
 mod:hook(WwiseGameSyncManager, "_set_state", function(fun, self, group_name, new_state)
 
-	-- Do not play Last Man Standing if rising/elevator music has started
 	if
 		ascension_started[1]
-		and group_name == "music_objective"
-		and new_state == "last_man_standing"
 		and Managers.state.mission._mission.name == "dm_rise"
+		and ((group_name == "music_objective" and new_state == "last_man_standing") or (group_name == "music_combat" and new_state == "boss"))
 	then
 		return
 	end
