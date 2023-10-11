@@ -4,47 +4,120 @@ local Audio
 --[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
 
 local muzak_volume = mod:get("muzak_volume")
+local play_file_id_table = mod:persistent_table("play_file_id_table", {})
+local ascension_started = mod:persistent_table("ascension_started", {})
 
-local tracks = {
+local TRACKS = {
 	"AaronPaulLow_ElevatorToHeaven.opus",
 	"BenSound_TheElevatorBossaNova.opus",
-	"MonumentMusic_DreamByDreams.opus",
 	"DarGolan_ElevatorMusic.opus",
-	"MonumentMusic_GlassOfWine.opus",
 	"GeoffreyBurch_TheGhostOfShepardsPie.opus",
-	"MonumentMusic_Pure.opus",
 	"GiulioFazio_TheFunnyBunch.opus",
+	"MonumentMusic_DreamByDreams.opus",
+	"MonumentMusic_GlassOfWine.opus",
+	"MonumentMusic_Pure.opus",
 }
 
-local music_play_file_id
-
-local start_muzak = function()
-	music_play_file_id = Audio.play_file(tracks[math.random(1, 8)], {
-		audio_type = "music",
-		afade = "t=in:ss=0:d=2",
-		silenceremove = "start_periods=1:stop_periods=1",
-		volume = muzak_volume,
-	})
-end
+local riding_elevator = false
 
 local stop_muzak = function()
-	Audio.stop_file(music_play_file_id)
+	for _, play_file_id in pairs(play_file_id_table) do
+		Audio.stop_file(play_file_id)
+	end
+
+	play_file_id_table = {}
 end
 
-mod.on_all_mods_loaded = function()
-	Audio = get_mod("Audio")
+mod:hook(MoveablePlatformSystem, "units_are_locked", function(fun, self)
+	local are_locked = fun(self)
 
-	if not Audio then
-		mod:echo(
-			'Required mod "Audio Plugin" not found: Download from Nexus Mods and make sure "Audio" is in mod_load_order.txt'
-		)
+	if are_locked and not riding_elevator then
+		riding_elevator = true
 
-		mod:disable_all_hooks()
-		mod:disable_all_commands()
+		play_file_id_table[#play_file_id_table + 1] = Audio.play_file(TRACKS[math.random(1, 8)], {
+			audio_type = "music",
+			afade = "t=in:ss=0:d=2",
+			silenceremove = "start_periods=1:stop_periods=1",
+			volume = muzak_volume,
+		})
+	elseif riding_elevator and not are_locked then
+		riding_elevator = false
+
+		stop_muzak()
+	end
+
+	return are_locked
+end)
+
+-- Treat Ascension Riser as a glorified elevator
+mod:hook(WwiseGameSyncManager, "_set_state", function(fun, self, group_name, new_state)
+
+	-- Do not play Last Man Standing if rising/elevator music has started
+	if
+		ascension_started[1]
+		and group_name == "music_objective"
+		and new_state == "last_man_standing"
+		and Managers.state.mission._mission.name == "dm_rise"
+	then
+		return
+	end
+
+	if
+		group_name == "music_objective"
+		and new_state == "demolition_event"
+		and Managers.state.mission._mission.name == "dm_rise"
+	then
+		if not ascension_started[1] and not play_file_id_table[1] and not Managers.state.cinematic:active() then
+			play_file_id_table[#play_file_id_table + 1] = Audio.play_file(TRACKS[math.random(1, 8)], {
+				audio_type = "music",
+				afade = "t=in:ss=0:d=2",
+				loop = 0,
+				silenceremove = "start_periods=1:stop_periods=1",
+				volume = muzak_volume,
+			})
+
+			ascension_started[1] = true
+		end
+
+		-- Withold game music
+		fun(self, "music_objective", "None")
+		fun(self, "event_intensity", "low")
 
 		return
 	end
 
-	Audio.hook_sound("play_elevator_01_start", start_muzak)
-	Audio.hook_sound("play_elevator_01_stop", stop_muzak)
+	fun(self, group_name, new_state)
+end)
+
+-- Stop music once you leave in the Valkyrie in Ascension Riser
+mod:hook_safe(CinematicSceneSystem, "_play_cutscene", function(self, cinematic_name, client_channel_id)
+	if Managers.state.mission._mission.name == "dm_rise" and cinematic_name == "outro_win" then
+		stop_muzak()
+	end
+end)
+
+mod.on_all_mods_loaded = function()
+	local LocalServer = get_mod("DarktideLocalServer")
+	Audio = get_mod("Audio")
+
+	if not LocalServer then
+		mod:echo(
+			'Required mod "DarktideLocalServer" not found: Download from Nexus Mods and make sure it is in mod_load_order.txt'
+		)
+	end
+
+	if not Audio then
+		mod:echo('Required mod "Audio" not found: Download from Nexus Mods and make sure it is in mod_load_order.txt')
+	end
+
+	if not Audio or not LocalServer then
+		mod:disable_all_hooks()
+		mod:disable_all_commands()
+	end
+end
+
+mod.on_game_state_changed = function(status, sub_state_name)
+	if ascension_started[1] and sub_state_name == "StateGameplay" and status == "exit" then
+		ascension_started = {}
+	end
 end
