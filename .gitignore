@@ -9,6 +9,8 @@
 !AutoBackup/**
 !Crash
 !Crash/**
+!CThruShields
+!CThruShields/**
 !CustomResolutions
 !CustomResolutions/**
 !CustomViewBoilerplate
