@@ -62,6 +62,8 @@ Explanation:
 Audio.play(wwise_event_name_or_loc, unit_or_position_or_id, node_or_rotation_or_boolean)
 ```
 
+**return** `number`: The Wwise source ID of this sound.
+
 Use this to play existing sound effects and voicelines from the game. Note that sounds may not always be triggerable, particularly if they're for equipment not currently equipped. If provided, `unit_or_position_or_id` should be either a unit or Vector3 for use with SFX events and a wwise_source_id number for use with `loc_` voicelines.
 #### Level up sound
 ```lua

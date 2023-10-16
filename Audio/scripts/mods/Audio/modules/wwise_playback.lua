@@ -5,9 +5,11 @@ Audio.play = function(wwise_event_name_or_loc, unit_or_position_or_id, node_or_r
 	local wwise_world = Managers.world:wwise_world(world)
 
 	if string.starts_with(wwise_event_name_or_loc, "wwise/events") then
-		wwise_world:trigger_resource_event(wwise_event_name_or_loc, unit_or_position_or_id, node_or_rotation_or_boolean)
-
-		return
+		return wwise_world:trigger_resource_event(
+			wwise_event_name_or_loc,
+			unit_or_position_or_id,
+			node_or_rotation_or_boolean
+		)
 	end
 
 	local source_id
@@ -31,7 +33,7 @@ Audio.play = function(wwise_event_name_or_loc, unit_or_position_or_id, node_or_r
 		or "wwise/externals/" .. wwise_event_name_or_loc
 
 	if string.starts_with(wwise_event_name_or_loc, "loc_") then
-		wwise_world:trigger_resource_external_event(
+		return wwise_world:trigger_resource_external_event(
 			"wwise/events/vo/play_sfx_es_player_vo",
 			"es_vo_prio_1",
 			wwise_external_event_name,
