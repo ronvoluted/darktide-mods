@@ -1,6 +1,6 @@
 local mod = get_mod("ForTheEmperor")
 
---[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
+--[[ ?????????????????????????????????? ]]
 
 Managers.package:load("packages/ui/views/social_menu_roster_view/social_menu_roster_view", "ForTheEmperor", nil, true)
 
@@ -57,9 +57,11 @@ end
 
 local comms_allowed = function()
 	local game_mode = Managers.state.game_mode and Managers.state.game_mode:game_mode_name()
+	local ui_manager = Managers.ui;
 	if
-		not (game_mode and Managers.player)
+		not (game_mode and Managers.player and ui_manager)
 		and (game_mode == "coop_complete_objective" or game_mode == "shooting_range" or game_mode == "prologue")
+		or (ui_manager.using_input())
 	then
 		return false
 	end
