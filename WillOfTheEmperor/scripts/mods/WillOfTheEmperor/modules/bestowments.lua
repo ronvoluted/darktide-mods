@@ -218,7 +218,5 @@ mod:hook_require("scripts/settings/ability/player_abilities/player_abilities", f
 		plab[#plab + 1] = ablity_name
 	end
 
-	mod:dtf(plab, "latest_player_abilities", 99)
-
 	player_abilities = _player_abilities
 end)
