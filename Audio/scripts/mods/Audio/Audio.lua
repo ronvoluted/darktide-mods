@@ -41,3 +41,7 @@ Audio:hook_safe(Log, "_info", function(fun, category, message, ...)
 		fun(category, message, ...)
 	end
 end)
+
+Audio:command("quack", "Play test quacks from Audio Plugin", function()
+	Audio.play_file("quack.ogg", { loop = 3 })
+end)
