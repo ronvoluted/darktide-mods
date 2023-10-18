@@ -42,7 +42,7 @@ mod.on_all_mods_loaded = function()
 end
 ```
 
-Explanation:
+#### Explanation:
 - declare `Audio`
 - wait for all mods to be loaded which:
   - initialises `Audio` with the library
@@ -53,6 +53,113 @@ Explanation:
 - play a local file from ".../Warhammer 40,000 DARKTIDE/mods/YourMod/audio/squelch.mp3"
 - specify the audio type as "sfx" so that Options -> Audio -> Volume -> Sound Effects Volume slider will affect it
 - return `false` so that the original hooked event, "play_grenade_surface_impact", will be silenced and not play
+
+## Table of Contents
+
+<ol>
+  <li><details>
+    <summary><a href="#playing-wwise-sounds">Playing Wwise sounds</a></summary>
+    <ul>
+      <li><a href="#level-up-sound">Level up sound</a></li>
+      <li><a href="#ogryn-saying-why-you-all-look-so-gloomy-smile">Ogryn saying "Why you all look so gloomy? Smile!"</a></li>
+      <li><a href="#sound-effect-at-a-specific-position">Sound effect at a specific position</a></li>
+      <li><a href="#sound-effect-attached-to-a-specific-unit-will-move-with-it">Sound effect attached to a specific unit</a></li>
+    </ul>
+  </details></li>
+
+  <li><details>
+    <summary><a href="#playing-audio-files">Playing audio files</a></summary>
+    <ul>
+      <li><a href="#custom-audio-file">Custom audio file
+      <li><a href="#custom-audio-file-sounding-as-if-it-came-from-the-centre-of-the-map">Custom audio file sounding as if it came from the centre of the map
+      <li><a href="#allowing-game-options-to-adjust-volume-and-running-a-callback-once-the-file-finishes-playing">Allowing game options to adjust volume and running a callback once the file finishes playing
+      <li><a href="#play-a-custom-audio-file-using-every-parameter">Play a custom audio file using every parameter
+      <li><a href="#print-reference-id-for-this-play-instance-and-the-arguments-sent-to-ffplay">Print reference ID for this play instance and the arguments sent to ffplay
+      </ul>
+  </details></li>
+
+  <li><a href="#stopping-custom-audio-files">Stopping custom audio files</a></li>
+
+  <li><details>
+    <summary><a href="#checking-whether-an-audio-file-is-playing">Checking whether an audio file is playing</a></summary>
+    <ul>
+      <li><a href="#setting-track_status">Setting <code>track_status</code></a></li>
+    </ul>
+  </details></li>
+
+  <li>
+    <a href="#path-handling-with-play_file">Path handling with <code>play_file</code></a>
+  </li>
+
+  <li><details>
+    <summary><a href="#hooking-wwise-sounds">Hooking Wwise sounds</a></summary>
+    <ul>
+      <li>
+        <a href="#empty-example-with-all-parametersreturn-values">Empty example with all parameters/return values</a>
+      </li>
+    </ul>
+  </details></li>
+
+  <li><details>
+    <summary><a href="#wwise-sound-events">Wwise sound events</a></summary>
+    <ul>
+      <li>
+        <a href="#arguments-passed-to-hook_sound-callback-function">Arguments passed to <code>hook_sound()</code> callback function</a>
+      </li>
+      <li><a href="#mute-all-ui-sounds">Mute all UI sounds</a></li>
+      <li>
+        <a href="#add-explosions-to-bullet-impacts-debounced-to-01-seconds">Add explosions to bullet impacts</a>
+      </li>
+    </ul>
+  </details></li>
+
+  <li><details>
+    <summary><a href="#wwise-external-dialogue-events">Wwise external dialogue events</a></summary>
+    <ul>
+      <li>
+        <a href="#arguments-passed-to-hook_sound-callback-function-1">Arguments passed to <code>hook_sound()</code> callback function</a>
+      </li>
+      <li>
+        <a href="#play-dial-up-modem-sounds-whenever-hadron-speaks">Play dial-up modem sounds whenever Hadron speaks</a>
+      </li>
+      <li>
+        <a href="#replace-i-need-healing-comms-wheel-voicelines-with-thanks">Replace "I need healing!" comms wheel voicelines with "Thanks!"</a>
+      </li>
+    </ul>
+  </details></li>
+
+  <li><details>
+    <summary><a href="#silencing-sounds">Silencing sounds</a></summary>
+    <ul>
+      <li>
+        <a href="#silence-a-single-match-pattern">Silence a single match pattern</a>
+      </li>
+      <li>
+        <a href="#silence-multiple-match-patterns">Silence multiple match patterns</a>
+      </li>
+    </ul>
+  </details></li>
+
+  <li>
+    <a href="#unsilencing-sounds">Unsilencing sounds</a>
+  </li>
+
+  <li>
+    <a href="#checking-silenced-sounds">Checking silenced sounds</a>
+  </li>
+
+  <li>
+    <a href="#limitations">Limitations</a>
+  </li>
+
+  <li>
+    <a href="#roadmap">Roadmap</a>
+  </li>
+
+  <li>
+    <a href="#licences">Licences</a>
+  </li>
+</ol>
 
 ## Guide
 
@@ -90,7 +197,7 @@ Audio.play("wwise/events/cinematics/play_fatshark_splash", beast_of_nurgle_unit)
 Audio.play_file(path, playback_settings, unit_or_position, decay, min_distance, max_distance, override_position, override_rotation)
 ```
 
-Place audio files in an `"audio"` folder directly at the root of your mod folder. Custom audio uses ffplay under the hood and is best suited to short audio playback (see [Limitations](#)).
+Place audio files in an "audio" folder directly at the root of your mod folder. Custom audio uses ffplay under the hood and is best suited to short audio playback (see [Limitations](#limitations)).
 
 `path` is the only required argument and the file can be almost any audio type (mp3, wav, flac, ogg, opus, etc. Midi not supported.) but Opus is recommended.
 
@@ -109,7 +216,7 @@ Besides `audio_type` and `track_status`, all the keys of `playback_settings` cor
   - **[atempo](https://ffmpeg.org/ffmpeg-filters.html#atempo)** `string`: Adjust speed of playback
   - **[chorus](https://ffmpeg.org/ffmpeg-filters.html#chorus)** `string`: Add a chorus effect to the audio
   - **[silenceremove](https://ffmpeg.org/ffmpeg-filters.html#silenceremove)** `string`: Remove silence from the audio
-  - **[speechnorm](https://ffmpeg.org/ffmpeg-filters.html#speechnorm)** `string`: Normalise audio fo speech
+  - **[speechnorm](https://ffmpeg.org/ffmpeg-filters.html#speechnorm)** `string`: Normalise audio for speech
   - **[stereotools](https://ffmpeg.org/ffmpeg-filters.html#stereotools)** `string`: Manage stereo signals
   - **[volume](https://ffmpeg.org/ffplay.html#toc-Main-options)** `number`: Further adjust volume. Range of 1 - 100.
 - **unit_or_position** `userdata (Vector3|Unit)`:
@@ -125,7 +232,7 @@ Besides `audio_type` and `track_status`, all the keys of `playback_settings` cor
 - **override_rotation** `Quaternion`: Set a custom listening rotation (e.g. if player is upside down) or use to align `override_position`
 
 **return**
-- play_file_id `number`: Reference ID for this play instance, used with `Audio.stop_file(play_file_id)`
+- play_file_id `number`: Reference ID for this play instance, used with `stop_file(play_file_id)` and `is_file_playing(play_file_id)`
 - command `string`: The constructed CLI command sent to ffplay
 
 #### Custom audio file
@@ -200,7 +307,7 @@ Audio.is_file_playing(play_file_id)
 **return** `boolean`: Whether the file's status is playing.
 
 > **Important**
-> To make use of this, `track_status` must be set in the `playback_settings` parameter of `Audio.play_file()`. Under the hood, the ffplay instance attached to the file is tracked using a server request once every second.
+> To make use of this, `track_status` must be set in the `playback_settings` parameter of `play_file()`. Under the hood, the ffplay instance attached to the file is tracked using a server request once every second.
 
 #### Setting `track_status`
 
@@ -269,13 +376,13 @@ end)
 
 
 > **Note**
-> If `Audio.play_file()` will be rapidly called within a hook, it's good practice to [debounce](#hook-grenade-bounce-events-to-play-custom-audio) the plays using `delta` and a minimum thereshold of 0.1 seconds 
+> If `play_file()` will be rapidly called within a hook, it's good practice to [debounce](#hook-grenade-bounce-events-to-play-custom-audio) the plays using `delta` and a minimum thereshold of 0.1 seconds 
 
 ### Wwise sound events
 
 These are SFX with a resource path of `"wwise/events/xxx/xxx"`.
 
-#### Arguments passed to `Audio.hook_sound()` callback `function()`:
+#### Arguments passed to `hook_sound()` callback function:
 
 - **sound_type** `string (2d_sound|3d_sound|start_stop_event|external_sound|source_sound|unit_sound)`: The type of Wwise event triggered, determined by `position_or_unit_or_id` variable type
 - **sound_name** `string`: The `wwise_event_name` e.g. "wwise/events/player/play_footstep_boots_medium"
@@ -294,25 +401,33 @@ end)
 
 #### Add explosions to bullet impacts, debounced to 0.1 seconds
 ```lua
-Audio.hook_sound("play_bullet_hits_gen", function(sound_type, sound_name, delta, position_or_unit_or_id)
+Audio.hook_sound("play_bullet_hits_gen", function(_, __, delta, position_or_unit_or_id)
   if delta == nil or delta > 0.1 then
-    Audio.play("wwise/events/weapon/play_explosion_grenade_frag", position_or_unit_or_id)
-    Audio.play("wwise/events/weapon/play_explosion_refl_gen", position_or_unit_or_id)
+    Audio.play("wwise/events/weapon/play_explosion_grenade_frag", position_or_unit_or_id, {
+      audio_type = "sfx"
+    })
+    Audio.play("wwise/events/weapon/play_explosion_refl_gen", position_or_unit_or_id, {
+      audio_type = "sfx"
+    })
   end
 end)
 ```
 
-This code:
-- hooks events with a `"play_bullet_hits_gen"` match pattern
-- receives the time in seconds since this hook was last run (`nil` if first time running) to the callback function
-- receives the original position of the bullet hits to the callback function
-- debounces so that the explosions can only play once every 0.1 seconds
-- passes the original position to `play()` so that the explosions sound closer/further and more left/right accordingly
+##### Explanation:
+- hook events with a `"play_bullet_hits_gen"` match pattern
+- from the the callback function:
+  - ignore `sound_type` and `sound_name` arguments
+  - receive `delta`, the time in seconds since this hook was last run or `nil` if first time running 
+  - receive `position_or_unit_or_id`, which in this case is the original position of the bullet hits
+- debounce using `delta` so that sounds can only play once every 0.1 seconds, preventing rapid overlaps and framerate spikes
+- play two Wwise events at the same time:
+  - specify "sfx" to take into account the volume set in game Options
+  - pass original position to `play()` so that the explosions sound closer/further and more left/right accordingly
 ### Wwise external dialogue events
 
 These are dialogue lines with a resource path of `"wwise/externals/loc_xxx"`. Both `Audio.hook_sound()` and `Audio.play()` will automatically handle the `"wwise/externals/"` portion so you can just use the `"loc_xxx"` sound name for those functions. If you use non Audio Plugin functions, remember to use the full path.
 
-#### Arguments passed to `Audio.hook_sound()` callback `function()`:
+#### Arguments passed to `hook_sound()` callback function:
 
 - **sound_type** `string`: Always "external_sound"
 - **sound_name** `string`: The `file_path` minus "wwise/externals/" e.g. "loc_veteran_male_b__lore_abhumans_one_a_03"
@@ -344,7 +459,7 @@ Audio.hook_sound(
 )
 ```
 
-Using `"loc_zealot_female_c__com_wheel_vo_thank_you_06"` as an example of a hooked match, this code:
+##### Using `"loc_zealot_female_c__com_wheel_vo_thank_you_06"` as an example of a hooked match:
 
 1. Hook Wwise events matching the pattern `"com_wheel_vo_need_health"`
 2. Replace `"need_health"` with `"thank_you"` so that the new sound name is `"loc_zealot_female_c__com_wheel_vo_thank_you_06"`
@@ -354,7 +469,7 @@ Using `"loc_zealot_female_c__com_wheel_vo_thank_you_06"` as an example of a hook
 
 ### Silencing sounds
 
-Besides returning `false` in the callback function of `Audio.hook_sound()` to silence an event, you can also directly silence events with `Audio.silence_sounds()`. This is useful if your hook's match pattern matches multiple events but you do not want to call a callback multiple times.
+Besides returning `false` in the callback function of `hook_sound()` to silence an event, you can also directly silence events with `silence_sounds()`. This is useful if your hook's match pattern matches multiple events but you do not want to call a callback multiple times.
 
 #### Silence a single match pattern
 ```lua
@@ -371,7 +486,7 @@ Audio.silence_sounds({
 ```
 
 ### Unsilencing sounds
-Silencing in the above manner can be reversed. Use the same function signature with `Audio.unsilence_sounds()` to unsilence them. Note that this will not override a return of `false` from the `Audio.hook_sound()` callback.
+Silencing in the above manner can be reversed. Use the same function signature with `unsilence_sounds()` to unsilence them. Note that this will not override a return of `false` from the `hook_sound()` callback.
 
 ### Checking silenced sounds
 
