@@ -376,7 +376,7 @@ end)
 
 
 > **Note**
-> If `play_file()` will be rapidly called within a hook, it's good practice to [debounce](#hook-grenade-bounce-events-to-play-custom-audio) the plays using `delta` and a minimum thereshold of 0.1 seconds 
+> If `play_file()` will be rapidly called within a hook, it's good practice to [debounce](#add-explosions-to-bullet-impacts-debounced-to-01-seconds) the plays using `delta` and a minimum thereshold of 0.1 seconds 
 
 ### Wwise sound events
 
