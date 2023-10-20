@@ -260,10 +260,10 @@ local play_file_id = Audio.play_file("ImmortalImperium.opus", {
 ```lua
 local play_file_id, command = Audio.play_file("ImperialAdvance.ogg", {
     audio_type = "music", -- Use game's music volume options to adjust volume
-    track_status = function() print("For the Emperor!") end -- Run a callback function when the file stops
+    track_status = function() print("For the Emperor!") end, -- Run a callback function when the file stops
     duration = 10, -- Trim audio to 10 seconds
     loop = 3, -- Repeat for 3 iterations total
-    adelay = "500|500", -- Delay playing for half a second (left|right channel)
+    adelay = "500:all=1", -- Delay playing all channels for half a second
     aecho = "0.8:0.9:1000:0.3", -- Sound like an open air concert in the mountains
     afade = "t=in:ss=0:d=3", -- Fade in over 3 seconds
     atempo = 2, -- Play at 200% speed
@@ -278,7 +278,7 @@ local play_file_id, command = Audio.play_file("ImperialAdvance.ogg", {
   5, -- If within 5 meters, play at 100% volume
   80, -- If further than 80 meters, play at 0% volume
   Vector3(-30, 20, -10), -- Override player position, listening as if you were somewhere else
-  Quaternion.from_elements(0, 0, 0, 1), -- Override player rotation
+  Quaternion.from_elements(0, 0, 0, 1) -- Override player rotation
 )
 ```
 
@@ -446,7 +446,6 @@ end)
 
 ```lua
 Audio.hook_sound(
-	mod,
 	"com_wheel_vo_need_health",
 	function(sound_type, sound_name, delta, position_or_unit_or_id)
 		local new_sound_name = sound_name:gsub("need_health", "thank_you")
@@ -504,11 +503,12 @@ Audio.is_sound_silenced(wwise_event_name)
 ## Roadmap
 - [x] Fix slow beta implementation of `stop_file`~~
 - [x] Finish implementing `is_file_playing` to check whether a file is still playing
+- [x] Add table of contents to docs
 - [ ] Implement smarter path handling for filenames starting with the mod name
 - [ ] Add option to toggle logging silenced sounds or not
-- [ ] Add `play_random_file()` version of `play_file()`
+- [ ] Add `play_folder()` version of `play_file()`
+- [ ] Add caption utilities
 - [ ] Finish implementing log-saving utilities to crowdsource building list of known Wwise events
-- [ ] Add table of contents to docs
 - [ ] Build more unit tests
 
 ## Licences
