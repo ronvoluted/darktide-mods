@@ -1,11 +1,8 @@
 local Audio = get_mod("Audio")
 
---[[
-    Provide further distinction between userdata types.
-
-		@param {userdata} userdata - A userdata value
-    @returns {string|nil} "Unit", "Vector3" accordingly, or nil if the `userdata` is not of userdata type.
---]]
+---Distinguish if userdata is a position or unit
+---@param userdata userdata A userdata value
+---@return "Unit"|"Vector3"|nil type Type of the userdata
 Audio.userdata_type = function(userdata)
 	if type(userdata) ~= "userdata" then
 		return nil
@@ -20,11 +17,8 @@ Audio.userdata_type = function(userdata)
 	end
 end
 
---[[
-    Find the mod that is calling the current scope.
-
-    @returns {string} Non-localised name of the mod.
---]]
+---Determine the mod that is calling the current scope
+---@return string mod_name Unlocalised name of the mod
 Audio.function_caller_mod_name = function()
 	local highest_mod_in_stack
 	local highest_non_Audio_mod_in_stack

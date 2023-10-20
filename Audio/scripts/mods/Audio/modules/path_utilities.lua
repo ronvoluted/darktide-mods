@@ -2,21 +2,17 @@ local Audio = get_mod("Audio")
 
 local io = Mods.lua.io
 
---[[
-    Conditionally surround a string with double quotes.
-
-		@param {boolean} surround_quotes - If true, return `str` with surrounding double quotes `"`.
-    @returns {string} Absolute path.
---]]
+---Conditionally surround a string with double quotes
+---@param str string Input string
+---@param surround_quotes boolean If true, return `str` surrounded by double quotes `"`
+---@return string str Original input string, or input string surrounded by double quotes
 local double_quote = function(str, surround_quotes)
 	return surround_quotes and string.format('"%s"', str) or str
 end
 
---[[
-    Return Darktide installation directory.
-
-    @returns {string} Absolute path.
---]]
+---Get Darktide installation directory
+---@param surround_quotes boolean If true, return `path` surrounding by double quotes `"`
+---@return string path Absolute path to Darktide installation directory
 Audio.get_darktide_path = function(surround_quotes)
 	local binaries_path_handle = io.popen("cd")
 	local binaries_path = binaries_path_handle:read()
@@ -27,11 +23,9 @@ Audio.get_darktide_path = function(surround_quotes)
 	return double_quote(root_path, surround_quotes)
 end
 
---[[
-    Return directory containing all mods.
-
-    @returns {string} Absolute path.
---]]
+---Get directory containing all mods
+---@param surround_quotes boolean If true, return `path` surrounded by double quotes `"`
+---@return string path Absolute path to directory containing all mods
 Audio.get_root_mods_path = function(surround_quotes)
 	local binaries_path_handle = io.popen("cd")
 	local binaries_path = binaries_path_handle:read()
@@ -42,14 +36,10 @@ Audio.get_root_mods_path = function(surround_quotes)
 	return double_quote(all_mods_path, surround_quotes)
 end
 
---[[
-    Return current mod's root directory (where "scripts" directory and ".mod" file are contained)
-		or a path relative to it.
-
-    @param {string} sub_path - Path to return relative to the root directory.
-    @param {boolean} surround_quotes - If true, return with surrounding double quotes `"`.
-    @returns {string} Absolute path.
---]]
+--Get current mod's root directory (where "scripts" directory and ".mod" file are contained) or a path relative to it
+---@param sub_path string Path to return relative to the root directory
+---@param surround_quotes boolean If true, return `path` surrounded by double quotes `"`
+---@return string path Absolute ore relative path to current mod's root directory
 Audio.get_mod_path = function(mod, sub_path, surround_quotes)
 	sub_path = type(sub_path) == "string" and string.format("\\%s", sub_path:gsub("/", "\\")) or ""
 
@@ -58,13 +48,9 @@ Audio.get_mod_path = function(mod, sub_path, surround_quotes)
 	return double_quote(path, surround_quotes)
 end
 
---[[
-    Resolve a filepath to an absolute path. If filepath is relative, infers the
-		originating mod which called it and resolves to its folder.
-
-    @param {string} path - Filename without leading slash, or relative path, or absolute path.
-    @returns {string} Absolute path.
---]]
+---Resolve a filepath to an absolute path. If filepath is relative, infers the originating mod which called it and resolves to its folder
+---@param path string Filename without leading slash, or relative path, or absolute path
+---@return string path Absolute path
 Audio.absolute_path = function(path, working_directory, surround_quotes)
 	path = path:gsub("^/", ""):gsub("/", "\\")
 
