@@ -231,7 +231,12 @@ Audio.stop_file = function(play_file_id)
 	local pid = play_file_id and played_files[play_file_id] and played_files[play_file_id].pid
 
 	LocalServer.stop_process(pid)
-	played_files[play_file_id].status = PLAY_STATUS.stopped
+
+	local file = played_files[play_file_id]
+
+	if file then
+		file.status = PLAY_STATUS.stopped
+	end
 end
 
 Audio.file_status = function(play_file_id)
