@@ -2,7 +2,7 @@ local Audio = get_mod("Audio")
 
 local play_quack = {
 	description = "play a quack sound",
-	fun = function(suite_setup_value, test_setup_value)
+	fun = function()
 		local play_file_id, command = Audio.play_file("quack.ogg")
 
 		return type(play_file_id) == "number"

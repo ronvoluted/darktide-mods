@@ -1,6 +1,7 @@
 local Audio = get_mod("Audio")
-
 local io = Mods.lua.io
+local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
+local function_caller_mod_name = utilities.function_caller_mod_name
 
 ---Conditionally surround a string with double quotes
 ---@param str string Input string
@@ -71,7 +72,7 @@ Audio.absolute_path = function(path, working_directory, surround_quotes)
 	end
 
 	local root_mods_path = Audio.get_root_mods_path()
-	local caller_mod_name = Audio.function_caller_mod_name()
+	local caller_mod_name = function_caller_mod_name()
 
 	if string.starts_with(path, caller_mod_name) then
 		absolute_path = string.format("%s\\%s", root_mods_path, path)

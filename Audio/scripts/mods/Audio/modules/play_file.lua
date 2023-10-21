@@ -49,9 +49,9 @@ local calculate_distance_filter = function(
 
 	if not unit_or_position then
 		position = Unit.local_position(player_unit, 1) or Vector3.zero()
-	elseif type(unit_or_position) == "userdata" and Audio.userdata_type(unit_or_position) == "Unit" then
+	elseif type(unit_or_position) == "userdata" and userdata_type(unit_or_position) == "Unit" then
 		position = Unit.local_position(unit_or_position, node or 1) or Vector3.zero()
-	elseif type(unit_or_position) == "userdata" and Audio.userdata_type(unit_or_position) == "Vector3" then
+	elseif type(unit_or_position) == "userdata" and userdata_type(unit_or_position) == "Vector3" then
 		position = unit_or_position
 	end
 

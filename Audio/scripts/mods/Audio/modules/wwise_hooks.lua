@@ -1,5 +1,8 @@
 local Audio = get_mod("Audio")
 -- local Tools = get_mod("Tools")
+local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
+local function_caller_mod_name = utilities.function_caller_mod_name
+local userdata_type = utilities.userdata_type
 
 local SOUND_TYPE = table.enum(
 	"2d_sound",
@@ -93,7 +96,7 @@ Audio.hook_sound = function(pattern, callback)
 		setmetatable(hooks[pattern], {})
 	end
 
-	hooks[pattern][Audio.function_caller_mod_name()] = callback
+	hooks[pattern][function_caller_mod_name()] = callback
 end
 
 local run_hooks = function(sound_type, sound_name, position_or_unit_or_id, optional_a, optional_b)
@@ -131,7 +134,7 @@ Audio.mods_loaded_functions["wwise_hooks"] = function()
 				end
 			end
 
-			local var_type = Audio.userdata_type(position_or_unit_or_id) or type(position_or_unit_or_id)
+			local var_type = userdata_type(position_or_unit_or_id) or type(position_or_unit_or_id)
 			local sound_type = sound_type_map[var_type] or var_type
 
 			local hook_result = run_hooks(sound_type, wwise_event_name, position_or_unit_or_id, optional_a, optional_b)

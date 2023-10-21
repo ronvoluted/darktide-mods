@@ -19,7 +19,7 @@ end
 
 ---Determine the mod that is calling the current scope
 ---@return string mod_name Unlocalised name of the mod
-Audio.function_caller_mod_name = function()
+local function_caller_mod_name = function()
 	local highest_mod_in_stack
 	local highest_non_Audio_mod_in_stack
 
@@ -49,3 +49,26 @@ Audio.function_caller_mod_name = function()
 
 	return highest_non_Audio_mod_in_stack or highest_mod_in_stack
 end
+
+---Distinguish if userdata is a position or unit
+---@param userdata userdata A userdata value
+---@return "Unit"|"Vector3"|nil type Type of the userdata
+local userdata_type = function(userdata)
+	if type(userdata) ~= "userdata" then
+		return nil
+	end
+
+	if Unit.alive(userdata) then
+		return "Unit"
+	elseif Vector3.is_valid(userdata) then
+		return "Vector3"
+	else
+		return tostring(userdata)
+	end
+end
+
+return {
+	getDelay = getDelay,
+	function_caller_mod_name = function_caller_mod_name,
+	userdata_type = userdata_type,
+}
