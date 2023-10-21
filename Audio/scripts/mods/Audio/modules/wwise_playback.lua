@@ -1,6 +1,6 @@
 local Audio = get_mod("Audio")
 local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
-local userdata_type = utilities.userdata_type
+local get_userdata_type = utilities.get_userdata_type
 
 Audio.play = function(wwise_event_name_or_loc, unit_or_position_or_id, node_or_rotation_or_boolean)
 	local world = Managers.ui:world()
@@ -22,7 +22,7 @@ Audio.play = function(wwise_event_name_or_loc, unit_or_position_or_id, node_or_r
 	elseif type(unit_or_position_or_id) == "number" then
 		source_id = unit_or_position_or_id
 	elseif type(unit_or_position_or_id) == "userdata" then
-		local userdata_type = userdata_type(unit_or_position_or_id)
+		local userdata_type = get_userdata_type(unit_or_position_or_id)
 		if userdata_type == "Unit" then
 			source_id = wwise_world:make_auto_source(unit_or_position_or_id, node_or_rotation_or_boolean)
 		elseif userdata_type == "Vector3" then
