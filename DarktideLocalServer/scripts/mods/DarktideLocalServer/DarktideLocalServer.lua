@@ -2,6 +2,19 @@ local LocalServer = get_mod("DarktideLocalServer")
 
 --[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
 
+local DMF = get_mod("DMF")
+
+if not DMF:get("developer_mode") then
+	DMF:set("developer_mode", true)
+	DMF.load_developer_mode_settings()
+end
+
+if not DMF:get("show_developer_console") then
+	DMF:set("show_developer_console", true)
+end
+
+DMF.load_dev_console_settings()
+
 local binaries_path_handle = Mods.lua.io.popen("cd")
 local binaries_path = binaries_path_handle:read()
 binaries_path_handle:close()
