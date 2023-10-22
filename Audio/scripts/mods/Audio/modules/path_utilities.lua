@@ -74,7 +74,7 @@ Audio.absolute_path = function(path, working_directory, surround_quotes)
 	local root_mods_path = Audio.get_root_mods_path()
 	local caller_mod_name = function_caller_mod_name()
 
-	if string.starts_with(path, caller_mod_name) then
+	if string.starts_with(path, caller_mod_name .. "/") or string.starts_with(path, caller_mod_name .. "\\") then
 		absolute_path = string.format("%s\\%s", root_mods_path, path)
 	else
 		absolute_path = string.format("%s\\%s\\audio\\%s", root_mods_path, caller_mod_name, path)

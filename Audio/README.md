@@ -504,13 +504,13 @@ Audio.is_sound_silenced(wwise_event_name)
 - [x] Fix slow beta implementation of `stop_file`~~
 - [x] Finish implementing `is_file_playing` to check whether a file is still playing
 - [x] Add table of contents to docs
-- [ ] Implement smarter path handling for filenames starting with the mod name
+- [x] Implement smarter path handling for filenames starting with the mod name
+- [x] Build more unit tests
 - [ ] Add option to toggle logging silenced sounds or not
 - [ ] Add `play_folder()` version of `play_file()`
 - [ ] Refactor of `delta` calculation. Currently, multiple matching patterns for the same event will be treated as separate events.
 - [ ] Add caption utilities
 - [ ] Finish implementing log-saving utilities to crowdsource building list of known Wwise events
-- [ ] Build more unit tests
 
 ## Licences
 

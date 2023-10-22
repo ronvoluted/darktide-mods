@@ -32,8 +32,16 @@ local mod_path_relative = {
 	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\ribbit\\diary.md",
 }
 
+local filename_beginning_with_mod_name = {
+	description = 'resolve filename beginning with mod name to "/audio" folder',
+	fun = function()
+		return Audio.absolute_path("Audio_file.opus")
+	end,
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\audio\\Audio_file.opus",
+}
+
 local absolute_filename = {
-	description = "resolve filename to absolute path inside audio folder",
+	description = 'resolve filename to absolute path inside "/audio" folder',
 	fun = function()
 		return Audio.absolute_path("melody.wav")
 	end,
@@ -64,6 +72,7 @@ Audio._tests.suites["path_utilities"] = {
 		mod_path,
 		mod_path_relative,
 		absolute_filename,
+		filename_beginning_with_mod_name,
 		absolute_relative,
 		absolute_unchanged,
 	},
