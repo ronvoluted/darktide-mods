@@ -1,5 +1,6 @@
 local Audio = get_mod("Audio")
 local LocalServer
+
 local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
 local get_userdata_type = utilities.get_userdata_type
 
@@ -9,25 +10,22 @@ local AUDIO_TYPE = table.enum("dialogue", "music", "sfx")
 local PLAY_STATUS = table.enum("error", "fulfilled", "pending", "playing", "stopped", "success")
 local TRACK_STATUS_INTERVAL = 1
 
+local log_errors = Audio:get("log_errors")
 local played_files = {}
 local track_status_delta = 0
 
-local log_errors = Audio:get("log_errors")
+local listener_position_rotation = function()
+	local player = Managers.player and Managers.player:local_player_safe(1)
 
-local player_unit
-local first_person_component
-
-local use_player_unit = function()
-	if not Unit.alive(player_unit) then
-		player_unit = Managers.player:local_player_safe(1).player_unit
+	if not player then
+		return Vector3.zero(), Quaternion.identity()
 	end
-end
 
-local use_first_person_component = function()
-	if not first_person_component then
-		local unit_data_extension = ScriptUnit.extension(player_unit, "unit_data_system")
-		first_person_component = unit_data_extension:read_component("first_person")
-	end
+	local listener_pose = Managers.state.camera:listener_pose(player.viewport_name)
+	local lister_position = listener_pose and Matrix4x4.translation(listener_pose) or Vector3.zero()
+	local lister_rotation = listener_pose and Matrix4x4.rotation(listener_pose) or Quaternion.identity()
+
+	return lister_position, lister_rotation
 end
 
 local calculate_distance_filter = function(
@@ -39,26 +37,31 @@ local calculate_distance_filter = function(
 	override_rotation,
 	node
 )
-	if not unit_or_position or not override_position or not override_rotation then
-		use_player_unit()
+	if not Managers.ui or Managers.ui:get_current_sub_state_name() ~= "GameplayStateRun" then
+		return 100, 100, 100
 	end
 
-	if not override_rotation then
-		use_first_person_component()
+	local input_type = get_userdata_type(unit_or_position)
+
+	if input_type ~= "Unit" and input_type ~= "Vector3" then
+		return 100, 100, 100
 	end
 
 	local position
 
-	if not unit_or_position then
-		position = Unit.local_position(player_unit, 1) or Vector3.zero()
-	elseif type(unit_or_position) == "userdata" and get_userdata_type(unit_or_position) == "Unit" then
+	if input_type == "Unit" then
 		position = Unit.local_position(unit_or_position, node or 1) or Vector3.zero()
-	elseif type(unit_or_position) == "userdata" and get_userdata_type(unit_or_position) == "Vector3" then
+	elseif input_type == "Vector3" then
 		position = unit_or_position
 	end
 
-	local listener_position = override_position or Unit.local_position(player_unit, 1) or Vector3.zero()
-	local listener_rotation = override_rotation or first_person_component.rotation or Quaternion.identity()
+	local current_listener_position, current_listener_rotation
+	if not override_position or not override_rotation then
+		current_listener_position, current_listener_rotation = listener_position_rotation()
+	end
+
+	local listener_position = override_position or current_listener_position
+	local listener_rotation = override_rotation or current_listener_rotation
 
 	decay = decay or 0.01
 	min_distance = min_distance or 0
