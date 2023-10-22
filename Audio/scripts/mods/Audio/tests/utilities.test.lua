@@ -15,7 +15,8 @@ local caller_mod = {
 local get_delay = {
 	description = "extract mininum delay from `adelay`",
 	fun = function()
-		assert(get_delay_seconds("") == 0)
+		assert(get_delay_seconds() == 0)
+		assert(get_delay_seconds("emperor:all=1") == 0)
 		assert(get_delay_seconds("500|780") == 0.5)
 		assert(get_delay_seconds("5s|2.3s:all=1") == 2.3)
 		assert(get_delay_seconds("96000S|888888S:all=1") == 2)

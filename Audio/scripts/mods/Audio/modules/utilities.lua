@@ -2,12 +2,16 @@
 ---@param adelay_string string The `adelay` value used in `playback_settings`
 ---@return number minDelay The shortest delay in seconds, or 0 if there are none
 local get_delay_seconds = function(adelay_string)
+	if not adelay_string then
+		return 0
+	end
+
 	local withoutColon = string.match(adelay_string, "([^:]+)")
 	local minDelay = 0
 	local delays = {}
 
 	if not withoutColon then
-		return minDelay
+		return 0
 	end
 
 	for delay in string.gmatch(withoutColon, "([^|]+)") do

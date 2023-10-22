@@ -64,7 +64,7 @@ Audio.absolute_path = function(path, working_directory, surround_quotes)
 		return double_quote(absolute_path, surround_quotes)
 	end
 
-	-- Path is already an absolute path
+	-- If path is already an absolute path
 	if path:sub(1, 2):match("^%a:") then
 		absolute_path = path
 
