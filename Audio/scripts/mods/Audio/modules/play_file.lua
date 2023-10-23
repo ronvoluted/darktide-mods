@@ -38,13 +38,13 @@ local calculate_distance_filter = function(
 	node
 )
 	if not Managers.ui or Managers.ui:get_current_sub_state_name() ~= "GameplayStateRun" then
-		return 100, 100, 100
+		return 100, 1, 1
 	end
 
 	local input_type = get_userdata_type(unit_or_position)
 
 	if input_type ~= "Unit" and input_type ~= "Vector3" then
-		return 100, 100, 100
+		return 100, 1, 1
 	end
 
 	local position
