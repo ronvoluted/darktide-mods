@@ -31,11 +31,11 @@ local config_json = config_handle and config_handle:read("*a")
 config_handle:close()
 local config = cjson.decode(config_json)
 local port = config and config.port or 41012
-
-local image_endpoint = string.format("localhost:%s/image", port)
-local run_endpoint = string.format("localhost:%s/run", port)
-local process_is_running_endpoint = string.format("localhost:%s/process_running", port)
-local stop_process_endpoint = string.format("localhost:%s/stop_process", port)
+local host = string.format("localhost:%s/", port)
+local image_endpoint = host .. "image"
+local run_endpoint = host .. "run"
+local process_is_running_endpoint = host .. "process_running"
+local stop_process_endpoint = host .. "stop_process"
 
 LocalServer.get_port = function()
 	return port
