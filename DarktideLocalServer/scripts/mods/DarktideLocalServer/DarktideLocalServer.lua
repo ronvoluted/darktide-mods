@@ -3,6 +3,10 @@ local LocalServer = get_mod("DarktideLocalServer")
 --[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
 
 local DMF = get_mod("DMF")
+local BackendUtilities = require("scripts/foundation/managers/backend/utilities/backend_utilities")
+
+---@class Promise
+local Promise = class("Promise")
 
 if not DMF:get("developer_mode") then
 	DMF:set("developer_mode", true)
@@ -33,6 +37,7 @@ local config = cjson.decode(config_json)
 local port = config and config.port or 41012
 local host = string.format("localhost:%s/", port)
 local image_endpoint = host .. "image"
+local list_directory_endpoint = host .. "list_directory"
 local run_endpoint = host .. "run"
 local process_is_running_endpoint = host .. "process_running"
 local stop_process_endpoint = host .. "stop_process"
@@ -58,6 +63,42 @@ LocalServer.get_image = function(path)
 	end)
 
 	return image
+end
+
+---List the contents of a directory. Will fail if not a subdirectory of Darktide.
+---@param path string Directory to query
+---@param sub_directories boolean Include subdirectories
+---@param general_info boolean Include general info
+---@param audio_info boolean Include info for audio files
+---@param image_info boolean Include info for image files
+---@return Promise table Contents of the directory. Will be a nested table if `sub_directories` or any `_info` parameters are true
+LocalServer.list_directory = function(path, sub_directories, general_info, audio_info, image_info)
+	local encoded_path = Http.url_encode(path)
+
+	local list_url = BackendUtilities.url_builder(string.format(list_directory_endpoint, port))
+		:query("path", encoded_path)
+		:query("sub_directories", sub_directories)
+		:query("general_info", general_info)
+		:query("audio_info", audio_info)
+		:query("image_info", image_info)
+		:to_string()
+
+	return Managers.backend
+		:url_request(list_url)
+		:next(function(response)
+			return response.body.contents
+		end)
+		:catch(function(error)
+			LocalServer:dump({
+				url = list_url,
+				path = path,
+				status = error.status,
+				body = error.body,
+				description = error.description,
+				headers = error.headers,
+				response_time = error.response_time,
+			}, string.format("Could not list directory (%s)", os.date()), 8)
+		end)
 end
 
 LocalServer.run_command = function(command)
