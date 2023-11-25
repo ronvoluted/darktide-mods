@@ -4,8 +4,8 @@ return {
 		["zh-cn"] = "手动崩溃",
 	},
 	mod_description = {
-		["en"] = "Provides several commands to send your game into the immaterium :)\n\nAuthor: Seventeen ducks in a trenchcoat",
-		["zh-cn"] = "提供一些命令把你的游戏送入亚空间 :)\n\n作者：Seventeen ducks in a trenchcoat",
+		["en"] = "Provides several commands to send your game into the immaterium :)\n\nAuthor: Seventeen ducks",
+		["zh-cn"] = "提供一些命令把你的游戏送入亚空间 :)\n\n作者：Seventeen ducks",
 	},
 	command_crash_desc = {
 		["en"] = "Crash the game immediately, or specify seconds to schedule",

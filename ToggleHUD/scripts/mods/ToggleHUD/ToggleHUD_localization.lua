@@ -4,8 +4,8 @@ return {
 		["zh-cn"] = "开关 HUD",
 	},
 	mod_description = {
-		["en"] = "Allows turning the game UI on and off\n\nAuthor: Seventeen ducks in a trenchcoat",
-		["zh-cn"] = "允许打开和关闭游戏 UI\n\n作者：Seventeen ducks in a trenchcoat",
+		["en"] = "Allows turning the game UI on and off\n\nAuthor: Seventeen ducks",
+		["zh-cn"] = "允许打开和关闭游戏 UI\n\n作者：Seventeen ducks",
 	},
 	keybind_toggle = {
 		["en"] = "Toggle HUD",

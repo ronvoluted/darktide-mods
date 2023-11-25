@@ -5,9 +5,9 @@ return {
     ["zh-cn"] = "音频插件",
 	},
 	mod_description = {
-		["en"] = "Library for playing custom sound files and hooking/playing Wwise events. Developer Mode and Show Developer Console must be On in Darktide Mod Framework options.\n\nAuthor: Seventeen ducks in a trenchcoat",
-		["ru"] = "Audio Plugin - Библиотека для воспроизведения пользовательских звуковых файлов и подключения/воспроизведения событий Wwise. В настройках Darktide Mod Framework должны быть включены «Режим разработчика» и «Показать консоль разработчика».\nАвтор: Seventeen ducks in a trenchcoat",
-    ["zh-cn"] = "用于播放自定义音频文件并挂钩/播放 WWise 事件的公共库。Darktide Mod Framework 选项中必须启用“开发者模式”和“显示开发者控制台”。\n\n作者：Seventeen ducks in a trenchcoat",
+		["en"] = "Library for playing custom sound files and hooking/playing Wwise events. Developer Mode and Show Developer Console must be On in Darktide Mod Framework options.\n\nAuthor: Seventeen ducks",
+		["ru"] = "Audio Plugin - Библиотека для воспроизведения пользовательских звуковых файлов и подключения/воспроизведения событий Wwise. В настройках Darktide Mod Framework должны быть включены «Режим разработчика» и «Показать консоль разработчика».\nАвтор: Seventeen ducks",
+    ["zh-cn"] = "用于播放自定义音频文件并挂钩/播放 WWise 事件的公共库。Darktide Mod Framework 选项中必须启用“开发者模式”和“显示开发者控制台”。\n\n作者：Seventeen ducks",
 	},
 	log_errors = {
 		["en"] = "Log errors",

@@ -8,8 +8,8 @@ return {
 		["zh-cn"] = "帝皇的意志（单人模式增强）",
 	},
 	mod_description = {
-		["en"] = "Enact The Emperor's will in clientside maps (Psykhanium, Prologue, Solo Play) and enable a cornucopia of bestowments.\n\nAuthor: Seventeen ducks in a trenchcoat",
-		["zh-cn"] = "在本地地图中（灵能室、序章、单人任务）执行帝皇的意志，并启用一系列帝皇赐福。\n\n作者：Seventeen ducks in a trenchcoat",
+		["en"] = "Enact The Emperor's will in clientside maps (Psykhanium, Prologue, Solo Play) and enable a cornucopia of bestowments.\n\nAuthor: Seventeen ducks",
+		["zh-cn"] = "在本地地图中（灵能室、序章、单人任务）执行帝皇的意志，并启用一系列帝皇赐福。\n\n作者：Seventeen ducks",
 	},
 	god_emperor_mode = {
 		["en"] = "God-Emperor mode",

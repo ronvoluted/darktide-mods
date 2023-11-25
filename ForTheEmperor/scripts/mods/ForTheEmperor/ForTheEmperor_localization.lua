@@ -4,8 +4,8 @@ local localizations = {
 		["zh-cn"] = "为了帝皇！",
 	},
 	mod_description = {
-		["en"] = "Shout words of camaraderie, Yes, No and Help from the comms wheel, fully customisable by dragging with right-click. Also adds keybinds and replaces greedy voicelines when re-tagging. \n\nAuthor: Seventeen ducks in a trenchcoat",
-		["zh-cn"] = "通过标签轮盘喊出“是”、“否”、“需要帮助”等友谊之词，可通过右键点击完全自定义。同时添加快捷键，并替换重复标记时的贪婪语音。\n\n作者：Seventeen ducks in a trenchcoat",
+		["en"] = "Shout words of camaraderie, Yes, No and Help from the comms wheel, fully customisable by dragging with right-click. Also adds keybinds and replaces greedy voicelines when re-tagging. \n\nAuthor: Seventeen ducks",
+		["zh-cn"] = "通过标签轮盘喊出“是”、“否”、“需要帮助”等友谊之词，可通过右键点击完全自定义。同时添加快捷键，并替换重复标记时的贪婪语音。\n\n作者：Seventeen ducks",
 	},
 	options = {
 		["en"] = "Options",

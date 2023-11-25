@@ -4,8 +4,8 @@ return {
 		["zh-cn"] = "电梯音乐",
 	},
 	mod_description = {
-		["en"] = "In the grim darkness of the far future— somehow, muzak has returned. Developer Mode and Show Developer Console must be On in Darktide Mod Framework options.\n\nAuthor: Seventeen ducks in a trenchcoat",
-		["zh-cn"] = "在遥远未来的严酷黑暗中——不知何故，电梯音乐（穆扎克）归来了。Darktide Mod Framework 选项中必须启用“开发者模式”和“显示开发者控制台”。\n\n作者：Seventeen ducks in a trenchcoat",
+		["en"] = "In the grim darkness of the far future— somehow, muzak has returned. Developer Mode and Show Developer Console must be On in Darktide Mod Framework options.\n\nAuthor: Seventeen ducks",
+		["zh-cn"] = "在遥远未来的严酷黑暗中——不知何故，电梯音乐（穆扎克）归来了。Darktide Mod Framework 选项中必须启用“开发者模式”和“显示开发者控制台”。\n\n作者：Seventeen ducks",
 	},
 	muzak_volume = {
 		["en"] = "Muzak volume",
