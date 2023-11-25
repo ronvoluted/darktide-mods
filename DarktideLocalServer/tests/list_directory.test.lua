@@ -1,9 +1,9 @@
-local LocalServer = get_mod("Audio")
+local DLS = get_mod("Audio")
 
 local list_dir = {
 	description = "list contents of Darktide Local Server scripts",
 	async_fun = function()
-		return LocalServer.list_directory(
+		return DLS.list_directory(
 			"C:/Program Files (x86)/Steam/steamapps/common/Warhammer 40,000 DARKTIDE/mods/DarktideLocalServer/scripts/mods/DarktideLocalServer"
 		):next(function(contents)
 			return type(contents) == "table"
@@ -18,7 +18,7 @@ local list_dir = {
 local list_special_dir_name = {
 	description = "list contents of directory containing spaces and special chars",
 	async_fun = function()
-		return LocalServer.list_directory(
+		return DLS.list_directory(
 			"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\tests\\big E says !@#$%^&*()_+"
 		):next(function(contents)
 			return type(contents) == "table" and table.contains(contents, "a.txt") and table.contains(contents, "b.rs")
@@ -30,7 +30,7 @@ local list_special_dir_name = {
 local list_dir_info = {
 	description = "list contents with subdirectories and general and audio info",
 	async_fun = function()
-		return LocalServer.list_directory(
+		return DLS.list_directory(
 			"C:/Program Files (x86)/Steam/steamapps/common/Warhammer 40,000 DARKTIDE/mods/Audio/audio",
 			true,
 			true
@@ -51,7 +51,7 @@ local list_dir_info = {
 local darktide_only = {
 	description = "return nil if path is not a subdirectory of Darktide",
 	async_fun = function()
-		return LocalServer.list_directory("C:/Program Files"):next(function(contents)
+		return DLS.list_directory("C:/Program Files"):next(function(contents)
 			if type(contents) == "nil" then
 				return true
 			end
@@ -60,7 +60,7 @@ local darktide_only = {
 	expected = true,
 }
 
-LocalServer._tests.suites["list_directory"] = {
+DLS._tests.suites["list_directory"] = {
 	description = "Listing directories",
 	tests = {
 		list_dir,

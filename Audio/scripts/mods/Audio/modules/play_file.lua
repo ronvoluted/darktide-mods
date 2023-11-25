@@ -1,5 +1,5 @@
 local Audio = get_mod("Audio")
-local LocalServer
+local DLS
 
 local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
 local get_userdata_type = utilities.get_userdata_type
@@ -185,7 +185,7 @@ Audio.play_file = function(
 		track_status = playback_settings.track_status or nil,
 	}
 
-	LocalServer.run_command(command)
+	DLS.run_command(command)
 		:next(function(response)
 			local result = cjson.decode(response.body)
 
@@ -223,7 +223,7 @@ Audio.stop_file = function(play_file_id)
 	if not play_file_id then
 		for _, played_file in pairs(played_files) do
 			if played_file.pid then
-				LocalServer.stop_process(played_file.pid)
+				DLS.stop_process(played_file.pid)
 				played_file.status = PLAY_STATUS.stopped
 			end
 		end
@@ -233,7 +233,7 @@ Audio.stop_file = function(play_file_id)
 
 	local pid = play_file_id and played_files[play_file_id] and played_files[play_file_id].pid
 
-	LocalServer.stop_process(pid)
+	DLS.stop_process(pid)
 
 	local file = played_files[play_file_id]
 
@@ -261,9 +261,9 @@ Audio.is_file_playing = function(play_file_id)
 end
 
 Audio.mods_loaded_functions["play_file"] = function()
-	LocalServer = get_mod("DarktideLocalServer")
+	DLS = get_mod("DarktideLocalServer")
 
-	if not LocalServer then
+	if not DLS then
 		Audio:echo(
 			'Required mod "Darktide Local Server" not found: Download from Nexus Mods and make sure it is in your mod_load_order.txt'
 		)
@@ -295,7 +295,7 @@ Audio.update_functions["play_file"] = function(dt)
 		-- If the played_file has a PID, it means the promise in play_file() was successful and an
 		-- ffplay_dt instance launched
 		if track_status and pid and played_file.status ~= PLAY_STATUS.stopped then
-			local request = LocalServer.process_is_running(pid)
+			local request = DLS.process_is_running(pid)
 			request:next(function(response)
 				if response.body.process_is_running == false then
 					played_files[play_file_id].status = PLAY_STATUS.stopped

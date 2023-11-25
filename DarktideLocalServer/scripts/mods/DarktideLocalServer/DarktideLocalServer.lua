@@ -1,4 +1,4 @@
-local LocalServer = get_mod("DarktideLocalServer")
+local DLS = get_mod("DarktideLocalServer")
 
 --[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
 
@@ -24,7 +24,7 @@ local binaries_path = binaries_path_handle:read()
 binaries_path_handle:close()
 local bin_path = table.concat({
 	binaries_path:gsub("binaries", "mods"),
-	LocalServer:get_name(),
+	DLS:get_name(),
 	"bin",
 }, "\\")
 
@@ -42,16 +42,16 @@ local run_endpoint = host .. "run"
 local process_is_running_endpoint = host .. "process_running"
 local stop_process_endpoint = host .. "stop_process"
 
-LocalServer.get_port = function()
+DLS.get_port = function()
 	return port
 end
 
-LocalServer.get_image = function(path)
+DLS.get_image = function(path)
 	local encoded_path = Http.url_encode(path)
 	local image_url = string.format("%s?path=%s", image_endpoint, encoded_path)
 
 	local image = Managers.url_loader:load_texture(image_url):catch(function(error)
-		LocalServer:dump({
+		DLS:dump({
 			url = image_url,
 			path = encoded_path,
 			status = error.status,
@@ -72,7 +72,7 @@ end
 ---@param audio_info boolean Include info for audio files
 ---@param image_info boolean Include info for image files
 ---@return Promise table Contents of the directory. Will be a nested table if `sub_directories` or any `_info` parameters are true
-LocalServer.list_directory = function(path, sub_directories, general_info, audio_info, image_info)
+DLS.list_directory = function(path, sub_directories, general_info, audio_info, image_info)
 	local encoded_path = Http.url_encode(path)
 
 	local list_url = BackendUtilities.url_builder(string.format(list_directory_endpoint, port))
@@ -89,7 +89,7 @@ LocalServer.list_directory = function(path, sub_directories, general_info, audio
 			return response.body.contents
 		end)
 		:catch(function(error)
-			LocalServer:dump({
+			DLS:dump({
 				url = list_url,
 				path = path,
 				status = error.status,
@@ -101,7 +101,7 @@ LocalServer.list_directory = function(path, sub_directories, general_info, audio
 		end)
 end
 
-LocalServer.run_command = function(command)
+DLS.run_command = function(command)
 	local request = Managers.backend:url_request(run_endpoint, {
 		method = "POST",
 		body = { command = command },
@@ -110,10 +110,10 @@ LocalServer.run_command = function(command)
 	return request
 end
 
-LocalServer.process_is_running = function(pid)
+DLS.process_is_running = function(pid)
 	return Managers.backend:url_request(string.format("%s?pid=%s", process_is_running_endpoint, pid))
 end
 
-LocalServer.stop_process = function(pid)
+DLS.stop_process = function(pid)
 	Managers.backend:url_request(string.format("%s?pid=%s", stop_process_endpoint, pid))
 end

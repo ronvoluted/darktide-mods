@@ -95,10 +95,10 @@ mod:hook_safe(CinematicSceneSystem, "_play_cutscene", function(self, cinematic_n
 end)
 
 mod.on_all_mods_loaded = function()
-	local LocalServer = get_mod("DarktideLocalServer")
+	local DLS = get_mod("DarktideLocalServer")
 	Audio = get_mod("Audio")
 
-	if not LocalServer then
+	if not DLS then
 		mod:echo(
 			'Required mod "DarktideLocalServer" not found: Download from Nexus Mods and make sure it is in mod_load_order.txt'
 		)
@@ -108,7 +108,7 @@ mod.on_all_mods_loaded = function()
 		mod:echo('Required mod "Audio" not found: Download from Nexus Mods and make sure it is in mod_load_order.txt')
 	end
 
-	if not Audio or not LocalServer then
+	if not Audio or not DLS then
 		mod:disable_all_hooks()
 		mod:disable_all_commands()
 	end
