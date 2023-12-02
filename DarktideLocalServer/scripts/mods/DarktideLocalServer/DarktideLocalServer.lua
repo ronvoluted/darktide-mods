@@ -42,6 +42,42 @@ local run_endpoint = host .. "run"
 local process_is_running_endpoint = host .. "process_running"
 local stop_process_endpoint = host .. "stop_process"
 
+local walk_contents
+
+---Coerce number-string keys to numbers and accumulate flat lookup table
+---@param table_ table Input table to process, or table persisted throughout the recursion
+---@param path_prefix? string Path prefix to prepend to each file's path
+---@param lookup_table table | nil Lookup table persisted throughout the recursion
+---@return table output_table Copy of input table with number-string keys coerced to numbers
+---@return table lookup_table Lookup table with each of output_table's files indexed
+walk_contents = function(table_, path_prefix, lookup_table)
+	local output_table = {}
+	lookup_table = lookup_table or {}
+
+	for key, value in pairs(table_) do
+		key = tonumber(key) or key
+
+		output_table[key] = value
+
+		if type(value) == "table" then
+			if value.file_path then
+				if path_prefix then
+					value.file_path = path_prefix .. "/" .. value.file_path
+				end
+
+				local index = #lookup_table + 1
+
+				lookup_table[index] = output_table[key]
+				output_table[key].lookup_index = index
+			end
+
+			output_table[key] = walk_contents(value, path_prefix, lookup_table)
+		end
+	end
+
+	return output_table, lookup_table
+end
+
 DLS.get_port = function()
 	return port
 end
@@ -68,11 +104,12 @@ end
 ---List the contents of a directory. Will fail if not a subdirectory of Darktide.
 ---@param path string Directory to query
 ---@param sub_directories boolean Include subdirectories
----@param general_info boolean Include general info
----@param audio_info boolean Include info for audio files
----@param image_info boolean Include info for image files
+---@param general_info boolean Include general metadata in contents
+---@param audio_info boolean If audio metadata detected, include file and info in contents
+---@param image_info boolean If width/height metadata detected, include file and info in contents
+---@param path_prefix string If provided, will be prepended to each file's path
 ---@return Promise table Contents of the directory. Will be a nested table if `sub_directories` or any `_info` parameters are true
-DLS.list_directory = function(path, sub_directories, general_info, audio_info, image_info)
+DLS.list_directory = function(path, sub_directories, general_info, audio_info, image_info, path_prefix)
 	local encoded_path = Http.url_encode(path)
 
 	local list_url = BackendUtilities.url_builder(string.format(list_directory_endpoint, port))
@@ -86,7 +123,17 @@ DLS.list_directory = function(path, sub_directories, general_info, audio_info, i
 	return Managers.backend
 		:url_request(list_url)
 		:next(function(response)
+		local is_nested = sub_directories and (general_info or audio_info or image_info)
+
+		if is_nested then
+			local output_table, lookup_table = walk_contents(response.body.contents, path_prefix)
+
+			setmetatable(output_table, lookup_table)
+
+			return output_table
+		else
 			return response.body.contents
+		end
 		end)
 		:catch(function(error)
 			DLS:dump({
