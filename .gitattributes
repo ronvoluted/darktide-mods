@@ -1,0 +1,30 @@
+# Default
+* text=auto
+
+# Windows CRLF
+*.bat text eol=crlf
+*.lua text eol=crlf
+*.mod text eol=crlf
+*.txt text eol=crlf
+
+# Cross-platform LF
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+LICENSE text eol=lf
+
+# Binary
+*.7z binary
+*.bmp binary
+*.exe binary
+*.dds binary
+*.gif binary
+*.jpg binary
+*.mp3 binary
+*.ogg binary
+*.opus binary
+*.pdf binary
+*.png binary
+*.psd binary
+*.wav binary
+*.zip binary
