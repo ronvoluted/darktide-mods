@@ -10,6 +10,7 @@ Audio.update_functions = {}
 
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/path_utilities")
+Audio:io_dofile("Audio/scripts/mods/Audio/modules/audio_files_handler")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/play_file")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/wwise_hooks")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/wwise_playback")
