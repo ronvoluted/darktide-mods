@@ -103,11 +103,11 @@ end
 
 ---List the contents of a directory. Will fail if not a subdirectory of Darktide.
 ---@param path string Directory to query
----@param sub_directories boolean Include subdirectories
----@param general_info boolean Include general metadata in contents
----@param audio_info boolean If audio metadata detected, include file and info in contents
----@param image_info boolean If width/height metadata detected, include file and info in contents
----@param path_prefix string If provided, will be prepended to each file's path
+---@param sub_directories? boolean Include subdirectories
+---@param general_info? boolean Include general metadata in contents
+---@param audio_info? boolean If audio metadata detected, include file and info in contents
+---@param image_info? boolean If width/height metadata detected, include file and info in contents
+---@param path_prefix? string If provided, will be prepended to each file's path
 ---@return Promise table Contents of the directory. Will be a nested table if `sub_directories` or any `_info` parameters are true
 DLS.list_directory = function(path, sub_directories, general_info, audio_info, image_info, path_prefix)
 	local encoded_path = Http.url_encode(path)

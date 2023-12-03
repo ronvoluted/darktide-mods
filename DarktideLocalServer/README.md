@@ -20,12 +20,12 @@ In Lua we have access to `os.execute` and `io.popen` but both of them are blocki
 
 ### Initialise mod
 ```lua
-local LocalServer
+local DLS
 
 mod.on_all_mods_loaded = function()
-	LocalServer = get_mod("DarktideLocalServer")
+	DLS = get_mod("DarktideLocalServer")
 
-	if not LocalServer then
+	if not DLS then
 		mod:echo(
 			'Required mod "Darktide Local Server" not found: Download from Nexus Mods and include in mod_load_order.txt'
 		)
@@ -40,10 +40,10 @@ end
 >
 > ![Windows Firewall Allow DarktideLocalServer](https://github.com/ronvoluted/darktide-mods/blob/main/DarktideLocalServer/WindowsFirewall.png?raw=true)
 
-### Images
+### Fetch images locally
 
 ```lua
-LocalServer.get_image(path)
+DLS.get_image(path)
 ```
 
 This is a wrapper around `Managers.url_loader.load_texture` so if you were previously using something like this:
@@ -53,13 +53,96 @@ local texture_promise = Managers.url_loader:load_texture("https://webservertextu
 
 You can now use this to load an image locally:
 ```lua
-local texture_promise = LocalServer.get_image("C:/textures/ForTheEmperor.png")
+local texture_promise = DLS.get_image("C:/textures/ForTheEmperor.png")
 ```
 
-### Commands
+### List directory contents
+
+> [!IMPORTANT]
+> The server will only list the contents of Darktide/mods folders and will otherwise fail
 
 ```lua
-LocalServer.run_command(command)
+DLS.list_directory(
+	"C:/Program Files (x86)/Steam/steamapps/common/Warhammer 40,000 DARKTIDE/mods/ForTheEmperor/scripts/mods/ForTheEmperor",
+	true -- Navigate subdirectories
+):next(function(contents)
+	-- do something with `contents`
+end)
+```
+
+The value of `contents` would be:
+```
+{
+  "ForTheEmperor.lua"
+  "ForTheEmperor_data.lua"
+  "ForTheEmperor_localization.lua"
+  "modules/add_strings.lua"
+  "modules/custom_entry_actions.lua"
+  "modules/dibs_option.lua"
+  "modules/need_help.lua"
+  "modules/wheel_options.lua"
+}
+```
+
+#### Using all parameters
+
+> ![TIP]
+> See the [function's definition for full docstrings](https://github.com/ronvoluted/darktide-mods/blob/main/DarktideLocalServer/scripts/mods/DarktideLocalServer/DarktideLocalServer.lua#L104-L112).
+
+```lua
+DLS.list_directory(
+	"C:/Program Files (x86)/Steam/steamapps/common/Warhammer 40,000 DARKTIDE/mods/SomeMod",
+	true, -- Navigate subdirectories
+	true, -- Include general metadata
+	true, -- Include files if they have audio MIME type and include metad
+	true, -- Include files if they have image MIME type and include metadata
+	"TheBigE", -- prepend this to all `file_path`s
+):next(function(contents)
+	DLS:dump(contents, "contents", 99)
+end)
+```
+
+Example dump (truncated here for brevity) of text, audio and image contents and subdirectories with metadata:
+```
+<contents>
+	[1] = table
+		[lookup_index] = 3 (number)
+		[file_path] = TheBigE/magnum_6.ogg (string)
+		[channels] = 2 (number)
+		[duration] = 2.489990234375 (number)
+		[sample_rate] = 44100 (number)
+		[artist] = Clint Eastwood (string)
+		[title] = Magnum Gunshot 6 (string)
+		[album] = Weapon SFX Collection 40K (string)
+		[track] = 6 (number)
+	[2] = table
+		[width] = 1920 (number)
+		[height] = 804 (number)
+		[last_modified] = 1686065582 (number)
+		[file_size] = 402 (number)
+		[lookup_index] = 2 (number)
+		[file_path] = TheBigE/WillOfTheEmperor_6.jpg (string)
+		[type] = file (string)
+		[created_at] = 1701083573 (number)
+		[mime_type] = image/jpeg (string)
+	[3] ...
+	[modules] = table
+		[1] = table
+			[last_modified] = 1701500497 (number)
+			[mime_type] = text/x-lua (string)
+			[file_size] = 1 (number)
+			[type] = file (string)
+			[file_path] = TheBigE/modules/add_strings.lua (string)
+			[created_at] = 1701083570 (number)
+			[lookup_index] = 5 (number)
+		[2] ...
+</contents>
+```
+
+### Run whitelisted executables
+
+```lua
+DLS.run_command(command)
 ```
 
 The first argument in `command` must be the path to a whitelisted executable and surrounded by double quotes if it contains spaces. You may need to be mindful of how backslashes `\` and double-quotes `"` are escaped.
@@ -71,15 +154,15 @@ The first argument in `command` must be the path to a whitelisted executable and
 
 ```lua
 -- Open Calculator
-LocalServer.run_command("calculator")
+DLS.run_command("calculator")
 
 -- Handle the response when the promise is fulfilled
-LocalServer.run_command("calculator"):next(function(response)
+DLS.run_command("calculator"):next(function(response)
 	mod:dump(response)
 end)
 
 -- Handle the promise as a reference
-local request = LocalServer.run_command("calculator")
+local request = DLS.run_command("calculator")
 
 requst:next(function(response)
 	mod:dump(response)
@@ -92,14 +175,14 @@ local executable_path = "C:/Program Files (x86)/Steam/steamapps/common/Warhammer
 local video_url = "https://youtube.com/watch?v=9eZOL-S7KGw"
 local retries = 5
 
-LocalServer.run_command(string.format("%s %s --retries %s", executable_path, video_url, retries))
+DLS.run_command(string.format("%s %s --retries %s", executable_path, video_url, retries))
 ```
 
 #### Parse JSON and handle errors
 
 ```lua
 local command = "notepad ForTheEmperor!.txt"
-local promise = LocalServer.run_command(command)
+local promise = DLS.run_command(command)
 
 promise:next(function(result)
 		local response = cjson.decode(result.body)
