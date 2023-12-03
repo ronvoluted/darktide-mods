@@ -9,7 +9,6 @@ Audio.mods_loaded_functions = {}
 Audio.update_functions = {}
 
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
-Audio:io_dofile("Audio/scripts/mods/Audio/modules/path_utilities")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/audio_files_handler")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/play_file")
 Audio:io_dofile("Audio/scripts/mods/Audio/modules/wwise_hooks")
@@ -25,6 +24,8 @@ Audio.on_all_mods_loaded = function()
 	for _, fun in pairs(Audio.mods_loaded_functions) do
 		fun()
 	end
+
+	-- get_mod("Tests").run(Audio) -- Uncomment to run tests in 'watch mode'
 end
 
 Audio.update = function(dt)

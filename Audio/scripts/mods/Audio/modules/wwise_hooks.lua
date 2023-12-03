@@ -1,7 +1,7 @@
 local Audio = get_mod("Audio")
+local DLS = get_mod("DarktideLocalServer")
 -- local Tools = get_mod("Tools")
 local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
-local function_caller_mod_name = utilities.function_caller_mod_name
 local get_userdata_type = utilities.get_userdata_type
 
 local SOUND_TYPE = table.enum(
@@ -98,7 +98,7 @@ Audio.hook_sound = function(pattern, callback)
 		setmetatable(hooks[pattern], {})
 	end
 
-	hooks[pattern][function_caller_mod_name()] = callback
+	hooks[pattern][DLS.function_caller_mod_name()] = callback
 end
 
 local run_hooks = function(sound_type, sound_name, position_or_unit_or_id, optional_a, optional_b)

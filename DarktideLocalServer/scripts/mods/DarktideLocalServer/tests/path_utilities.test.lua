@@ -1,9 +1,9 @@
-local Audio = get_mod("Audio")
+local DLS = get_mod("DarktideLocalServer")
 
 local root_path = {
 	description = "return Darktide folder",
-	fun = function(suite_setup_value, test_setup_value)
-		return Audio.get_darktide_path()
+	fun = function()
+		return DLS.get_darktide_path()
 	end,
 	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE",
 }
@@ -11,7 +11,7 @@ local root_path = {
 local mods_path = {
 	description = "return mods folder",
 	fun = function()
-		return Audio.get_root_mods_path()
+		return DLS.get_root_mods_path()
 	end,
 	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods",
 }
@@ -19,52 +19,52 @@ local mods_path = {
 local mod_path = {
 	description = "return current mod's root folder",
 	fun = function()
-		return Audio.get_mod_path(Audio)
+		return DLS.get_mod_path(DLS)
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer",
 }
 
 local mod_path_relative = {
 	description = "return a path relative current mod's root folder",
 	fun = function()
-		return Audio.get_mod_path(Audio, "ribbit/diary.md")
+		return DLS.get_mod_path(DLS, "ribbit/diary.md")
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\ribbit\\diary.md",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\ribbit\\diary.md",
 }
 
 local filename_beginning_with_mod_name = {
 	description = 'resolve filename beginning with mod name to "/audio" folder',
 	fun = function()
-		return Audio.absolute_path("Audio_file.opus")
+		return DLS.absolute_path("Audio_file.opus")
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\audio\\Audio_file.opus",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\audio\\Audio_file.opus",
 }
 
 local absolute_filename = {
 	description = 'resolve filename to absolute path inside "/audio" folder',
 	fun = function()
-		return Audio.absolute_path("melody.wav")
+		return DLS.absolute_path("melody.wav")
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\audio\\melody.wav",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\audio\\melody.wav",
 }
 
 local absolute_relative = {
 	description = "resolve relative path to absolute path inside outer mod folder",
 	fun = function()
-		return Audio.absolute_path("Audio\\potato\\chips\\chicken.jpg")
+		return DLS.absolute_path("DarktideLocalServer\\potato\\chips\\chicken.jpg")
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\Audio\\potato\\chips\\chicken.jpg",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\potato\\chips\\chicken.jpg",
 }
 
 local absolute_unchanged = {
 	description = "return absolute path unchanged",
 	fun = function()
-		return Audio.absolute_path("C:\\Windows\\explorer.exe")
+		return DLS.absolute_path("C:\\Windows\\explorer.exe")
 	end,
 	expected = "C:\\Windows\\explorer.exe",
 }
 
-Audio._tests.suites["path_utilities"] = {
+DLS._tests.suites["path_utilities"] = {
 	description = "Path utilities",
 	tests = {
 		root_path,

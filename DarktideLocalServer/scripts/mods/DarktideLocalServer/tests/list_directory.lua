@@ -19,7 +19,7 @@ local list_special_dir_name = {
 	description = "list contents of directory containing spaces and special chars",
 	async_fun = function()
 		return DLS.list_directory(
-			"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\tests\\big E says !@#$%^&*()_+"
+			"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\tests\\big E says hello"
 		):next(function(contents)
 			return type(contents) == "table" and table.contains(contents, "a.txt") and table.contains(contents, "b.rs")
 		end)

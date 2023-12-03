@@ -1,16 +1,7 @@
 local Audio = get_mod("Audio")
 local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
-local function_caller_mod_name = utilities.function_caller_mod_name
 local get_delay_seconds = utilities.get_delay_seconds
 local get_userdata_type = utilities.get_userdata_type
-
-local caller_mod = {
-	description = "returns the name of the current mod",
-	fun = function()
-		return function_caller_mod_name()
-	end,
-	expected = "Tests",
-}
 
 local get_delay = {
 	description = "extract mininum delay from `adelay`",
@@ -44,7 +35,6 @@ local userdata_unit = {
 Audio._tests.suites["utilities"] = {
 	description = "Utilities",
 	tests = {
-		caller_mod,
 		get_delay,
 		userdata_vector3,
 		userdata_unit,

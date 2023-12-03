@@ -1,11 +1,11 @@
 local Audio = get_mod("Audio")
-local DLS
+local DLS = get_mod("DarktideLocalServer")
 
 local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
 local get_userdata_type = utilities.get_userdata_type
 
 local FFPLAY_FILENAME = "ffplay_dt.exe"
-local FFPLAY_PATH = Audio.get_mod_path(Audio, "bin\\" .. FFPLAY_FILENAME, true)
+local FFPLAY_PATH = DLS.get_mod_path(Audio, "bin\\" .. FFPLAY_FILENAME, true)
 local AUDIO_TYPE = table.enum("dialogue", "music", "sfx")
 local PLAY_STATUS = table.enum("error", "fulfilled", "pending", "playing", "stopped", "success")
 local TRACK_STATUS_INTERVAL = 1
@@ -161,7 +161,7 @@ Audio.play_file = function(
 	local command = string.format(
 		'%s -i "%s" -volume %s -af "pan=stereo|c0=%s*c0|c1=%s*c1 %s %s %s %s %s %s %s %s" %s %s %s -fast -nodisp -autoexit -loglevel quiet -hide_banner',
 		FFPLAY_PATH,
-		Audio.absolute_path(path),
+		DLS.absolute_path(path),
 		final_volume,
 		left_volume,
 		right_volume,
@@ -261,8 +261,6 @@ Audio.is_file_playing = function(play_file_id)
 end
 
 Audio.mods_loaded_functions["play_file"] = function()
-	DLS = get_mod("DarktideLocalServer")
-
 	if not DLS then
 		Audio:echo(
 			'Required mod "Darktide Local Server" not found: Download from Nexus Mods and make sure it is in your mod_load_order.txt'
@@ -270,8 +268,6 @@ Audio.mods_loaded_functions["play_file"] = function()
 		Audio:disable_all_hooks()
 		Audio:disable_all_commands()
 	end
-
-	-- get_mod("Tests").run(Audio) -- Uncomment to run tests in 'watch mode'
 end
 
 Audio.settings_changed_functions["play_file"] = function(setting_name)
