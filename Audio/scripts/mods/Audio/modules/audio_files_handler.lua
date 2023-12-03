@@ -34,11 +34,18 @@ AudioFilesHandler.init = function(self, path, sub_directory_override, placeholde
 	self._path = path
 	self._path_root = sub_directory_override and sub_directory_override:gsub("/", ""):gsub("\\", "") or nil
 	self._files = {}
+	self._lookup_table = {}
 	self._cursor_index = 1
 
-	table.map(placeholder_table, function(placeholder)
-		return placeholder.file_path and placeholder or { name = placeholder }
-	end, self._files)
+	if placeholder_table then
+		table.map(placeholder_table, function(placeholder)
+			local entry = placeholder.file_path and placeholder or { name = placeholder }
+
+			self._lookup_table[#self._lookup_table + 1] = entry
+
+			return entry
+		end, self._files)
+	end
 
 	DLS.list_directory(self._path, true, nil, true, nil, self._path_root):next(function(contents)
 		self._files = contents
@@ -55,12 +62,16 @@ AudioFilesHandler.count = function(self)
 	return self._files_length
 end
 
-AudioFilesHandler.cursor_index = function(self)
-	return self._cursor_index
+AudioFilesHandler.lookup = function(self, lookup_index, return_with_metadata)
+	if not lookup_index then
+		return self._lookup_table
+	end
+
+	return return_with_metadata and self._lookup_table[lookup_index] or self._lookup_table[lookup_index].file_path
 end
 
-AudioFilesHandler.lookup = function(self, lookup_index, return_with_metadata)
-	return return_with_metadata and self._lookup_table[lookup_index] or self._lookup_table[lookup_index].file_path
+AudioFilesHandler.cursor_index = function(self)
+	return self._cursor_index
 end
 
 AudioFilesHandler.current = function(self, return_with_metadata)
@@ -99,6 +110,12 @@ AudioFilesHandler.random = function(self, sub_directory_path, return_with_metada
 	return return_with_metadata and sub_directory_table[randomIndex] or sub_directory_table[randomIndex].file_path
 end
 
+--[[
+	This wrapper around `Class:new()` is required to determine which mod was the originating caller. Under the hood,
+	`absolute_path` uses `function_caller_mod_name()` to determine the path to the mod's directory. That path must
+	be initialised here and not inside the init function. This is so that it resolves to the calling mod's directory
+  and not Audio's directory, which would be the case if the other mod directly called `AudioFilesHandler:new()`.
+]]
 Audio.new_files_handler = function(placeholder_table, sub_directory_override)
 	return AudioFilesHandler:new(
 		Audio.absolute_path(sub_directory_override or ""),
