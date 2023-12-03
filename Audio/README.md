@@ -95,34 +95,34 @@ end
     <summary><a href="#working-with-directories-using-file-handler">Working with directories using file handler</a></summary>
     <ul>
       <li>
-        <a href="#">Initialising the file handler</a>
+        <a href="#initialising-the-file-handler">Initialising the file handler</a>
       </li>
       <li>
-        <a href="#">List contents of the root directory</a>
+        <a href="#list-contents-of-the-root-directory">List contents of the root directory</a>
       </li>
       <li>
-        <a href="#">List the contents of a subdirectory of root folder</a>
+        <a href="#list-the-contents-of-a-subdirectory-of-root-folder">List the contents of a subdirectory of root folder</a>
       </li>
       <li>
-        <a href="#">Get count of audio files</a>
+        <a href="#get-count-of-audio-files">Get count of audio files</a>
       </li>
       <li>
-        <a href="#">Get flat lookup table of files</a>
+        <a href="#get-flat-lookup-table-of-files">Get flat lookup table of files</a>
       </li>
       <li>
-        <a href="#">Lookup a file via <code>lookup_index</code></a>
+        <a href="#lookup-a-file-via-lookup_index">Lookup a file via <code>lookup_index</code></a>
       </li>
       <li>
-        <a href="#">Lookup a file via <code>lookup_index</code> and return with metadata</a>
+        <a href="#lookup-a-file-via-lookup_index-and-return-with-metadata">Lookup a file via <code>lookup_index</code> and return with metadata</a>
       </li>
       <li>
-        <a href="#">Play a random file</a>
+        <a href="#play-a-random-file">Play a random file</a>
       </li>
       <li>
-        <a href="#">Get a random file and return with metadata</a>
+        <a href="#get-a-random-file-and-return-with-metadata">Get a random file and return with metadata</a>
       </li>
       <li>
-        <a href="#">Iterate over files</a>
+        <a href="#iterate-over-files">Iterate over files</a>
       </li>
     </ul>
   </details></li>
@@ -481,7 +481,7 @@ mod:dump(audio_files:list("sfx/gunshots"), 'contents of "audio/sfx/gunshots" fol
 </contents of "audio/sfx/gunshots" folder>
 ```
 
-### Get count of audio files
+#### Get count of audio files
 
 ```lua
 local num_audio_files = audio_files:count() -- 3
