@@ -74,8 +74,10 @@ DLS.absolute_path = function(path, working_directory, surround_quotes)
 
 	if string.starts_with(path, caller_mod_name .. "/") or string.starts_with(path, caller_mod_name .. "\\") then
 		absolute_path = string.format("%s\\%s", root_mods_path, path)
-	else
+	elseif caller_mod_name == "Audio" then
 		absolute_path = string.format("%s\\%s\\audio\\%s", root_mods_path, caller_mod_name, path)
+	else
+		absolute_path = string.format("%s\\%s\\%s", root_mods_path, caller_mod_name, path)
 	end
 
 	return double_quote(absolute_path, surround_quotes)
