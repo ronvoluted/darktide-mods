@@ -92,6 +92,42 @@ end
   </li>
 
   <li><details>
+    <summary><a href="#working-with-directories-using-file-handler">Working with directories using file handler</a></summary>
+    <ul>
+      <li>
+        <a href="#">Initialising the file handler</a>
+      </li>
+      <li>
+        <a href="#">List contents of the root directory</a>
+      </li>
+      <li>
+        <a href="#">List the contents of a subdirectory of root folder</a>
+      </li>
+      <li>
+        <a href="#">Get count of audio files</a>
+      </li>
+      <li>
+        <a href="#">Get flat lookup table of files</a>
+      </li>
+      <li>
+        <a href="#">Lookup a file via <code>lookup_index</code></a>
+      </li>
+      <li>
+        <a href="#">Lookup a file via <code>lookup_index</code> and return with metadata</a>
+      </li>
+      <li>
+        <a href="#">Play a random file</a>
+      </li>
+      <li>
+        <a href="#">Get a random file and return with metadata</a>
+      </li>
+      <li>
+        <a href="#">Iterate over files</a>
+      </li>
+    </ul>
+  </details></li>
+
+  <li><details>
     <summary><a href="#hooking-wwise-sounds">Hooking Wwise sounds</a></summary>
     <ul>
       <li>
@@ -231,7 +267,7 @@ Besides `audio_type` and `track_status`, all the keys of `playback_settings` cor
 - **override_position** `Vector3`: Position if you want to use a listener different to player for calculating volume/panning
 - **override_rotation** `Quaternion`: Set a custom listening rotation (e.g. if player is upside down) or use to align `override_position`
 
-**return**
+**return:**
 - play_file_id `number`: Reference ID for this play instance, used with `stop_file(play_file_id)` and `is_file_playing(play_file_id)`
 - command `string`: The constructed CLI command sent to ffplay
 
@@ -347,8 +383,201 @@ Audio.play_file("C:/Program Files (x86)/Steam/steamapps/common/Warhammer 40,000 
 Audio.play_file("MyMod/arbitrary_folder/quack.mp3")
 ```
 
-> **Warning**
-> Currently "YourModName.mp3" will resolve to ".../Warhammer 40,000 DARKTIDE/mods/YourModName.mp3". This is a bug and will be fixed.
+### Working with directories using file handler
+
+If you have many files to play you may not want to hardcode the paths to all of them, or you may not even know what they will be in advance if you allow players to add their own audio. You can use `new_files_handler()` to read a directory's audio contents, get metadata, lookup a flat table of all files or play random files.
+
+```lua
+Audio.new_files_handler(placeholder_table, sub_directory_override)
+```
+
+- **placeholder_table** `table`: Optional list of files to fallback to before promise fulfills
+- **sub_directory_override** `string`: Optional. If provided, will read from subdirectory of "audio"
+
+**return** `AudioFilesHandler`: An initialised instance of the `AudioFilesHandler` class
+
+#### Initialising the file handler
+
+```lua
+local audio_files
+
+mod.on_all_mods_loaded = function()
+  audio_files = Audio.new_files_handler()
+end
+```
+
+This will create a handle to the audio files in your mod's "audio" directory. e.g. "...Warhammer 40,000 DARKTIDE/mods/YourMod/audio". Non-audio files will be ignored.
+
+> **Note**
+> When `AudioFilesHandler` is initialised, its `init` function will await a promise in the background as it reads the directory contents. For reference, scanning a folder of 4,226 files nested in sub directories to find and process 128 audio files took 3 seconds on an SSD.
+
+For the rare circumstance where you need to play files in the first few seconds after mods load, there is an option to provide a `placeholder_table` fallback that will be used before the promise fulfills:
+
+```lua
+audio_files = Audio.new_files_handler({ "woof.wav", "bark.mp3" })
+```
+
+While it's recommended to organise your "audio" folder as the root of your audio files, you can also start the file handler in a subdirectory of "audio" by passing a `sub_directory_override` 2nd parameter:
+
+```lua
+audio_files = Audio.new_files_handler(nil, "sfx/gunshots")
+-- root path will be "...Warhammer 40,000 DARKTIDE/mods/YourMod/audio/sfx/gunshots"
+```
+
+Once initialised, you can access a range of methods on the instance:
+
+#### List contents of the root directory
+
+```lua
+mod:dump(audio_files:list(), 'contents of "audio" folder', 99)
+```
+
+```
+<contents of "audio" folder>
+[1] = table
+  [lookup_index] = 2 (number)
+  [file_path] = bark.mp3 (string)
+  [channels] = 2 (number)
+  [duration] = 1.6119999885559082 (number)
+  [sample_rate] = 44100 (number)
+[2] = table
+  [lookup_index] = 1 (number)
+  [file_path] = woof.wav (string)
+  [channels] = 1 (number)
+  [duration] = 1.0420000553131104 (number)
+  [sample_rate] = 44100 (number)
+[sfx] = table
+  [gunshots] = table
+    [1] = table
+      [lookup_index] = 3 (number)
+      [file_path] = sfx/gunshots/magnum_6.ogg (string)
+      [channels] = 2 (number)
+      [duration] = 2.489990234375 (number)
+      [sample_rate] = 44100 (number)
+      [artist] = Clint Eastwood (string)
+      [title] = Magnum Gunshot 6 (string)
+      [album] = Weapon SFX Collection 40K (string)
+      [track] = 6 (number)
+</contents of "audio" folder>
+```
+
+#### List the contents of a subdirectory of root folder
+```lua
+mod:dump(audio_files:list("sfx/gunshots"), 'contents of "audio/sfx/gunshots" folder', 99)
+```
+
+```
+<contents of "audio/sfx/gunshots" folder>
+[1] = table
+  [lookup_index] = 3 (number)
+  [file_path] = sfx/gunshots/magnum_6.ogg (string)
+  [channels] = 2 (number)
+  [duration] = 2.489990234375 (number)
+  [sample_rate] = 44100 (number)
+  [artist] = Clint Eastwood (string)
+  [title] = Magnum Gunshot 6 (string)
+  [album] = Weapon SFX Collection 40K (string)
+  [track] = 6 (number)
+</contents of "audio/sfx/gunshots" folder>
+```
+
+### Get count of audio files
+
+```lua
+local num_audio_files = audio_files:count() -- 3
+```
+
+#### Get flat lookup table of files
+
+In addition to the nested tree structure returned from `audio_files:list()`, a flat table of all files is also generated. This can be simpler to iterate over than the nested table.
+
+```lua
+mod:dump(audio_files:lookup())
+```
+
+```
+[1] = table
+  [lookup_index] = 1 (number)
+  [file_path] = woof.wav (string)
+  [channels] = 1 (number)
+  [duration] = 1.0420000553131104 (number)
+  [sample_rate] = 44100 (number)
+[2] = table
+  [lookup_index] = 2 (number)
+  [file_path] = bark.mp3 (string)
+  [channels] = 2 (number)
+  [duration] = 1.6119999885559082 (number)
+  [sample_rate] = 44100 (number)
+[3] = table
+  [lookup_index] = 3 (number)
+  [file_path] = sfx/gunshots/magnum_6.ogg (string)
+  [channels] = 2 (number)
+  [duration] = 2.489990234375 (number)
+  [sample_rate] = 44100 (number)
+  [artist] = Clint Eastwood (string)
+  [title] = Magnum Gunshot 6 (string)
+  [album] = Weapon SFX Collection 40K (string)
+  [track] = 6 (number)
+```
+
+#### Lookup a file via `lookup_index`
+
+```lua
+print(audio_files:lookup(2)) -- "bark.mp3"
+```
+
+#### Lookup a file via `lookup_index` and return with metadata
+
+```lua
+print(audio_files:lookup(2, true))
+```
+
+```
+[lookup_index] = 2 (number)
+[file_path] = bark.mp3 (string)
+[channels] = 2 (number)
+[duration] = 1.6119999885559082 (number)
+[sample_rate] = 44100 (number)
+```
+
+#### Play a random file
+
+```lua
+Audio.play_file(audio_files:random()) -- any random file in root directory or subdirectories
+Audio.play_file(audio_files:random("sfx")) -- random file in "sfx" subdirectory
+Audio.play_file(audio_files:random("sfx/gunshots")) -- random file in "sfx/gunshots" subdirectory
+```
+
+#### Get a random file and return with metadata
+
+```lua
+local random_file = (audio_files:random(nil, true))
+local random_sfx_file = (audio_files:random("sfx", true))
+local random_gunshot_file = (audio_files:random("sfx/gunshots", true))
+```
+
+#### Iterate over files
+
+Mainly used for debugging.
+
+```lua
+-- return file_path only
+local next_file_path = audio_files:next()
+Audio.play_file(next_file_path)
+
+-- return with metadata
+local next_file = audio_files:next(true)
+Audio.play_file(next_file.file_path)
+mod:dump(next_file)
+
+-- return current file of iterator (with metadata)
+local current_file = audio_files:current(true)
+mod:dump(current_file)
+
+-- return current cursor index of iterator
+local current_cursor_index = audio_files:cursor_index()
+print(current_cursor_index)
+```
 
 ### Hooking Wwise sounds
 
