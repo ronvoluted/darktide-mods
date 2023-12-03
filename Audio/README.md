@@ -408,7 +408,7 @@ end
 
 This will create a handle to the audio files in your mod's "audio" directory. e.g. "...Warhammer 40,000 DARKTIDE/mods/YourMod/audio". Non-audio files will be ignored.
 
-> **Note**
+> [!NOTE]
 > When `AudioFilesHandler` is initialised, its `init` function will await a promise in the background as it reads the directory contents. For reference, scanning a folder of 4,226 files nested in sub directories to find and process 128 audio files took 3 seconds on an SSD.
 
 For the rare circumstance where you need to play files in the first few seconds after mods load, there is an option to provide a `placeholder_table` fallback that will be used before the promise fulfills:
@@ -604,7 +604,7 @@ end)
 ```
 
 
-> **Note**
+> [!TIP]
 > If `play_file()` will be rapidly called within a hook, it's good practice to [debounce](#add-explosions-to-bullet-impacts-debounced-to-01-seconds) the plays using `delta` and a minimum thereshold of 0.1 seconds 
 
 ### Wwise sound events
