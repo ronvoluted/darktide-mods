@@ -25,6 +25,12 @@ return {
 				default_value = false,
 			},
 			{
+				setting_id = "log_silenced",
+				type = "checkbox",
+				tooltip = "log_silenced_tooltip",
+				default_value = true,
+			},
+			{
 				setting_id = "log_wwise_verbose",
 				type = "checkbox",
 				tooltip = "log_wwise_verbose_tooltip",

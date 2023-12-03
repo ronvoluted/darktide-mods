@@ -4,8 +4,6 @@ local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
 local function_caller_mod_name = utilities.function_caller_mod_name
 local get_userdata_type = utilities.get_userdata_type
 
-local log_to_chat = Audio:get("log_to_chat", false)
-
 local SOUND_TYPE = table.enum(
 	"2d_sound",
 	"3d_sound",
@@ -24,6 +22,8 @@ local sound_type_map = {
 	["Unit"] = SOUND_TYPE["unit_sound"],
 }
 
+local log_silenced = Audio:get("log_silenced", false)
+local log_to_chat = Audio:get("log_to_chat", false)
 local log_wwise = Audio:get("log_wwise")
 local log_wwise_ui = Audio:get("log_wwise_ui")
 local log_wwise_common = Audio:get("log_wwise_common")
@@ -144,6 +144,12 @@ Audio.mods_loaded_functions["wwise_hooks"] = function()
 				return
 			end
 
+			local sound_is_silenced = Audio.is_sound_silenced(wwise_event_name)
+
+			if log_silenced and sound_is_silenced then
+				return
+			end
+
 			if
 				log_wwise
 				and not (is_ui_sound and not log_wwise_ui)
@@ -166,7 +172,7 @@ Audio.mods_loaded_functions["wwise_hooks"] = function()
 				end
 			end
 
-			if Audio.is_sound_silenced(wwise_event_name) then
+			if sound_is_silenced then
 				return
 			end
 
@@ -190,33 +196,39 @@ Audio.mods_loaded_functions["wwise_hooks"] = function()
 		DialogueSystemWwise,
 		"trigger_vorbis_external_event",
 		function(fun, self, sound_event, sound_source, file_path, wwise_source_id)
-			local sound_type = SOUND_TYPE.external_sound
-			local sound_name = file_path:gsub("wwise/externals/", "")
+		local sound_type = SOUND_TYPE.external_sound
+		local sound_name = file_path:gsub("wwise/externals/", "")
 
-			local hook_result = run_hooks(sound_type, sound_name, wwise_source_id, sound_event, sound_source)
-			if hook_result == false then
-				return
-			end
+		local hook_result = run_hooks(sound_type, sound_name, wwise_source_id, sound_event, sound_source)
+		if hook_result == false then
+			return
+		end
 
-			if log_wwise then
-				if log_wwise_verbose then
-					Audio:dump({
-						sound_type = sound_type,
-						sound_event = sound_event,
-						sound_source = sound_source,
-						file_path = file_path,
-						wwise_source_id = wwise_source_id,
-					})
+		local sound_is_silenced = Audio.is_sound_silenced(file_path)
+
+		if log_silenced and sound_is_silenced then
+			return
+		end
+
+		if log_wwise then
+			if log_wwise_verbose then
+				Audio:dump({
+					sound_type = sound_type,
+					sound_event = sound_event,
+					sound_source = sound_source,
+					file_path = file_path,
+					wwise_source_id = wwise_source_id,
+				})
+			else
+				if log_to_chat then
+					Audio:echo(file_path)
 				else
-					if log_to_chat then
-						Audio:echo(file_path)
-					else
-						print(file_path, SOUND_TYPE.external_sound)
-					end
+					print(file_path, SOUND_TYPE.external_sound)
 				end
 			end
+		end
 
-			if Audio.is_sound_silenced(file_path) then
+			if sound_is_silenced then
 				return
 			end
 

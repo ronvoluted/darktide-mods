@@ -29,6 +29,12 @@ return {
 		["ru"] = "Это может быстро привести к сбою console_logs из-за сотен серверных команд, сделав их бесполезными. Включайте только в том случае, если вы выполняете отладку.",
     ["zh-cn"] = "这会快速导致崩溃日志 console_logs 被上百条服务器命令填满，通常没有意义。仅应在调试时启用。",
 	},
+	log_silenced = {
+		["en"] = "Include silenced sounds in Wwise logging",
+	},
+	log_silenced_tooltip = {
+		["en"] = "Log voicelines and sound events even if they have been silenced by Audio mods",
+	},
 	log_to_chat = {
 		["en"] = "Log to chat window instead of developer console",
 	},
