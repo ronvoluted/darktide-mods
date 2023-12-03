@@ -86,7 +86,7 @@ The value of `contents` would be:
 
 #### Using all parameters
 
-> ![TIP]
+> [!TIP]
 > See the [function's definition for full docstrings](https://github.com/ronvoluted/darktide-mods/blob/main/DarktideLocalServer/scripts/mods/DarktideLocalServer/DarktideLocalServer.lua#L104-L112).
 
 ```lua
