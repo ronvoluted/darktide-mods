@@ -29,6 +29,12 @@ return {
 		["ru"] = "Это может быстро привести к сбою console_logs из-за сотен серверных команд, сделав их бесполезными. Включайте только в том случае, если вы выполняете отладку.",
     ["zh-cn"] = "这会快速导致崩溃日志 console_logs 被上百条服务器命令填满，通常没有意义。仅应在调试时启用。",
 	},
+	log_to_chat = {
+		["en"] = "Log to chat window instead of developer console",
+	},
+	log_to_chat_tooltip = {
+		["en"] = 'Only the developer console will show sound type (e.g. "source_sound", "3d_sound"). NOTE: Not compatible with "Verbose event logging" option.',
+	},
 	log_wwise = {
 		["en"] = "Log Wwise events and sounds",
 		["ru"] = "Записывать события и звуки Wwise",
@@ -65,7 +71,7 @@ return {
     ["zh-cn"] = "详细事件日志",
 	},
 	log_wwise_verbose_tooltip = {
-		["en"] = "Log a table of all arguments for each event",
+		["en"] = 'Log a table of all arguments for each event. NOTE: Not compatible with "Log to chat window" option.',
 		["ru"] = "Записывать таблицу всех аргументов для каждого события.",
 		["zh-cn"] = "对每个事件，记录包含所有参数的表（table）",
 	},

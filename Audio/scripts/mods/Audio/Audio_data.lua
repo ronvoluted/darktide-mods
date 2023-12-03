@@ -42,6 +42,12 @@ return {
 				tooltip = "log_server_commands_tooltip",
 				default_value = false,
 			},
+			{
+				setting_id = "log_to_chat",
+				type = "checkbox",
+				tooltip = "log_to_chat_tooltip",
+				default_value = false,
+			},
 		},
 	},
 }

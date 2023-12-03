@@ -4,6 +4,8 @@ local utilities = Audio:io_dofile("Audio/scripts/mods/Audio/modules/utilities")
 local function_caller_mod_name = utilities.function_caller_mod_name
 local get_userdata_type = utilities.get_userdata_type
 
+local log_to_chat = Audio:get("log_to_chat", false)
+
 local SOUND_TYPE = table.enum(
 	"2d_sound",
 	"3d_sound",
@@ -156,7 +158,11 @@ Audio.mods_loaded_functions["wwise_hooks"] = function()
 						optional_b = optional_b,
 					})
 				else
-					print(wwise_event_name, sound_type)
+					if log_to_chat then
+						Audio:echo(wwise_event_name)
+					else
+						print(wwise_event_name, sound_type)
+					end
 				end
 			end
 
@@ -202,7 +208,11 @@ Audio.mods_loaded_functions["wwise_hooks"] = function()
 						wwise_source_id = wwise_source_id,
 					})
 				else
-					print(file_path, SOUND_TYPE.external_sound)
+					if log_to_chat then
+						Audio:echo(file_path)
+					else
+						print(file_path, SOUND_TYPE.external_sound)
+					end
 				end
 			end
 
@@ -230,6 +240,10 @@ Audio.settings_changed_functions["wwise_hooks"] = function(setting_name)
 
 	if setting_name == "log_wwise_verbose" then
 		log_wwise_verbose = Audio:get("log_wwise_verbose")
+	end
+
+	if setting_name == "log_to_chat" then
+		log_to_chat = Audio:get("log_to_chat")
 	end
 end
 
