@@ -56,7 +56,7 @@ You can now use this to load an image locally:
 local texture_promise = DLS.get_image("C:/textures/ForTheEmperor.png")
 ```
 
-> ![TIP]
+> [!TIP]
 > For a full working example of loading custom textures, take a look at the [source code for ScrubsVermin](https://github.com/ronvoluted/darktide-mods/tree/main/ScrubsVermin) which is a small mod made to demonstrate how to use `DLS.get_image()` with the UI.
 
 ### List directory contents
