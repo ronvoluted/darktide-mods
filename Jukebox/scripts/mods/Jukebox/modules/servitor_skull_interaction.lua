@@ -1,7 +1,8 @@
 local mod = get_mod("Jukebox")
 
+require("scripts/extension_systems/interaction/interactions/base_interaction")
 local PlayerUnitStatus = require("scripts/utilities/attack/player_unit_status")
-local ServitorSkullInteraction = class("ServitorSkullInteraction")
+local ServitorSkullInteraction = class("ServitorSkullInteraction", "BaseInteraction")
 
 ServitorSkullInteraction.init = function(self, template)
 	self._template = template
