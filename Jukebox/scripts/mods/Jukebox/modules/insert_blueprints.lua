@@ -5,8 +5,6 @@ require("scripts/ui/view_content_blueprints/item_blueprints")
 local CheckboxPassTemplates = require("scripts/ui/pass_templates/checkbox_pass_templates")
 local OptionsViewContentBlueprints = require("scripts/ui/views/options_view/options_view_content_blueprints")
 
-local music_tracks = mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/music_tracks")
-
 local jukebox_track = {
 	size = {
 		580,

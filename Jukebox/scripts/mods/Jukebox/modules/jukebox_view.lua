@@ -1,6 +1,5 @@
 local mod = get_mod("Jukebox")
 
-local OptionsUtilities = require("scripts/utilities/ui/options")
 local definitions = mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/jukebox_view_definitions")
 local config = mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/jukebox_view_config")
 local UIFonts = require("scripts/managers/ui/ui_fonts")
@@ -259,8 +258,7 @@ JukeboxView._setup_item_grid = function(self)
 	end
 
 	total_height = total_height + 60
-	local definitions = self._definitions
-	local grid_settings = definitions.grid_settings
+	local grid_settings = self._definitions.grid_settings
 	grid_settings.top_padding = total_height
 
 	JukeboxView.super._setup_item_grid(self)
@@ -305,7 +303,7 @@ JukeboxView.update = function(self, dt, t, input_service)
 
 	local pass_input, pass_draw = JukeboxView.super.update(self, dt, t, input_service)
 
-	self:_force_legend_width()
+	self:_force_legend_width(150)
 
 	return handle_input and pass_input, pass_draw
 end
