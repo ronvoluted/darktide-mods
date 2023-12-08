@@ -463,6 +463,28 @@ mod.toggle_jukebox = function()
 	end
 end
 
+mod.on_all_mods_loaded = function()
+	local DLS = get_mod("DarktideLocalServer")
+	local Audio = get_mod("Audio")
+
+	if not DLS then
+		mod:echo(
+			'Required mod "Darktide Local Server" not found: Download from Nexus Mods and make sure "DarktideLocalServer" is in mod_load_order.txt'
+		)
+	end
+
+	if not Audio then
+		mod:echo(
+			'Required mod "Audio Plugin" not found: Download from Nexus Mods and make sure "Audio" is in mod_load_order.txt after "DarktideLocalServer"'
+		)
+	end
+
+	if not Audio or not DLS then
+		mod:disable_all_hooks()
+		mod:disable_all_commands()
+	end
+end
+
 mod:hook(WwiseGameSyncManager, "update", function(fun, self, dt, t)
 	if not mod.playing then
 		fun(self, dt, t)
