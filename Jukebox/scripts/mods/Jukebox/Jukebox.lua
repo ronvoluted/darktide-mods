@@ -12,7 +12,6 @@ mod.current_track_playtime = 0
 mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/servitor_skull")
 mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/insert_localization")
 mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/insert_blueprints")
-mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/insert_actions")
 mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/jukebox_view_register")
 mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/dance")
 mod:io_dofile("Jukebox/scripts/mods/Jukebox/modules/disco")

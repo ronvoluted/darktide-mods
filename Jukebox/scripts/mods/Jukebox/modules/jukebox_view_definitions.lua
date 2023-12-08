@@ -203,31 +203,31 @@ local legend_inputs = {
 		alignment = "left_alignment",
 	},
 	{
-		input_action = "jukebox_previous",
+		input_action = "navigate_secondary_left_pressed",
 		on_pressed_callback = "_on_previous_pressed",
 		display_name = "loc_jukebox_previous",
 		alignment = "center_alignment",
 	},
 	{
-		input_action = "jukebox_play_stop",
+		input_action = "next",
 		on_pressed_callback = "_on_play_stop_pressed",
 		display_name = "loc_jukebox_play",
 		alignment = "center_alignment",
 		visibility_function = function()
-			return not mod.playing
+	return not mod.playing
 		end,
 	},
 	{
-		input_action = "jukebox_play_stop",
+		input_action = "next",
 		on_pressed_callback = "_on_play_stop_pressed",
 		display_name = "loc_jukebox_stop",
 		alignment = "center_alignment",
 		visibility_function = function()
-			return mod.playing
+	return mod.playing
 		end,
 	},
 	{
-		input_action = "jukebox_next",
+		input_action = "navigate_secondary_right_pressed",
 		on_pressed_callback = "_on_next_pressed",
 		display_name = "loc_jukebox_next",
 		alignment = "center_alignment",
