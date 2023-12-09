@@ -33,19 +33,19 @@ local mod_path_relative = {
 }
 
 local filename_beginning_with_mod_name = {
-	description = 'resolve filename beginning with mod name to "/audio" folder',
+	description = 'resolve filename beginning with mod name to path inside mod root folder',
 	fun = function()
-		return DLS.absolute_path("Audio_file.opus")
+	return DLS.absolute_path("DarktideLocalServer_file.pdf")
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\audio\\Audio_file.opus",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\DarktideLocalServer_file.pdf",
 }
 
 local absolute_filename = {
 	description = 'resolve filename to absolute path inside "/audio" folder',
 	fun = function()
-		return DLS.absolute_path("melody.wav")
+	return DLS.absolute_path("melody.wav")
 	end,
-	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\audio\\melody.wav",
+	expected = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warhammer 40,000 DARKTIDE\\mods\\DarktideLocalServer\\melody.wav",
 }
 
 local absolute_relative = {
