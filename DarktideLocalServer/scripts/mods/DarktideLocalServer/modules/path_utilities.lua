@@ -70,11 +70,11 @@ DLS.absolute_path = function(path, working_directory, surround_quotes)
 	end
 
 	local root_mods_path = DLS.get_root_mods_path()
-	local caller_mod_name = DLS.function_caller_mod_name()
+	local caller_mod_name, uses_audio_library = DLS.function_caller_mod_name()
 
 	if string.starts_with(path, caller_mod_name .. "/") or string.starts_with(path, caller_mod_name .. "\\") then
 		absolute_path = string.format("%s\\%s", root_mods_path, path)
-	elseif caller_mod_name == "Audio" then
+	elseif uses_audio_library and not string.starts_with(path, "audio") then
 		absolute_path = string.format("%s\\%s\\audio\\%s", root_mods_path, caller_mod_name, path)
 	else
 		absolute_path = string.format("%s\\%s\\%s", root_mods_path, caller_mod_name, path)
