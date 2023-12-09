@@ -39,7 +39,7 @@ Audio.on_unload = function()
 end
 
 Audio:hook_safe(Log, "_info", function(fun, category, message, ...)
-	if log_server_commands or not message:find("localhost") then
+	if log_server_commands or not message or (message and not message:find("localhost")) then
 		fun(category, message, ...)
 	end
 end)
