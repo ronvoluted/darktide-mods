@@ -92,7 +92,7 @@ end
   </li>
 
   <li><details>
-    <summary><a href="#working-with-directories-using-file-handler">Working with directories using file handler</a></summary>
+    <summary><a href="#working-with-directories-using-the-file-handler">Working with directories using file handler</a></summary>
     <ul>
       <li>
         <a href="#initialising-the-file-handler">Initialising the file handler</a>
@@ -383,7 +383,7 @@ Audio.play_file("C:/Program Files (x86)/Steam/steamapps/common/Warhammer 40,000 
 Audio.play_file("MyMod/arbitrary_folder/quack.mp3")
 ```
 
-### Working with directories using file handler
+### Working with directories using the file handler
 
 If you have many files to play you may not want to hardcode the paths to all of them, or you may not even know what they will be in advance if you allow players to add their own audio. You can use `new_files_handler()` to read a directory's audio contents, get metadata, lookup a flat table of all files or play random files.
 
@@ -392,7 +392,7 @@ Audio.new_files_handler(placeholder_table, sub_directory_override)
 ```
 
 - **placeholder_table** `table`: Optional list of files to fallback to before promise fulfills
-- **sub_directory_override** `string`: Optional. If provided, will read from subdirectory of "audio"
+- **sub_directory_override** `string`: Optional. If provided, will start from subdirectory of "audio" as root. Only supports 1 level down from "audio".
 
 **return** `AudioFilesHandler`: An initialised instance of the `AudioFilesHandler` class
 
@@ -406,7 +406,7 @@ mod.on_all_mods_loaded = function()
 end
 ```
 
-This will create a handle to the audio files in your mod's "audio" directory. e.g. "...Warhammer 40,000 DARKTIDE/mods/YourMod/audio". Non-audio files will be ignored.
+This will create a handle to a list of contents for the audio files in your mod's "audio" directory. e.g. "...Warhammer 40,000 DARKTIDE/mods/YourMod/audio". Non-audio files will be ignored based on the MIME type of their file extension.
 
 > [!NOTE]
 > When `AudioFilesHandler` is initialised, its `init` function will await a promise in the background as it reads the directory contents. For reference, scanning a folder of 4,226 files nested in sub directories to find and process 128 audio files took 3 seconds on an SSD.
@@ -426,7 +426,7 @@ audio_files = Audio.new_files_handler(nil, "sfx/gunshots")
 
 Once initialised, you can access a range of methods on the instance:
 
-#### List contents of the root directory
+#### List the contents of "...Warhammer 40,000 DARKTIDE/mods/YourMod/audio"
 
 ```lua
 mod:dump(audio_files:list(), 'contents of "audio" folder', 99)
@@ -461,7 +461,8 @@ mod:dump(audio_files:list(), 'contents of "audio" folder', 99)
 </contents of "audio" folder>
 ```
 
-#### List the contents of a subdirectory of root folder
+#### List the contents of a subdirectory of the "audio" folder
+
 ```lua
 mod:dump(audio_files:list("sfx/gunshots"), 'contents of "audio/sfx/gunshots" folder', 99)
 ```
@@ -489,7 +490,7 @@ local num_audio_files = audio_files:count() -- 3
 
 #### Get flat lookup table of files
 
-In addition to the nested tree structure returned from `audio_files:list()`, a flat table of all files is also generated. This can be simpler to iterate over than the nested table.
+In addition to the nested tree structure returned from `audio_files:list()`, a flat table of all files is also generated with each file assigned a unique `lookup_index`. This can be simpler to iterate over than the nested table.
 
 ```lua
 mod:dump(audio_files:lookup())
@@ -520,7 +521,7 @@ mod:dump(audio_files:lookup())
   [track] = 6 (number)
 ```
 
-#### Lookup a file via `lookup_index`
+#### Lookup a single file via `lookup_index`
 
 ```lua
 print(audio_files:lookup(2)) -- "bark.mp3"
@@ -543,9 +544,9 @@ print(audio_files:lookup(2, true))
 #### Play a random file
 
 ```lua
-Audio.play_file(audio_files:random()) -- any random file in root directory or subdirectories
-Audio.play_file(audio_files:random("sfx")) -- random file in "sfx" subdirectory
-Audio.play_file(audio_files:random("sfx/gunshots")) -- random file in "sfx/gunshots" subdirectory
+Audio.play_file(audio_files:random()) -- any random file in "audio" and subdirectories
+Audio.play_file(audio_files:random("sfx")) -- "audio/sfx" and subdirectories
+Audio.play_file(audio_files:random("sfx/gunshots")) -- "audio/sfx/gunshots" and subdirectories
 ```
 
 #### Get a random file and return with metadata
