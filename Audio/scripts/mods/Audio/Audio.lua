@@ -38,7 +38,7 @@ Audio.on_unload = function()
 	Audio.stop_file()
 end
 
-Audio:hook_safe(Log, "_info", function(fun, category, message, ...)
+Audio:hook(Log, "_info", function(fun, category, message, ...)
 	if log_server_commands or not message or (message and not message:find("localhost")) then
 		fun(category, message, ...)
 	end
