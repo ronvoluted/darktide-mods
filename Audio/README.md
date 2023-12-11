@@ -737,8 +737,9 @@ Audio.is_sound_silenced(wwise_event_name)
 - [x] Implement smarter path handling for filenames starting with the mod name
 - [x] Build more unit tests
 - [x] Add ability to play from folders/play random
-- [ ] Add option to log to chat window
-- [ ] Add option to toggle logging silenced sounds or not
+- [x] Add option to log to chat window
+- [x] Add option to toggle logging silenced sounds or not
+- [ ] Respect "Mute in Background" option
 - [ ] Refactor of `delta` calculation. Currently, multiple matching patterns for the same event will be treated as separate events.
 - [ ] Add caption utilities
 - [ ] Add beta implementation of live position-updateable audio files
