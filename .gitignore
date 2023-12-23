@@ -8,6 +8,8 @@
 !Audio/**
 !AutoBackup
 !AutoBackup/**
+!Coal
+!Coal/**
 !Crash
 !Crash/**
 !CThruShields

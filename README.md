@@ -9,14 +9,16 @@
 ## Mods
 - [Audio Plugin](https://www.nexusmods.com/warhammer40kdarktide/mods/196)
 - [Auto Backup](https://www.nexusmods.com/warhammer40kdarktide/mods/170)
+- [Coal](https://www.nexusmods.com/warhammer40kdarktide/mods/273)
 - [Crash](https://www.nexusmods.com/warhammer40kdarktide/mods/118)
 - [C-Thru Shields](https://www.nexusmods.com/warhammer40kdarktide/mods/229)
 - [Darktide Local Server (client mod)](https://www.nexusmods.com/warhammer40kdarktide/mods/211)
 - [For the Emperor!](https://www.nexusmods.com/warhammer40kdarktide/mods/135)
-- [Jukebox](https://www.nexusmods.com/warhammer40kdarktide/mods/184)
+- [Jukebox](https://www.nexusmods.com/warhammer40kdarktide/mods/269)
 - [Custom Resolutions](https://www.nexusmods.com/warhammer40kdarktide/mods/130)
 - [Prevent Player Fade](https://www.nexusmods.com/warhammer40kdarktide/mods/159)
 - [Private Mission Status](https://www.nexusmods.com/warhammer40kdarktide/mods/134)
+- [ScrubsVermin](https://www.nexusmods.com/warhammer40kdarktide/mods/261)
 - [Toggle HUD](https://www.nexusmods.com/warhammer40kdarktide/mods/165)
 - [Will of The Emperor](https://www.nexusmods.com/warhammer40kdarktide/mods/179)
 
