@@ -44,6 +44,14 @@ Audio:hook(Log, "_info", function(fun, category, message, ...)
 	end
 end)
 
+Audio:command("audio_stop", "Stop all playing Audio Plugin files", function()
+	Audio.stop_file()
+end)
+
+Audio:command("stop_audio", "Stop all playing Audio Plugin files", function()
+	Audio.stop_file()
+end)
+
 Audio:command("quack", "Play test quacks from Audio Plugin", function()
 	Audio.play_file("quack.ogg", { loop = 3 })
 end)
