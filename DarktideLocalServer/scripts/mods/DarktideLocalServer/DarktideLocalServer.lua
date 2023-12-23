@@ -112,7 +112,7 @@ end
 ---@param path_prefix? string If provided, will be prepended to each file's path
 ---@return Promise table Contents of the directory. Will be a nested table if `sub_directories` or any `_info` parameters are true
 DLS.list_directory = function(path, sub_directories, general_info, audio_info, image_info, path_prefix)
-	local encoded_path = Http.url_encode(path)
+	local encoded_path = Http.url_encode(DLS.absolute_path(path))
 
 	local list_url = BackendUtilities.url_builder(string.format(list_directory_endpoint, port))
 		:query("path", encoded_path)
