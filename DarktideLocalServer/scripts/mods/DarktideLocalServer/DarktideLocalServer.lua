@@ -6,6 +6,7 @@ local DMF = get_mod("DMF")
 local BackendUtilities = require("scripts/foundation/managers/backend/utilities/backend_utilities")
 DLS:io_dofile("DarktideLocalServer/scripts/mods/DarktideLocalServer/modules/utilities")
 DLS:io_dofile("DarktideLocalServer/scripts/mods/DarktideLocalServer/modules/path_utilities")
+DLS:io_dofile("DarktideLocalServer/scripts/mods/DarktideLocalServer/modules/texture_utilities")
 
 ---@class Promise
 local Promise = class("Promise")
