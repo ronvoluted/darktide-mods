@@ -55,7 +55,11 @@ AudioFilesHandler.init = function(self, path, sub_directory_override, placeholde
 end
 
 AudioFilesHandler.list = function(self, sub_directory_path)
-	return sub_directory_path and get_nested_table(self._files, sub_directory_path) or self._files
+	if sub_directory_path then
+		return get_nested_table(self._files, sub_directory_path)
+	else
+		return self._files
+	end
 end
 
 AudioFilesHandler.count = function(self)
