@@ -10,7 +10,7 @@ DLS.load_textures = function(texture_filenames, textures_directory)
 		local file_path = DLS.absolute_path(string.format("%s/%s", textures_directory, file_name))
 
 		promises[#promises + 1] = DLS.get_image(file_path):next(function(response)
-			loaded_textures[file_name] = response.texture
+			loaded_textures[file_name] = response
 		end)
 	end
 
@@ -18,7 +18,7 @@ DLS.load_textures = function(texture_filenames, textures_directory)
 		:next(function()
 			return {
 				status = DLS.TEXTURES_STATUS.success,
-				textures = loaded_textures,
+				texture_objects = loaded_textures,
 			}
 		end)
 		:catch(function(error)
@@ -30,10 +30,28 @@ DLS.load_textures = function(texture_filenames, textures_directory)
 end
 
 DLS.load_directory_textures = function(textures_directory)
+	local function_caller_mod_name = DLS.function_caller_mod_name()
+
 	local absolute_path = DLS.absolute_path(textures_directory)
 
 	return DLS.list_directory(absolute_path):next(function(texture_filenames)
-		return DLS.load_textures(texture_filenames, absolute_path)
+		return DLS.load_textures(texture_filenames, absolute_path):next(function(response)
+			if response.status == DLS.TEXTURES_STATUS.success then
+				local file_names_to_texture_objects = {}
+
+				for file_name, texture_object in pairs(response.texture_objects) do
+					local file_name_without_extension = file_name:gsub("%.[^.]*$", "") -- strip everything from last period onwards
+
+					file_names_to_texture_objects[file_name_without_extension] = texture_object
+				end
+
+				return file_names_to_texture_objects
+			end
+
+			if response.status == DLS.TEXTURES_STATUS.error then
+				print("Failed to load textures for " .. function_caller_mod_name)
+			end
+		end)
 	end)
 end
 
@@ -44,10 +62,10 @@ DLS.set_material_on_unit_mesh = function(unit, material_slot, mesh_index, materi
 
 	local mesh = Unit.mesh(unit, mesh_index)
 
-	Material.set_resource(Mesh.material(mesh, mesh_index), material_slot, material_texture)
+	Material.set_resource(Mesh.material(mesh, mesh_index), material_slot, material_texture.texture or material_texture)
 end
 
-DLS.set_materials_on_unit = function(unit, material_texture_table)
+DLS.set_materials_on_unit = function(unit, material_slots_to_texture_objects)
 	if not Unit.alive(unit) then
 		return
 	end
@@ -58,15 +76,16 @@ DLS.set_materials_on_unit = function(unit, material_texture_table)
 		for material_index = 1, Mesh.num_materials(mesh) do
 			local mesh_material = Mesh.material(mesh, material_index)
 
-			if material_texture_table[mesh_index] then
-				for material_slot, material_texture in pairs(material_texture_table[mesh_index]) do
+			-- Use mesh index if explicitly provided
+			if material_slots_to_texture_objects[mesh_index] then
+				for material_slot, material_texture in pairs(material_slots_to_texture_objects[mesh_index]) do
 					Material.set_resource(mesh_material, material_slot, material_texture)
 				end
 			end
 
-			for material_slot, material_texture in pairs(material_texture_table) do
+			for material_slot, texture_object in pairs(material_slots_to_texture_objects) do
 				if type(material_slot) ~= "number" then
-					Material.set_resource(mesh_material, material_slot, material_texture)
+					Material.set_resource(mesh_material, material_slot, texture_object.texture)
 				end
 			end
 		end
