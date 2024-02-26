@@ -28,6 +28,8 @@
 !ForTheEmperor/**
 !Jukebox
 !Jukebox/**
+# !PhotoKit
+# !PhotoKit/**
 !PrivateMissionStatus
 !PrivateMissionStatus/**
 !PreventPlayerFade
@@ -42,6 +44,7 @@
 */*.*
 _Files
 _Files/**
+.tmp.driveupload/**
 Audio/media
 Audio/media/**
 !/*/README.md
