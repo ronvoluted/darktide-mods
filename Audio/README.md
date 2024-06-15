@@ -744,6 +744,8 @@ Audio.is_sound_silenced(wwise_event_name)
 - [ ] Add caption utilities
 - [ ] Add beta implementation of live position-updateable audio files
 - [ ] Finish implementing log-saving utilities to crowdsource building list of known Wwise events
+- [ ] Create external tests to test Audio as 3rd party and not just 1st party
+- [ ] Change API to work with `callback` and `pcall`
 
 ## Licences
 

@@ -29,7 +29,7 @@ DLS.function_caller_mod_name = function()
 
 			if calling_mod_name and calling_mod_name ~= "dmf" then
 				highest_mod_in_stack = calling_mod_name
-				if not uses_audio_library and calling_mod_name ~= "DarktideLocalServer" then
+				if calling_mod_name ~= "DarktideLocalServer" and calling_mod_name ~= "Audio" then
 					highest_non_library_mod_in_stack = calling_mod_name
 				end
 			end
