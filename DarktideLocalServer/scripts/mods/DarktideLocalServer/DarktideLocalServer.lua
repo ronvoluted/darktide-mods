@@ -30,6 +30,7 @@ local bin_path = table.concat({
 	DLS:get_name(),
 	"bin",
 }, "\\")
+local mods_path_forward_slash = binaries_path:gsub("binaries", "mods"):gsub("\\", "/")
 
 Mods.lua.io.popen(string.format('"%s\\start_server"', bin_path)):close()
 
@@ -44,6 +45,7 @@ local list_directory_endpoint = host .. "list_directory"
 local run_endpoint = host .. "run"
 local process_is_running_endpoint = host .. "process_running"
 local stop_process_endpoint = host .. "stop_process"
+local write_endpoint = host .. "write"
 
 local walk_contents
 
@@ -126,17 +128,17 @@ DLS.list_directory = function(path, sub_directories, general_info, audio_info, i
 	return Managers.backend
 		:url_request(list_url)
 		:next(function(response)
-		local is_nested = sub_directories and (general_info or audio_info or image_info)
+			local is_nested = sub_directories and (general_info or audio_info or image_info)
 
-		if is_nested then
-			local output_table, lookup_table = walk_contents(response.body.contents, path_prefix)
+			if is_nested then
+				local output_table, lookup_table = walk_contents(response.body.contents, path_prefix)
 
-			setmetatable(output_table, lookup_table)
+				setmetatable(output_table, lookup_table)
 
-			return output_table
-		else
-			return response.body.contents
-		end
+				return output_table
+			else
+				return response.body.contents
+			end
 		end)
 		:catch(function(error)
 			DLS:dump({
@@ -149,6 +151,19 @@ DLS.list_directory = function(path, sub_directories, general_info, audio_info, i
 				response_time = error.response_time,
 			}, string.format("Could not list directory (%s)", os.date()), 8)
 		end)
+end
+
+DLS.write_file = function(path, contents, position)
+	local request = Managers.backend:url_request(write_endpoint, {
+		method = "POST",
+		body = {
+			path = mods_path_forward_slash .. "/" .. DLS.function_caller_mod_name() .. "/" .. path,
+			contents = contents,
+			position = position,
+		},
+	})
+
+	return request
 end
 
 DLS.run_command = function(command)
