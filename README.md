@@ -29,5 +29,3 @@
 - [Rebooter](https://www.nexusmods.com/warhammer40kdarktide/mods/128) ([repository](https://github.com/ronvoluted/darktide-rebooter))
 
 **[Published on Nexus Mods](https://nexusmods.com/users/305701?tab=user+files)**
-
-[Test](ScrubsVermin/ScrubsVermin.mod)
