@@ -1,3 +1,4 @@
 {
-	"port": 41012
+	"port": 41012,
+	"enable_portproxy": false
 }

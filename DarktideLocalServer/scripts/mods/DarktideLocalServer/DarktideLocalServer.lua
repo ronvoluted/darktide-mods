@@ -1,7 +1,4 @@
 local DLS = get_mod("DarktideLocalServer")
-
---[[ 🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆 ]]
-
 local DMF = get_mod("DMF")
 local BackendUtilities = require("scripts/foundation/managers/backend/utilities/backend_utilities")
 DLS:io_dofile("DarktideLocalServer/scripts/mods/DarktideLocalServer/modules/utilities")
@@ -16,12 +13,6 @@ if not DMF:get("developer_mode") then
 	DMF.load_developer_mode_settings()
 end
 
-if not DMF:get("show_developer_console") then
-	DMF:set("show_developer_console", true)
-end
-
-DMF.load_dev_console_settings()
-
 local binaries_path_handle = Mods.lua.io.popen("cd")
 local binaries_path = binaries_path_handle:read()
 binaries_path_handle:close()
@@ -31,13 +22,54 @@ local bin_path = table.concat({
 	"bin",
 }, "\\")
 local mods_path_forward_slash = binaries_path:gsub("binaries", "mods"):gsub("\\", "/")
+local config_path = bin_path .. "\\config.json"
+local shutdown_endpoint
 
-Mods.lua.io.popen(string.format('"%s\\start_server"', bin_path)):close()
+local function read_config()
+	local config_handle = Mods.lua.io.open(config_path, "rb")
+	if not config_handle then
+		return {}
+	end
 
-local config_handle = Mods.lua.io.open(bin_path .. "\\config.json", "rb")
-local config_json = config_handle and config_handle:read("*a")
-config_handle:close()
-local config = cjson.decode(config_json)
+	local config_json = config_handle:read("*a")
+	config_handle:close()
+
+	if not config_json or config_json == "" then
+		return {}
+	end
+
+	local ok, config = pcall(cjson.decode, config_json)
+	return ok and type(config) == "table" and config or {}
+end
+
+local function write_config(config)
+	local config_handle = Mods.lua.io.open(config_path, "wb")
+	if not config_handle then
+		return false
+	end
+
+	config_handle:write(cjson.encode(config))
+	config_handle:close()
+	return true
+end
+
+local function start_server()
+	Mods.lua.io.popen(string.format('"%s\\start_server"', bin_path)):close()
+end
+
+local function restart_server()
+	local backend = Managers and Managers.backend
+
+	if backend and shutdown_endpoint then
+		backend:url_request(shutdown_endpoint)
+	end
+
+	start_server()
+end
+
+start_server()
+
+local config = read_config()
 local port = config and config.port or 41012
 local host = string.format("localhost:%s/", port)
 local image_endpoint = host .. "image"
@@ -46,6 +78,7 @@ local run_endpoint = host .. "run"
 local process_is_running_endpoint = host .. "process_running"
 local stop_process_endpoint = host .. "stop_process"
 local write_endpoint = host .. "write"
+shutdown_endpoint = host .. "shutdown"
 
 local walk_contents
 
@@ -180,5 +213,26 @@ DLS.process_is_running = function(pid)
 end
 
 DLS.stop_process = function(pid)
-	Managers.backend:url_request(string.format("%s?pid=%s", stop_process_endpoint, pid))
+	local backend = Managers and Managers.backend
+
+	if backend then
+		backend:url_request(string.format("%s?pid=%s", stop_process_endpoint, pid))
+	end
+end
+
+DLS.on_setting_changed = function(setting_id)
+	if setting_id ~= "enable_portproxy" then
+		return
+	end
+
+	local updated_config = read_config()
+	updated_config.port = updated_config.port or port
+	updated_config.enable_portproxy = DLS:get("enable_portproxy") == true
+
+	if write_config(updated_config) then
+		restart_server()
+		DLS:echo("DarktideLocalServer portproxy setting saved and the local server was restarted.")
+	else
+		DLS:echo("DarktideLocalServer could not write bin/config.json.")
+	end
 end

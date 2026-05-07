@@ -142,16 +142,16 @@ Example dump (truncated here for brevity) of text, audio and image contents and 
 </contents>
 ```
 
-### Run whitelisted executables
+### Run executables
 
 ```lua
 DLS.run_command(command)
 ```
 
-The first argument in `command` must be the path to a whitelisted executable and surrounded by double quotes if it contains spaces. You may need to be mindful of how backslashes `\` and double-quotes `"` are escaped.
+The first argument in `command` must be the path to an executable and surrounded by double quotes if it contains spaces. You may need to be mindful of how backslashes `\` and double-quotes `"` are escaped.
 
 > **Note**
-> The following executables are for demonstrative purposes. To have an executable whitelisted, file a request issue at [github.com/ronvoluted/darktide-local-server](https://github.com/ronvoluted/darktide-local-server/issues/new?assignees=ronvoluted&labels=enhancement&projects=&template=whitelist-request.md&title=Whitelist+request)
+> The following executables are for demonstrative purposes.
 
 #### Basic examples
 
