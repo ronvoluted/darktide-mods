@@ -91,7 +91,13 @@ DLS.get_image = function(path)
 	local encoded_path = Http.url_encode(path)
 	local image_url = string.format("%s?path=%s", image_endpoint, encoded_path)
 
-	local image = Managers.url_loader:load_texture(image_url):catch(function(error)
+	local image = Managers.url_loader:load_texture(image_url, false):catch(function(error)
+		if Managers.url_loader._cached_textures then
+			Managers.url_loader._cached_textures[image_url] = nil
+		end
+		if Managers.url_loader._cached_promises then
+			Managers.url_loader._cached_promises[image_url] = nil
+		end
 		DLS:dump({
 			url = image_url,
 			path = encoded_path,
